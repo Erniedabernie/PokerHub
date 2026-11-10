@@ -1,4 +1,14 @@
-# Poker Hub — v1.2.0 · share, and nights from a message
+# Poker Hub — v1.2.1 · share, and nights from a message
+
+### What changed in v1.2.1 (10/11/2026, late)
+
+- Rows show the total buy-in alone — no ×N rebuy count.
+- **Total in** and **Total out** are two separate boxes; the dealer's
+  name and tip are two separate boxes, with no card round them.
+- A page that fits no longer bounces when dragged on iOS
+  (`overscroll-behavior: none`); a page that overflows scrolls as normal.
+- The rebuy box is unchanged pending Ernest's pick from five styles on
+  the *Poker Hub screens* canvas.
 
 ### What changed in v1.2.0 (10/11/2026)
 
@@ -31,7 +41,7 @@
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.2.1): 2,137 assertions. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.

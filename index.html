@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.2.0">
+<meta name="app-version" content="1.2.1">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.2.0 · EDB design system 2.0.0
+  Poker Hub 1.2.1 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-10 · © Ernest Tung
 -->
@@ -442,6 +442,9 @@ details.acc .acc-body{padding:var(--space-3) var(--space-4);color:var(--muted-te
    ============================================================ */
 
 html, body { min-height: 100%; }
+/* A page that fits does not move: no rubber-band drag on iOS when there is
+   nothing to scroll to. A page that overflows still scrolls as normal. */
+html, body { overscroll-behavior: none; }
 body { -webkit-tap-highlight-color: transparent; }
 * { -webkit-text-size-adjust: 100%; }
 [hidden] { display: none !important; }
@@ -733,11 +736,11 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 /* The banner above the roster: total in, total out (the tip counted in
    out). Thinner than a stat card, bigger than a line. */
 .tsum.tbanner {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 2px 0 8px; padding: 0;
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); min-height: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin: 2px 0 8px; padding: 0;
+  background: none; border: none; min-height: 0;
 }
+.tbanner .tb { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
 .tbanner .tb { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 8px 12px; min-width: 0; }
-.tbanner .tb + .tb { border-left: 1px solid var(--border); }
 .tbanner .l { font-size: 12px; color: var(--muted-text); display: flex; flex-direction: column; gap: 0; white-space: nowrap; line-height: 1.2; }
 .tbanner .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 18px; line-height: 22px; color: var(--text); }
 .tbanner .n.off { color: var(--error-text); }
@@ -869,14 +872,14 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 /* The dealer, one line on a card of its own, set apart from the roster:
    who, the tip, a quiet ×. */
 .prow.dline {
-  margin-top: 10px; min-height: 44px; grid-template-columns: minmax(0, 1fr) 88px 44px;
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0 2px 0 10px;
+  margin-top: 10px; min-height: 44px; grid-template-columns: minmax(0, 1fr) 88px 44px; column-gap: 8px;
+  border-bottom: none; padding: 0;
 }
 .prow.dline .dwho { grid-column: 1 / 2; display: flex; align-items: center; gap: 8px; min-width: 0; }
 .dlab { font-size: 12px; color: var(--muted-text); flex: none; }
 .prow.dline .input {
   height: 44px; min-height: 44px; width: 100%; min-width: 0; font-size: 16px; padding: 0 10px;
-  background: transparent; border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
 }
 .prow.dline .dtip { font-family: var(--font-mono); padding: 0 8px; }
 .prow.dline .dx { justify-self: end; width: 44px; height: 44px; color: var(--muted-text); border-color: transparent; background: transparent; }
@@ -11685,7 +11688,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.2.0';
+  var APP_VERSION = '1.2.1';
   var STAGE = 'Rebuild · EDB 2.0.0';
   var EDS_VERSION = '2.0.0';
 
@@ -12033,11 +12036,9 @@ window.MARK_PATHS = {
         '<button class="btn btn-ghost pbtn" data-act="reopen" data-id="' + p.id + '" aria-label="' + esc(p.name) +
         ' buys back in">' + icon('arrow-clockwise', 15) + '</button></div>';
     }
-    var n = p.buyins.length;
     return '<div class="prow">' + nameBtn +
       '<button class="pamt tapnum" data-act="edit-buyins" data-id="' + p.id + '" aria-label="Correct ' +
-      esc(p.name) + '’s buy-ins">' + esc(Settle.plain(bi)) +
-      (n > 1 ? '<span class="nb">×' + n + '</span>' : '') + '</button>' +
+      esc(p.name) + '’s buy-ins">' + esc(Settle.plain(bi)) + '</button>' +
       '<span class="topup"><input class="input" inputmode="decimal" data-topup="' + p.id + '" aria-label="Top up ' +
       esc(p.name) + '" placeholder="rebuy">' +
       '<button class="topadd" data-act="topup" data-id="' + p.id + '" aria-label="Add ' + esc(p.name) + '’s rebuy">' +
