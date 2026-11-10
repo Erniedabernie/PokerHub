@@ -1,4 +1,57 @@
-# Poker Hub — v1.0.0 · the rebuild on EDB 2.0.0
+# Poker Hub — v1.1.0 · the table on one screen
+
+### What changed in v1.1.0 (10/11/2026)
+
+Ernest's notes after the first look on the phone, all on **Tonight**:
+
+- **The top strip is the table.** The venue is the title; under it,
+  blinds · how many are seated (and out) · the clock. The clock is the
+  pause — tap it, the dot turns amber and the strip says *paused* (also
+  in the gear menu). Undo sits beside the gear. The old bar under the
+  header and the two stat cards are gone; one line of money sits above
+  the roster instead (*On the table · In · buy-ins · tip*, or *Balanced
+  — ready to settle* / *missing N* once everyone is out).
+- **One person per line**, on a four-column grid so the money lines up:
+  name (with the coach's type as a small pill — the exploit is a tap
+  away on the card) · total in, with ×N once they have rebought · the
+  rebuy box with its + · Cash out. Rows are 47 px (44 px controls, the
+  touch floor); fields stay 16 px so iOS does not zoom.
+  **Fit, measured at 402 × 874 with the standalone insets:** eight
+  players, the seat row, the dealer line and the three buttons on one
+  screen with no scrolling; ten scrolls by about one row.
+- **Seat someone is a ghost row**, not a pop-up: name, buy-in, Seat.
+  Focusing it opens a strip of regulars (ranked by nights together) and
+  one line saying who the name lands on — *✓ Patrick Chan from "pat" ·
+  20 nights · +HK$34,730*, or *New person: K — did you mean Kenneth?*
+  with the guess one tap away. Same identity step as before (stored
+  spelling wins, the seat carries the player id). The cursor stays in
+  the row after seating, for the six-in-a-row at the start of a night.
+- **The dealer is one line:** *Dealer* · who dealt · tip · a quiet ×.
+  No Set button — leaving a field saves it, without a redraw, so the
+  keyboard can go from name to tip. Undo reaches it. With no dealer the
+  line is a quiet *+ Dealer*.
+- **History · Timeline · Seating** as three buttons on one row
+  (diamond, clock, chair). History carries tonight's hand count and a
+  dot while a hand is in progress.
+- **The home-screen icon.** iOS fills any transparent pixel with black,
+  and the PNGs had transparent rounded corners; the page also carried two
+  touch-icon links (a data: URI and the file), so iOS could fall back to
+  the manifest's transparent icon. Every PNG is now an opaque, full-bleed
+  Prussian tile (iOS applies its own mask), and over http the one touch
+  icon link points at the real file with `?v=2`. **Delete the old icon
+  from the home screen and add it again** — iOS keeps the old one.
+- Fixed on the way: the clock never ticked (it looked for a bar that no
+  longer existed); the command bar sat 7 px above the nav and let the
+  roster show through; felt labels and the small pill were under the
+  11 px floor.
+
+Verification: 2,070 assertions (node suites + 602 in the browser,
+including a new §10 that measures the eight-player fit), smoke walk in
+both themes with no errors, no overflow and zero network requests.
+
+---
+
+## v1.0.0 · the rebuild on EDB 2.0.0
 
 One app for the whole night: buy-ins, hands, reads, settlement, ledger —
 and now the dossier on Ernest himself. **v1.0.0 (09/11/2026)** is the
