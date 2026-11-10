@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.1.0">
+<meta name="app-version" content="1.1.1">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.1.0 · EDB design system 2.0.0
+  Poker Hub 1.1.1 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-10 · © Ernest Tung
 -->
@@ -482,6 +482,12 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   .topnav .tab { min-height: 44px; }
 }
 .bottom-nav a { text-decoration: none; }
+/* The nav, fitted to the foot of any screen: 44 px of tabs, then the
+   home-indicator strip and nothing more (the system pads 6 px on top of it,
+   which on an iPhone is dead space under the labels). One variable carries
+   its height so the command bar and the page padding follow it. */
+:root { --nav-h: calc(51px + max(6px, var(--safe-bottom))); }
+.bottom-nav { padding-bottom: max(6px, var(--safe-bottom)); }
 .bottom-nav .badge { position: absolute; transform: translate(14px, -6px); }
 .bottom-nav a { position: relative; }
 .dotlive-nav { position: absolute; top: 6px; right: 10px; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--success); }
@@ -827,8 +833,13 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .linkbtn::after { content: ""; position: absolute; inset: -13px -6px; }
 #seat-row { scroll-margin-top: 120px; }
 
-/* The dealer, one line: who, the tip under the rebuy boxes, a quiet ×. */
-.prow.dline .dwho { grid-column: 1 / 3; display: flex; align-items: center; gap: 8px; min-width: 0; }
+/* The dealer, one line on a card of its own, set apart from the roster:
+   who, the tip, a quiet ×. */
+.prow.dline {
+  margin-top: var(--space-4); grid-template-columns: minmax(0, 1fr) 88px 44px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0 2px 0 10px;
+}
+.prow.dline .dwho { grid-column: 1 / 2; display: flex; align-items: center; gap: 8px; min-width: 0; }
 .dlab { font-size: 12px; color: var(--muted-text); flex: none; }
 .prow.dline .input {
   height: 44px; min-height: 44px; width: 100%; min-width: 0; font-size: 16px; padding: 0 10px;
@@ -838,20 +849,24 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .prow.dline .dx { justify-self: end; width: 44px; height: 44px; color: var(--muted-text); border-color: transparent; background: transparent; }
 .prow.dline .dx:hover { color: var(--text); }
 .dline-add {
-  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 46px; padding: 0;
-  background: none; border: none; border-bottom: 1px solid var(--border); cursor: pointer;
+  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 46px; padding: 0 10px; margin-top: var(--space-4);
+  background: none; border: 1px dashed var(--border); border-radius: var(--radius-lg); cursor: pointer;
   font-family: var(--font-ui); font-size: 13px; color: var(--muted-text); text-align: left;
 }
 .dline-add:hover { color: var(--text); }
 .dline-add:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* History · Timeline · Seating. */
-.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: var(--space-3); }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: var(--space-4); }
 .trio .btn { min-height: 44px; padding: 0 6px; gap: 6px; justify-content: center; font-size: 13px; white-space: nowrap; min-width: 0; }
 .trio .ct { font-family: var(--font-mono); font-size: 12px; color: var(--muted-text); }
-.endnight { margin-top: var(--space-8); }
-.endnight .btn { min-height: 44px; font-size: 13px; color: var(--muted-text); }
-.endnight .hint { margin-top: var(--space-1); }
+.endnight { margin-top: var(--space-8); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.endnight .btn { min-height: 44px; font-size: 13px; }
+.endnight .hint { margin-top: var(--space-1); max-width: 34ch; }
+/* Ending without filing loses the night's money record: real status, so red. */
+.btn.btn-danger { color: var(--error-text); border-color: var(--error); background: transparent; }
+.btn.btn-danger:hover { background: var(--error-dim); color: var(--error-text); }
+.screenfit { font-size: 11px; color: var(--muted-text); padding: 0 var(--space-3) var(--space-2); }
 
 .pill.ptype { background: var(--accent-dim); color: var(--accent-text); white-space: nowrap; }
 .pill.pnone { background: var(--surface-high); color: var(--muted-text); white-space: nowrap; }
@@ -900,7 +915,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
    has gone (768 px). One primary action, the rest ghost. */
 .cmdbar {
   position: fixed; left: 0; right: 0; z-index: var(--z-sticky);
-  bottom: calc(57px + var(--safe-bottom)); /* the bottom nav: 6 + 44 + 6 + its hairline */
+  bottom: var(--nav-h); /* sits on the nav exactly — no gap for the roster to show through */
   background: var(--bg); border-top: 1px solid var(--border);
   padding: 10px max(var(--space-4), var(--safe-right)) 10px max(var(--space-4), var(--safe-left));
 }
@@ -908,7 +923,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .cmdbar .btn { flex: 1 1 0; min-width: 0; justify-content: center; min-height: 44px; white-space: nowrap; padding-left: 10px; padding-right: 10px; }
 .cmdbar .btn-ghost { flex: 0 1 auto; }
 .cmdbar .icon-btn { width: 44px; height: 44px; flex: none; }
-body.has-cmdbar .container { padding-bottom: calc(72px + 72px + var(--safe-bottom)); }
+body.has-cmdbar .container { padding-bottom: calc(var(--nav-h) + 65px + var(--space-4)); }
 @media (min-width: 768px) {
   .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom)); }
   body.has-cmdbar .container { padding-bottom: calc(96px + var(--safe-bottom)); }
@@ -11122,7 +11137,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.1.0';
+  var APP_VERSION = '1.1.1';
   var STAGE = 'Rebuild · EDB 2.0.0';
   var EDS_VERSION = '2.0.0';
 
@@ -11633,7 +11648,7 @@ window.MARK_PATHS = {
     /* An empty table is the commonest thing to be stuck with — opened,
        then forgotten — so the way out sits on the table as well as in the
        menu. Quiet, and below everything that matters. */
-    return '<div class="endnight"><button class="btn btn-ghost" data-act="end-live">' + icon('x-circle', 15) +
+    return '<div class="endnight"><button class="btn btn-ghost btn-danger" data-act="end-live">' + icon('x-circle', 15) +
       ' End this night without filing it</button>' +
       '<p class="hint">Nothing reaches the ledger. For a night opened by mistake, or one never closed.</p></div>';
   }
@@ -14035,6 +14050,8 @@ window.MARK_PATHS = {
         Live.isPaused(live()) ? 'Resume the clock' : 'Pause the clock', 'Or tap the clock in the top strip') : '') +
       (live() ? item('end-live', 'x-circle', 'End the live night without filing it') : '') +
       '<div class="menu-sep"></div>' +
+      '<div class="screenfit mono" aria-label="Screen measurements">' + SAFE.width + '×' + SAFE.view +
+      ' of ' + SAFE.screen + ' · insets ' + SAFE.top + '/' + SAFE.bottom + (SAFE.fixed ? '→' + SAFE.used : '') + '</div>' +
       '<div class="about"><span class="mark">' + monogram(14) + '</span>' +
       '<span class="v">v' + APP_VERSION + '</span><span>EDB v' + EDS_VERSION + '</span><span>© Ernest Tung</span></div></div>';
   }
@@ -15699,10 +15716,47 @@ window.MARK_PATHS = {
     return (bits.join(', ') || 'Nothing changed') + '.';
   }
 
+  /* ── fitting the screen ────────────────────────────────── */
+
+  /**
+   * iOS home-screen apps. On some iOS versions the page already stops
+   * above the home-indicator strip yet still reports the strip as a
+   * safe-area inset — so a bottom bar padded by it floats, with dead space
+   * under its labels and the page short of the screen's foot. Measure what
+   * the page actually covers and pad only by the part of the inset that
+   * lies inside it. Everywhere else `--safe-bottom` stays the system's.
+   */
+  var SAFE = { top: 0, bottom: 0, used: 0, view: 0, screen: 0, fixed: false };
+  function fitSafeArea() {
+    var root = document.documentElement;
+    root.style.removeProperty('--safe-bottom');
+    var probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;' +
+      'padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
+    document.body.appendChild(probe);
+    var cs = getComputedStyle(probe);
+    var top = parseFloat(cs.paddingTop) || 0, bottom = parseFloat(cs.paddingBottom) || 0;
+    document.body.removeChild(probe);
+    var standalone = window.navigator.standalone === true ||
+      !!(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+    var portrait = window.innerHeight >= window.innerWidth;
+    var scr = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+    var view = window.innerHeight;
+    /* The status bar is covered (top inset reported), so anything missing
+       is at the foot — the strip the inset describes. */
+    var missing = Math.max(0, Math.round(scr - view));
+    var used = bottom;
+    if (standalone && top > 0 && bottom > 0 && missing > 0) used = Math.max(0, bottom - missing);
+    if (used !== bottom) root.style.setProperty('--safe-bottom', used + 'px');
+    SAFE = { top: Math.round(top), bottom: Math.round(bottom), used: Math.round(used), view: Math.round(view),
+      screen: Math.round(scr), width: Math.round(window.innerWidth), fixed: used !== bottom };
+  }
+
   /* ── boot ──────────────────────────────────────────────── */
 
   function boot() {
     setTheme(themeMode());
+    fitSafeArea();
     Charts = window.PHCharts.create({ stats: Stats, esc: esc, money: money });
     store.load().then(function () {
       if (store.db.live) VIEW = { name: 'live', id: null, filter: null, sub: 'table' };
@@ -15778,8 +15832,11 @@ window.MARK_PATHS = {
       var rt = null;
       window.addEventListener('resize', function () {
         clearTimeout(rt);
-        rt = setTimeout(function () { Charts.paint($('app')); }, 150);
+        rt = setTimeout(function () { fitSafeArea(); Charts.paint($('app')); }, 150);
       });
+      window.addEventListener('orientationchange', function () { setTimeout(fitSafeArea, 300); });
+      /* A cold start can report the viewport before it settles. */
+      setTimeout(fitSafeArea, 600);
       /* The live clock. One minute is the resolution that matters — a
          second hand on a five-hour session is noise that costs a repaint. */
       tickTimer = setInterval(function () {

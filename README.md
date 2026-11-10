@@ -1,4 +1,19 @@
-# Poker Hub — v1.1.0 · the table on one screen
+# Poker Hub — v1.1.1 · the table on one screen
+
+### What changed in v1.1.1 (10/11/2026, evening)
+
+- **The bottom bar fits the foot of the screen.** The nav pads only for
+  the home-indicator strip (no extra 6 px under the labels), and on iOS
+  versions where a home-screen app stops short of the screen yet still
+  reports the strip as an inset, the app measures that and stops padding
+  for a strip it does not cover. The gear menu shows the measurement in
+  one mono line (`402×874 of 874 · insets 62/34`) — screenshot it if the
+  bar ever looks wrong. The command bar and page padding follow one
+  `--nav-h` variable.
+- **End this night without filing it** is red and centred.
+- **The dealer** sits on a card of its own, set apart from the roster.
+- Seat someone is unchanged pending Ernest's pick from five options on
+  the *Poker Hub screens* canvas.
 
 ### What changed in v1.1.0 (10/11/2026)
 
@@ -45,7 +60,7 @@ Ernest's notes after the first look on the phone, all on **Tonight**:
   roster show through; felt labels and the small pill were under the
   11 px floor.
 
-Verification: 2,070 assertions (node suites + 602 in the browser,
+Verification (v1.1.1): 2,077 assertions, 609 in the browser. v1.1.0: 2,070 assertions (node suites + 602 in the browser,
 including a new §10 that measures the eight-player fit), smoke walk in
 both themes with no errors, no overflow and zero network requests.
 
