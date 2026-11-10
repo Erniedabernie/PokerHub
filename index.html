@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.2.1">
+<meta name="app-version" content="1.2.2">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.2.1 · EDB design system 2.0.0
+  Poker Hub 1.2.2 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-10 · © Ernest Tung
 -->
@@ -752,7 +752,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 /* The quiet seat line: a ghost of a row until it is tapped. */
 .seat-quiet {
   display: flex; align-items: center; gap: 6px; width: 100%; min-height: 44px; padding: 0;
-  background: none; border: none; border-bottom: 1px solid var(--border); cursor: pointer;
+  background: none; border: none; cursor: pointer;
   font-family: var(--font-ui); font-size: 13px; color: var(--muted-text); text-align: left;
 }
 .seat-quiet:hover { color: var(--text); }
@@ -782,7 +782,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 #playerList { display: flex; flex-direction: column; }
 .prow {
   display: grid; grid-template-columns: minmax(0, 1fr) 62px 88px 64px; column-gap: 6px; align-items: center;
-  min-height: 45px; padding: 0; border-bottom: 1px solid var(--border);
+  min-height: 45px; padding: 0; border-bottom: none;
 }
 .pname {
   display: flex; align-items: center; gap: 6px; min-width: 0; height: 44px;
@@ -808,27 +808,38 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .tapnum { background: none; border: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
 .pamt.tapnum { font-family: var(--font-mono); font-size: 14px; color: var(--text); text-decoration: underline dashed var(--muted); text-underline-offset: 4px; }
 .tapnum:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* The rebuy pill. The label is the full 44 px row target; the pill drawn
+   on it is 38 px, so pills stacked down the table never touch and there
+   is no row line for them to sit on. Tapping in lights it up in Ocean
+   with the system's focus ring. */
 .topup {
-  display: flex; align-items: stretch; min-width: 0; height: 44px; overflow: hidden;
-  background: var(--surface-high); border: 1px solid var(--border); border-radius: var(--radius-md);
+  position: relative; display: flex; align-items: stretch; min-width: 0; height: 44px;
+  background: none; border: none; cursor: text;
 }
+.topup::before {
+  content: ""; position: absolute; inset: 3px 0; pointer-events: none;
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+}
+.topup:focus-within::before { border-color: var(--accent); box-shadow: var(--focus-ring); }
 .topup .input {
-  flex: 1 1 auto; width: 0; min-width: 0; height: 100%; min-height: 0; border: none; border-radius: 0; background: transparent;
-  padding: 0 6px 0 8px; font-family: var(--font-mono); font-size: 16px; /* 16 px or iOS zooms on focus */
+  position: relative; flex: 1 1 auto; width: 0; min-width: 0; height: 100%; min-height: 0; border: none; border-radius: 0; background: transparent;
+  padding: 0 0 0 12px; font-family: var(--font-mono); font-size: 16px; /* 16 px or iOS zooms on focus */
 }
 .topup .input:focus { box-shadow: none; outline: none; }
-/* The field stays 16 px so iOS does not zoom; only the hint is smaller. */
+/* Fields stay 16 px so iOS does not zoom; only the hints are smaller. */
 .topup .input::placeholder, .prow.ghost .input::placeholder, .prow.dline .input::placeholder {
   font-family: var(--font-ui); font-size: 13px; color: var(--muted-text); opacity: 1;
 }
-.topup:focus-within { border-color: var(--accent); box-shadow: var(--focus-ring); }
 .topadd {
-  flex: none; width: 36px; display: flex; align-items: center; justify-content: center;
-  background: none; border: none; border-left: 1px solid var(--border); color: var(--accent-text); cursor: pointer; padding: 0;
+  position: relative; flex: none; width: 32px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; color: var(--accent-text); cursor: pointer; padding: 0 4px 0 0;
 }
-.topadd:active { background: var(--accent-dim); }
-.topadd:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
-.prow .pbtn { min-height: 44px; height: 44px; padding: 0 4px; font-size: 13px; justify-content: center; white-space: nowrap; }
+.topadd:active { color: var(--text); }
+.topadd:focus-visible { outline: none; }
+.topadd:focus-visible .i { box-shadow: var(--focus-ring); border-radius: var(--radius-full); }
+.prow .pbtn { position: relative; min-height: 38px; height: 38px; padding: 0 4px; font-size: 13px; justify-content: center; white-space: nowrap; }
+.prow .pbtn::after { content: ""; position: absolute; inset: -3px 0; } /* 44 px to tap, 38 drawn */
 /* Cashed out: muted, in → out and the result where the rebuy box was. */
 .prow.out .pname { color: var(--muted-text); font-weight: 400; }
 .psum {
@@ -11688,7 +11699,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.2.1';
+  var APP_VERSION = '1.2.2';
   var STAGE = 'Rebuild · EDB 2.0.0';
   var EDS_VERSION = '2.0.0';
 
@@ -12039,10 +12050,12 @@ window.MARK_PATHS = {
     return '<div class="prow">' + nameBtn +
       '<button class="pamt tapnum" data-act="edit-buyins" data-id="' + p.id + '" aria-label="Correct ' +
       esc(p.name) + '’s buy-ins">' + esc(Settle.plain(bi)) + '</button>' +
-      '<span class="topup"><input class="input" inputmode="decimal" data-topup="' + p.id + '" aria-label="Top up ' +
+      /* A label, so a tap anywhere on the pill — not only on its text —
+         puts the cursor in the rebuy. */
+      '<label class="topup"><input class="input" inputmode="decimal" data-topup="' + p.id + '" aria-label="Top up ' +
       esc(p.name) + '" placeholder="rebuy">' +
       '<button class="topadd" data-act="topup" data-id="' + p.id + '" aria-label="Add ' + esc(p.name) + '’s rebuy">' +
-      icon('plus', 16) + '</button></span>' +
+      icon('plus', 16) + '</button></label>' +
       '<button class="btn btn-ghost pbtn" data-act="cashout" data-id="' + p.id + '">Cash out</button></div>';
   }
 

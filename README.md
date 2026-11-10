@@ -1,4 +1,14 @@
-# Poker Hub — v1.2.1 · share, and nights from a message
+# Poker Hub — v1.2.2 · share, and nights from a message
+
+### What changed in v1.2.2 (10/11/2026, late)
+
+- **The rebuy box is a pill** (option 4 of five on the canvas): a rounded
+  outline with + at its end, no fill. It is drawn 38 px inside a 44 px
+  tap target (a `<label>`, so a tap anywhere on it puts the cursor in),
+  so pills stacked down the table never touch. It lights up in Ocean with
+  the EDB focus ring when it has the cursor — a ring rather than a blurred
+  glow, which EDB rule 5 bans. Cash out is drawn at the same 38 px.
+- **The roster rows lose their lines**, and so does the quiet seat line.
 
 ### What changed in v1.2.1 (10/11/2026, late)
 
@@ -41,7 +51,7 @@
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.2.1): 2,137 assertions. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.2.2): 2,142 assertions. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.
