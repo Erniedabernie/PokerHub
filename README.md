@@ -1,4 +1,40 @@
-# Poker Hub — v1.1.1 · the table on one screen
+# Poker Hub — v1.2.0 · share, and nights from a message
+
+### What changed in v1.2.0 (10/11/2026)
+
+- **Share, as the tracker had it.** A Share button in the table's top
+  strip opens the **Group ledger**: everyone's buy-in, cash-out and net,
+  the Pot and Tip lines, and who pays whom once it balances (or how far
+  out it is). A mid-game share is the state of the table. **Copy**
+  (clipboard, with the execCommand fallback), **Share…** when the phone
+  has a share sheet, **Close**. What leaves is fenced in ``` so the
+  columns line up in WhatsApp. One change from the tracker, by Ernest's
+  choice: the first line is `<venue> · DD/MM/YYYY` rather than `Home game`.
+- **A past night from a message.** Log a past night opens with a paste
+  box. It reads the Share message — the tracker's or the hub's — and,
+  failing that, whatever was typed in the group, using the Poker Ledger's
+  own two readers (`src/paste.js`, ported from its `parse.js` with its
+  rules: DD/MM dates, the house style `Benny 1 2 3 4 (12000, +2000)` with
+  the buy-in unit worked out from the brackets and a control to overrule
+  it, nets with no sign flagged, the Pot line cross-checked). It fills the
+  date, the venue (a title that is not "Home game"), the tip, his own row
+  into his buy-in and cash-out, and everyone else into the table; a
+  still-in row or a net-only row says what it still needs, and typing a
+  net-only row's buy-in fills its cash-out. Nothing is filed until Review.
+- **Seat someone** rests as one quiet line and opens in place (option 1 of
+  the five on the canvas), regulars as chips under it, no shaded row.
+- **No type tags on the roster** — the read is on the player card.
+- **Total in · Total out** banner over the roster, one line high; the tip
+  counts in Total out, so the two meet when the night balances, and once
+  everyone is out it says *balanced* or how far out it is. No buy-in count.
+- Fixed: a night logged with the hours left blank was filed as 0.02 h
+  (a one-minute made-up timeline) and counted in the rates. It now carries
+  no hours and waits for them.
+
+Verification: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+fixtures, and the hub's Share message read back to the night that wrote
+it) and browser §11 (Share and the paste import end to end) — smoke walk
+in both themes, no errors, zero network requests.
 
 ### What changed in v1.1.1 (10/11/2026, evening)
 

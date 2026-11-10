@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.1.1">
+<meta name="app-version" content="1.2.0">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.1.1 · EDB design system 2.0.0
+  Poker Hub 1.2.0 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-10 · © Ernest Tung
 -->
@@ -711,7 +711,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 
 /* ── live: the table ──────────────────────────────────── */
 .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin-bottom: var(--space-4); }
-.main.container.tablemain { padding-top: var(--space-2); }
+.main.container.tablemain { padding-top: var(--space-1); }
 
 /* The top strip on the table: venue, then blinds · seated · the clock. */
 .head-stack { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -730,7 +730,40 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .clockbtn.paused .dotlive { background: var(--warning); }
 .clockbtn .pz { font-family: var(--font-ui); color: var(--warning-text); }
 
-/* One line of money above the roster. */
+/* The banner above the roster: total in, total out (the tip counted in
+   out). Thinner than a stat card, bigger than a line. */
+.tsum.tbanner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 2px 0 8px; padding: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); min-height: 0;
+}
+.tbanner .tb { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 8px 12px; min-width: 0; }
+.tbanner .tb + .tb { border-left: 1px solid var(--border); }
+.tbanner .l { font-size: 12px; color: var(--muted-text); display: flex; flex-direction: column; gap: 0; white-space: nowrap; line-height: 1.2; }
+.tbanner .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 18px; line-height: 22px; color: var(--text); }
+.tbanner .n.off { color: var(--error-text); }
+.tbanner .st { display: inline-flex; align-items: center; gap: 3px; }
+.tbanner .st.ok { color: var(--success-text); }
+.tbanner .st.off { color: var(--error-text); }
+.tsum.hintline { border-bottom: 1px solid var(--border); }
+
+/* The quiet seat line: a ghost of a row until it is tapped. */
+.seat-quiet {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 44px; padding: 0;
+  background: none; border: none; border-bottom: 1px solid var(--border); cursor: pointer;
+  font-family: var(--font-ui); font-size: 13px; color: var(--muted-text); text-align: left;
+}
+.seat-quiet:hover { color: var(--text); }
+.seat-quiet:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* Log a past night: the paste box and what it read. */
+.lnpaste .textarea { width: 100%; min-height: 76px; font-family: var(--font-mono); font-size: 16px; line-height: 1.35; resize: vertical; }
+.lnpaste .textarea::placeholder { font-size: 12px; }
+.lnunit { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted-text); }
+.lnunit .select { min-height: 36px; font-size: 16px; padding: 0 8px; }
+.pastesaid { margin: 0; padding-left: 18px; font-size: 13px; }
+.pastesaid li + li { margin-top: 3px; }
+
+/* (kept for the empty-table hint) */
 .tsum {
   display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 6px; min-height: 28px;
   padding: 4px 0 6px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted-text);
@@ -746,7 +779,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 #playerList { display: flex; flex-direction: column; }
 .prow {
   display: grid; grid-template-columns: minmax(0, 1fr) 62px 88px 64px; column-gap: 6px; align-items: center;
-  min-height: 46px; padding: 1px 0; border-bottom: 1px solid var(--border);
+  min-height: 45px; padding: 0; border-bottom: 1px solid var(--border);
 }
 .pname {
   display: flex; align-items: center; gap: 6px; min-width: 0; height: 44px;
@@ -836,7 +869,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 /* The dealer, one line on a card of its own, set apart from the roster:
    who, the tip, a quiet ×. */
 .prow.dline {
-  margin-top: var(--space-4); grid-template-columns: minmax(0, 1fr) 88px 44px;
+  margin-top: 10px; min-height: 44px; grid-template-columns: minmax(0, 1fr) 88px 44px;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0 2px 0 10px;
 }
 .prow.dline .dwho { grid-column: 1 / 2; display: flex; align-items: center; gap: 8px; min-width: 0; }
@@ -857,7 +890,7 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .dline-add:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* History · Timeline · Seating. */
-.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: var(--space-4); }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: 10px; }
 .trio .btn { min-height: 44px; padding: 0 6px; gap: 6px; justify-content: center; font-size: 13px; white-space: nowrap; min-width: 0; }
 .trio .ct { font-family: var(--font-mono); font-size: 12px; color: var(--muted-text); }
 .endnight { margin-top: var(--space-8); display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -5598,6 +5631,10 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
        segments, and a break for food is not poker. When the caller has
        counted the hours, take theirs. */
     if (opts.hours != null) hours = opts.hours;
+    /* A night logged by hand with the hours left blank has a made-up
+       timeline (a minute apart), not a short session: it carries no hours
+       and stays out of the rates until they are filled in. */
+    if (opts.hoursUnknown) hours = null;
 
     var venue = opts.venue != null ? opts.venue : (store.db.settings.defaultLocation || '');
     var currency = opts.currency || store.db.settings.defaultCurrency || 'HKD';
@@ -11107,6 +11144,517 @@ window.MARK_PATHS = {
 }));
 </script>
 <script>/* ============================================================
+   Poker Hub — reading a pasted night.
+
+   Ported from the Poker Ledger's parse.js (its sections 1 and 2) with its
+   rules intact: nothing here commits anything; each reader returns rows
+   plus warnings so the form can show what it understood. Two inputs:
+
+     1. The Share message — the tracker's, or the hub's own, which is the
+        same table with the venue where the tracker wrote "Home game".
+     2. A chat summary, whatever was typed in the group: `Marcus -3000`,
+        `Tom 2000 -> 3500`, and the house style `Benny 1 2 3 4 (12000, +2000)`.
+
+   `read()` tries the Share message first and falls back to the summary —
+   the order the Ledger's own form used. The date helpers come from the
+   Ledger's stats.js: DD/MM/YYYY, never US order.
+
+   UMD: `window.PHPaste` in the browser, `module.exports` under node.
+   ============================================================ */
+(function (root, factory) {
+  var api = factory();
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  if (root) root.PHPaste = api;
+}(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+
+  /* ── dates (the Ledger's stats.js) ───────────────────── */
+
+  var MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+  /* Deliberately liberal: the historical backlog came in as "28 2 2026" and
+     "5 Juen". Anything that resolves to a real day is accepted; anything that
+     does not returns null so the caller can show the row and ask. */
+  function normDate(raw, fallbackYear) {
+    if (!raw) return null;
+    var s = String(raw).trim().toLowerCase().replace(/(\d)(st|nd|rd|th)\b/g, '$1');
+    var m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) return iso(+m[1], +m[2], +m[3]);
+
+    m = s.match(/^(\d{1,2})\s*[/.\-\s]\s*(\d{1,2})\s*[/.\-\s]\s*(\d{2,4})$/);
+    if (m) {
+      var y = +m[3]; if (y < 100) y += y < 70 ? 2000 : 1900;
+      return iso(y, +m[2], +m[1]);                    /* DD/MM/YYYY — never US order */
+    }
+    m = s.match(/^(\d{1,2})\s*[/.\-\s]\s*(\d{1,2})$/);
+    if (m) return iso(fallbackYear || new Date().getFullYear(), +m[2], +m[1]);
+
+    /* "5 Juen", "5 june 2026", "june 5" — month by 3-letter prefix, typo-safe. */
+    var mon = null, monIdx = -1;
+    var words = s.split(/[^a-z0-9]+/).filter(Boolean);
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      if (/^\d+$/.test(w)) continue;
+      var k = monthIndex(w);
+      if (k >= 0) { mon = k; monIdx = i; break; }
+    }
+    if (mon != null) {
+      var nums = words.filter(function (w) { return /^\d+$/.test(w); }).map(Number);
+      var day = null, year = null;
+      for (var j = 0; j < nums.length; j++) {
+        if (nums[j] > 31) year = nums[j];
+        else if (day == null) day = nums[j];
+      }
+      if (day) return iso(year || fallbackYear || new Date().getFullYear(), mon + 1, day);
+    }
+    /* ISO datetimes only. A general `new Date(x)` fallback is deliberately not
+       here — it happily turns "Marcus -3000" into a date. */
+    m = s.match(/^(\d{4})-(\d{2})-(\d{2})t/);
+    if (m) return iso(+m[1], +m[2], +m[3]);
+    return null;
+  }
+
+  /* Pull the first date-looking fragment out of a longer line. */
+  function findDate(line, fallbackYear) {
+    var s = String(line || '');
+    var pats = [
+      /\b(\d{4}-\d{1,2}-\d{1,2})\b/,
+      /\b(\d{1,2}\s*[/.\-]\s*\d{1,2}\s*[/.\-]\s*\d{2,4})\b/,
+      /\b(\d{1,2}\s+[a-z]{3,9}\s+\d{4})\b/i,
+      /\b(\d{1,2}\s+[a-z]{3,9})\b/i,
+      /\b([a-z]{3,9}\s+\d{1,2})\b/i,
+      /\b(\d{1,2}\s*[/.\-]\s*\d{1,2})\b/
+    ];
+    for (var i = 0; i < pats.length; i++) {
+      var m = s.match(pats[i]);
+      if (m) {
+        var d = normDate(m[1], fallbackYear);
+        if (d) return d;
+      }
+    }
+    return null;
+  }
+
+  function monthIndex(w) {
+    var i;
+    for (i = 0; i < 12; i++) if (w.slice(0, 3) === MONTHS[i]) return i;
+    /* one-transposition tolerance: "juen" -> "june", "arpil" -> "april" */
+    var full = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
+      'august', 'september', 'october', 'november', 'december'];
+    for (i = 0; i < 12; i++) {
+      if (w.length >= 3 && sortedLetters(w.slice(0, 4)) === sortedLetters(full[i].slice(0, 4))) return i;
+    }
+    return -1;
+  }
+  function sortedLetters(s) { return s.split('').sort().join(''); }
+
+  function iso(y, m, d) {
+    if (!(m >= 1 && m <= 12) || !(d >= 1 && d <= 31)) return null;
+    var dt = new Date(Date.UTC(y, m - 1, d));
+    if (dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
+    return y + '-' + pad2(m) + '-' + pad2(d);
+  }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+
+  var DATES = { normDate: normDate, findDate: findDate };
+
+  /* ── the parsers (the Ledger's parse.js) ─────────────── */
+
+  var MINUS = /[−–—‑-]/g;                 /* U+2212, en/em dash, non-breaking hyphen */
+  var HERO_WORDS = ['me', 'i', 'myself', 'hero', 'self'];
+
+  function stripFence(text) {
+    return String(text || '').replace(/^\s*```[a-z]*\s*\n?/i, '').replace(/\n?```\s*$/i, '');
+  }
+
+  /* "−4,000" · "1.5k" · "HK$2,000" · "(2,500)" -> number.
+     Returns null when there is no number at all, so "still in" is not a zero. */
+  function parseNumber(raw) {
+    if (raw == null) return null;
+    var s = String(raw).trim();
+    if (!s) return null;
+    var paren = /^\(.*\)$/.test(s);
+    s = s.replace(/^\(|\)$/g, '');
+    s = s.replace(/(HK|US|CN|JP)?[$£€¥]/gi, '').replace(/[,\s]/g, '');
+    s = s.replace(MINUS, '-');
+    var mult = 1;
+    var km = s.match(/^(-?\+?[\d.]+)\s*([kKmM])$/);
+    if (km) { s = km[1]; mult = km[2].toLowerCase() === 'k' ? 1000 : 1000000; }
+    if (!/^[-+]?\d*\.?\d+$/.test(s)) return null;
+    var n = parseFloat(s) * mult;
+    if (!isFinite(n)) return null;
+    if (paren && !/^[-+]/.test(String(raw).trim().replace(/^\(/, ''))) n = -Math.abs(n);
+    return n;
+  }
+
+  function sgn(n) { return (n > 0 ? '+' : (n < 0 ? '−' : '')) + Math.abs(Math.round(n)); }
+
+  function cleanName(s) {
+    return String(s || '')
+      .replace(/^[\s•*\-–—]+/, '')
+      .replace(/[:：]\s*$/, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  /* `who` may be one name or several — the same person signs a chat summary
+     "Ernest" one week and "EDB" the next, and both are him. */
+  function heroNameList(who) {
+    var list = Array.isArray(who) ? who : String(who == null ? '' : who).split(/[,、;]/);
+    var out = [], i, v;
+    for (i = 0; i < list.length; i++) {
+      v = String(list[i] || '').toLowerCase().trim();
+      if (v && out.indexOf(v) < 0) out.push(v);
+    }
+    return out;
+  }
+  function isHeroName(name, who) {
+    var n = String(name || '').toLowerCase().trim();
+    if (!n) return false;
+    if (heroNameList(who).indexOf(n) >= 0) return true;
+    return HERO_WORDS.indexOf(n) >= 0;
+  }
+
+  /* ── 1. Home game tracker ledger ─────────────────────────
+     Exact output of the tracker's Share button (v1.1.0+):
+
+       Home game · 06/08/2026
+
+       Marcus      2,000 →  4,500   (+2,500)
+       Jess        4,000 →      0   (−4,000)
+       Tom         2,000     still in
+       ─────────────────────────────────────
+       Pot        10,000 →  8,000
+       Tip                     300
+
+       Settle up
+       Jess pays Marcus HK$2,500
+  */
+  function parseTrackerLedger(text, opts) {
+    opts = opts || {};
+    var S = DATES;
+    var lines = stripFence(text).split(/\r?\n/);
+    var out = {
+      kind: 'tracker', date: null, title: null, venue: null, currency: opts.currency || 'HKD',
+      rows: [], warnings: [], totals: {}, matched: 0
+    };
+    var inSettle = false, i, line;
+
+    for (i = 0; i < lines.length; i++) {
+      line = lines[i];
+      if (!line.trim()) continue;
+      if (/^─+$/.test(line.trim())) continue;
+
+      /* The first line is "<title> · <date>". The tracker always wrote
+         "Home game"; the hub writes the venue there, so a title that is not
+         "Home game" is where the night was played. */
+      var head = !out.rows.length && out.date == null ? line.match(/^(.+?)\s*·\s*(.+)$/) : null;
+      if (head && S.normDate(head[2].trim())) {
+        out.date = S.normDate(head[2].trim());
+        var title = head[1].trim();
+        out.title = title;
+        out.venue = /^home game$/i.test(title) ? null : title;
+        out.matched++;
+        continue;
+      }
+
+      if (/^settle up$/i.test(line.trim())) { inSettle = true; continue; }
+      if (inSettle) {
+        var pay = line.match(/^(.+?)\s+pays\s+(.+?)\s+([^\s]+)(\s*\(tip\))?\s*$/i);
+        if (pay) out.matched++;
+        continue;
+      }
+      if (/^(everyone finished level|not settled)/i.test(line.trim())) continue;
+
+      var m = line.match(/^(.+?)\s{2,}(\S+)(?:\s*→\s*(\S+))?(?:\s+\(([^)]*)\))?\s*$/);
+      if (!m) {
+        var still = line.match(/^(.+?)\s{2,}(\S+)\s+still in\s*$/i);
+        if (still) {
+          out.rows.push(row(cleanName(still[1]), parseNumber(still[2]), null, null, true));
+          out.matched++;
+        }
+        continue;
+      }
+      var name = cleanName(m[1]);
+      if (/still in/i.test(m[2]) || /still in/i.test(m[3] || '')) {
+        out.rows.push(row(name, parseNumber(m[2]), null, null, true));
+        out.matched++;
+        continue;
+      }
+      var buy = parseNumber(m[2]), cash = parseNumber(m[3]), net = parseNumber(m[4]);
+      if (/^(pot|tip|dealer)$/i.test(name)) {
+        out.totals[name.toLowerCase()] = { buyIn: buy, cashOut: cash == null ? buy : cash };
+        out.matched++;
+        continue;
+      }
+      if (buy == null) continue;
+      out.rows.push(row(name, buy, cash, net, false));
+      out.matched++;
+    }
+
+    if (!out.rows.length) {
+      out.warnings.push('No player rows found. Paste the whole ledger, including the name columns.');
+    }
+    checkTotals(out);
+    return out;
+  }
+
+  function row(name, buyIn, cashOut, net, stillIn) {
+    var r = {
+      name: name, buyIn: buyIn, cashOut: cashOut, stillIn: !!stillIn,
+      net: net, include: true, hero: false, playerId: null
+    };
+    if (r.net == null && r.buyIn != null && r.cashOut != null) r.net = r.cashOut - r.buyIn;
+    if (r.cashOut == null && r.net != null && r.buyIn != null) r.cashOut = r.buyIn + r.net;
+    return r;
+  }
+
+  function checkTotals(out) {
+    var t = out.totals.pot;
+    if (!t) return;
+    var sumIn = 0, sumOut = 0, unknown = false;
+    out.rows.forEach(function (r) {
+      sumIn += r.buyIn || 0;
+      if (r.cashOut == null) unknown = true; else sumOut += r.cashOut;
+    });
+    if (t.buyIn != null && Math.round(sumIn) !== Math.round(t.buyIn)) {
+      out.warnings.push('Buy-ins add up to ' + Math.round(sumIn) +
+        ' but the Pot line says ' + Math.round(t.buyIn) + '. Check the rows below.');
+    }
+    if (!unknown && t.cashOut != null && Math.round(sumOut) !== Math.round(t.cashOut)) {
+      out.warnings.push('Cash-outs add up to ' + Math.round(sumOut) +
+        ' but the Pot line says ' + Math.round(t.cashOut) + '.');
+    }
+  }
+
+  /* ── 2. Free-form summary ────────────────────────────────
+     Whatever someone typed in the group chat. Deliberately permissive; the
+     preview is the safety net. Handles:
+       Marcus -3000 · Jess: +1,200 · me +800 · Tom 2000 -> 3500
+       Sarah in 2000 out 0 · John −1.5k · Alice (2500)
+       Benny 1 2 3 4 (12000, +2000)      <- rebuys listed, result in brackets
+
+     The last form is the house style: each bare number is one buy-in, and the
+     bracket carries the cash-out first and the net after it. The bare numbers
+     are often written in thousands while the bracket is written in full, so
+     the scale is *derived* rather than assumed — see unitFrom() below. */
+
+  var BRACKET = /[（(]\s*([^)）]*?)\s*[)）]\s*$/;
+
+  /* One row's numbers, before any scaling: the bare list and the bracket.
+     Numbers are matched, not split on, because "1,200" is one number and
+     "1, 2, 3" is three — a comma cannot be treated as a separator. */
+  function numTokens() {
+    return /[+\-−–—]?\s*(?:HK|US|CN|JP)?[$£€¥]?\s*\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g;
+  }
+  function readRebuyLine(line) {
+    var br = line.match(BRACKET);
+    var head = br ? line.slice(0, line.length - br[0].length).trim() : line;
+
+    var cashOut = null, net = null;
+    if (br) {
+      /* matched, not split: "12,000" is one number and splitting on the comma
+         divided the whole paste by a thousand */
+      var inner = br[1].match(numTokens()) || [];
+      if (inner.length) cashOut = parseNumber(inner[0]);
+      if (inner.length > 1) net = parseNumber(inner[1]);
+      if (cashOut == null) return null;
+    }
+
+    var name = null, buys = [];
+    var m = head.match(/^([^\d]+?)[\s:：]+(.+)$/);
+    if (m) {
+      var body = m[2].trim();
+      var toks = body.match(numTokens()) || [];
+      /* anything left over means this is not a plain list of buy-ins */
+      if (body.replace(numTokens(), '').replace(/[\s,+]/g, '')) return null;
+      if (!toks.length) return null;
+      name = cleanName(m[1]);
+      for (var i = 0; i < toks.length; i++) {
+        var v = parseNumber(toks[i]);
+        if (v == null) return null;
+        buys.push(Math.abs(v));
+      }
+    } else if (br && net != null) {
+      /* "Benny (12000, +2000)" — no rebuys listed, but the pair states the
+         buy-in between them. A bracket with one number is the accounting
+         convention for a negative and is left to the net branch. */
+      name = cleanName(head);
+    }
+    if (!name || /^\d+$/.test(name)) return null;
+
+    /* One bare number and no bracket is a net, not a buy-in — that is the
+       "Marcus -3000" form, and the caller handles it. */
+    if (!br && buys.length < 2) return null;
+
+    return { name: name, buys: buys,
+      sum: buys.length ? buys.reduce(function (t, x) { return t + x; }, 0) : null,
+      cashOut: cashOut, net: net, hasBracket: !!br, raw: line };
+  }
+
+  /* A row that carries cash-out AND net states its own buy-in: cashOut − net.
+     Whichever multiplier makes the listed numbers agree with that is the scale
+     the whole paste was written in. Nothing is inferred from magnitude. */
+  var UNITS = [1, 1000];
+  function unitFrom(rec) {
+    if (rec.cashOut == null || rec.net == null || !rec.sum) return null;
+    var want = rec.cashOut - rec.net;
+    if (!want) return null;
+    var best = null, bestErr = Infinity, i, err;
+    for (i = 0; i < UNITS.length; i++) {
+      err = Math.abs(rec.sum * UNITS[i] - want) / Math.max(Math.abs(want), rec.sum * UNITS[i]);
+      if (err < bestErr) { bestErr = err; best = UNITS[i]; }
+    }
+    /* A dealer tip leaves a small gap; the wrong scale leaves a 1000x one.
+       Anything in between is not a scale question and is left alone. */
+    return bestErr <= 0.25 ? best : null;
+  }
+
+  function parseFreeForm(text, opts) {
+    opts = opts || {};
+    var S = DATES;
+    var src = stripFence(text);
+    var out = {
+      kind: 'freeform', date: null, currency: opts.currency || 'HKD',
+      rows: [], warnings: [], totals: {}, matched: 0,
+      unit: 1, unitFrom: 'default'
+    };
+
+    /* Chat summaries are often one line with separators. A comma inside a
+       bracket belongs to the bracket, so those lines are not split on it. */
+    var lines = src.split(/\r?\n|·|;|\||,(?=\s*[A-Za-z一-鿿])/);
+    var joined = [], k;
+    for (k = 0; k < lines.length; k++) {
+      var piece = String(lines[k]);
+      while (/[（(][^)）]*$/.test(piece) && k + 1 < lines.length) { piece += ',' + lines[++k]; }
+      joined.push(piece);
+    }
+    lines = joined;
+
+    /* Pass one: read every rebuy-list row, so the scale is settled before any
+       buy-in is written down. */
+    var recs = [], units = {}, i;
+    for (i = 0; i < lines.length; i++) {
+      var rec = readRebuyLine(String(lines[i]).trim());
+      recs[i] = rec || null;
+      if (rec) { var u = unitFrom(rec); if (u) units[u] = (units[u] || 0) + 1; }
+    }
+    var found = Object.keys(units);
+    if (opts.unit) { out.unit = opts.unit; out.unitFrom = 'chosen'; }
+    else if (found.length === 1) { out.unit = +found[0]; out.unitFrom = 'bracket'; }
+    else if (found.length > 1) {
+      out.unit = 1; out.unitFrom = 'mixed';
+      out.warnings.push('Some rows read as written and others as thousands. Everything is ' +
+        'shown as written — set the buy-in unit above if that is wrong.');
+    }
+
+    var seen = {};
+    for (i = 0; i < lines.length; i++) {
+      var line = String(lines[i]).trim();
+      if (!line) continue;
+      var m;
+
+      /* the house style: name, the rebuys, then (cash-out, net) */
+      if (recs[i]) {
+        var r = recs[i];
+        var buyIn = r.sum == null ? r.cashOut - r.net : r.sum * out.unit;
+        var cash = r.cashOut == null ? null : r.cashOut;
+        /* Net is never stored as a third independent number: everywhere else
+           in this app net *is* cash-out minus buy-in, and a row that disagreed
+           with its own two amounts would be wrong somewhere no matter what.
+           The stated net is used as a check, and any gap is named. */
+        var net = cash == null ? null : cash - buyIn;
+        if (cash == null && r.net != null) { net = r.net; cash = buyIn + net; }
+        if (r.net != null && net != null && Math.abs(r.net - net) > 0.5) {
+          var gap = Math.round(r.net - net);
+          out.warnings.push('"' + r.name + '": ' + Math.round(buyIn) + ' in and ' +
+            Math.round(cash) + ' out is ' + sgn(net) + ', but the bracket says ' + sgn(r.net) +
+            '. Kept ' + sgn(net) + (gap > 0
+              ? ' — a gap that way is usually a dealer tip out of the stack, which is fine.'
+              : ' — check the buy-ins.'));
+        }
+        push(out, seen, r.name, buyIn, cash, net);
+        continue;
+      }
+
+      /* Amounts are tried before dates: "Marcus −3000" must never be read as
+         a date, and a header like "6/8/2026 game" must never be read as a row. */
+      m = line.match(/^(.+?)[\s:：]+(?:in\s+|buy(?:\s*in)?\s+)?([^\s]+)\s*(?:->|→|to|out|cash\s*out)\s*([^\s]+)\s*$/i);
+      if (m && parseNumber(m[2]) != null && parseNumber(m[3]) != null) {
+        push(out, seen, cleanName(m[1]), parseNumber(m[2]), parseNumber(m[3]), null);
+        continue;
+      }
+      /* name ±X  (a net) */
+      m = line.match(/^(.+?)[\s:：]+([+\-−–—(]?\s*(?:HK|US|CN|JP)?[$£€¥]?\s*[\d.,]+\s*[kKmM]?\)?)\s*$/);
+      if (m) {
+        var v = parseNumber(m[2]);
+        var nm = cleanName(m[1]);
+        if (v != null && nm && !/^\d+$/.test(nm)) {
+          var signed = /^[+\-−–—(]/.test(String(m[2]).trim());
+          if (!signed) out.warnings.push('"' + line + '" had no sign — read as a win. Fix it below if it was a loss.');
+          push(out, seen, nm, null, null, v);
+          continue;
+        }
+      }
+      if (out.date == null) {
+        var d = S.findDate(line);
+        if (d) { out.date = d; continue; }
+      }
+      if (/[\d]/.test(line) && line.length < 80) {
+        out.warnings.push('Skipped "' + line.trim() + '" — no name and amount found.');
+      }
+    }
+    if (!out.rows.length) {
+      out.warnings.push('Nothing recognised. Each line needs a name and an amount, like "Marcus −3,000".');
+    }
+    if (out.unitFrom === 'default' && recs.some(function (r) { return r && r.hasBracket && r.sum; })) {
+      out.warnings.push('No row gave both a cash-out and a net, so there is nothing to say whether ' +
+        'the listed buy-ins are written in full or in thousands. They are read as written — ' +
+        'set the buy-in unit above if that is wrong.');
+    }
+    if (out.unitFrom === 'bracket' && out.unit !== 1) {
+      out.warnings.push('The listed buy-ins are read as thousands — a row with both a cash-out and ' +
+        'a net says so. Change the buy-in unit above if that is wrong.');
+    }
+    var total = out.rows.reduce(function (t, r) { return t + (r.net || 0); }, 0);
+    out.totals.net = total;
+    if (out.rows.length > 1 && Math.abs(total) > 0.5) {
+      out.warnings.push('The nets add up to ' + (total > 0 ? '+' : '−') + Math.abs(Math.round(total)) +
+        ' rather than 0 — ' + (total < 0
+          ? Math.abs(Math.round(total)) + ' left the table, which is usually the dealer tip. ' +
+            'That is fine; check nobody is missing.'
+          : 'someone is missing, or an amount is wrong.'));
+    }
+    return out;
+  }
+
+  function push(out, seen, name, buyIn, cashOut, net) {
+    if (!name) return;
+    var key = name.toLowerCase();
+    if (seen[key]) { out.warnings.push('"' + name + '" appears twice — kept the first.'); return; }
+    seen[key] = true;
+    out.rows.push(row(name, buyIn, cashOut, net, false));
+    out.matched++;
+  }
+
+
+  /** The Share message first; a chat summary if that finds nothing. */
+  function read(text, opts) {
+    opts = opts || {};
+    var out = parseTrackerLedger(text, opts);
+    if (!out.rows.length || !out.matched) out = parseFreeForm(text, opts);
+    return out;
+  }
+
+  return {
+    read: read, parseTrackerLedger: parseTrackerLedger, parseFreeForm: parseFreeForm,
+    parseNumber: parseNumber, stripFence: stripFence, normDate: normDate, findDate: findDate,
+    isHeroName: isHeroName
+  };
+}));
+</script>
+<script>/* ============================================================
    Poker hub — app shell, v0.8.0. The pictures.
 
    The shell is the poker ledger's, at Ernest's request and because it is
@@ -11137,7 +11685,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.1.1';
+  var APP_VERSION = '1.2.0';
   var STAGE = 'Rebuild · EDB 2.0.0';
   var EDS_VERSION = '2.0.0';
 
@@ -11145,7 +11693,7 @@ window.MARK_PATHS = {
   var Imp = window.PHImport, Backup = window.PHBackup, StoreMod = window.PHStore;
   var Stats = window.PLStats, Live = window.PHLive, Metrics = window.PHMetrics;
   var HR = window.PHEngine, Ev = window.PHEval, Rec = window.PHRecord;
-  var Profile = window.PHProfile, Hero = window.PHHero, CoachOut = window.PHCoachExport;
+  var Profile = window.PHProfile, Hero = window.PHHero, CoachOut = window.PHCoachExport, Paste = window.PHPaste;
 
   var store = StoreMod.create({});
   var VIEW = { name: 'home', id: null, filter: null, sub: 'table' };
@@ -11364,28 +11912,28 @@ window.MARK_PATHS = {
   }
 
   /**
-   * One line of money above the roster. The reconciliation figure only
-   * means anything once the last player is out: while anyone is seated
-   * the difference *is* the chips in front of them, so calling it missing
-   * money would be a lie told all night. Until then it says what it is.
+   * The banner above the roster: total in, total out. Out counts the
+   * dealer's tip, because the tip leaves the pot like any cash-out — so the
+   * two figures meet exactly when the night balances. Once the last player
+   * is out it says whether they did; while anyone is seated the difference
+   * is just the chips in front of them, and calling that missing money
+   * would be a lie told all night.
    */
   function liveSummary(L, t) {
     if (!L.players.length) {
-      return '<div class="tsum" id="tsum"><span class="tl">Type the first name below. The clock starts with the first buy-in.</span></div>';
+      return '<div class="tsum hintline" id="tsum"><span class="tl">Seat the first player below. The clock starts with the first buy-in.</span></div>';
     }
-    var nIn = L.events.filter(function (e) { return e.type === 'buyin'; }).length;
-    var h = '<div class="tsum" id="tsum">';
-    if (t.seated) {
-      h += '<span class="tl">On the table</span><span class="tn">' + esc(Settle.plain(t.inPlay)) + '</span>';
-    } else if (t.net === 0) {
-      h += '<span class="tl ok">' + icon('check-circle', 14) + ' Balanced — ready to settle</span>';
-    } else {
-      h += '<span class="tl off">' + esc(offBy(t.net)) + '</span><span class="tn off">' + esc(Settle.plain(Math.abs(t.net))) + '</span>';
+    var out = Settle.round2(t.cashouts + t.tip);
+    var st = '';
+    if (!t.seated) {
+      st = t.net === 0
+        ? '<span class="st ok">' + icon('check-circle', 12) + ' balanced</span>'
+        : '<span class="st off">' + esc(Settle.plain(Math.abs(t.net))) + ' ' + esc(offBy(t.net)) + '</span>';
     }
-    h += '<span class="tsp"></span><span class="tl">In</span><span class="tn">' + esc(Settle.plain(t.buyins)) + '</span>' +
-      '<span class="tl">· ' + plural(nIn, 'buy-in') + '</span>';
-    if (t.tip > 0) h += '<span class="tl">· tip</span><span class="tn">' + esc(Settle.plain(t.tip)) + '</span>';
-    return h + '</div>';
+    return '<div class="tsum tbanner" id="tsum">' +
+      '<div class="tb"><span class="l">Total in</span><span class="n">' + esc(Settle.plain(t.buyins)) + '</span></div>' +
+      '<div class="tb"><span class="l">Total out' + st + '</span><span class="n' + (!t.seated && t.net !== 0 ? ' off' : '') + '">' +
+      esc(Settle.plain(out)) + '</span></div></div>';
   }
 
   /** The player card at the table: who this is, what they have in, the
@@ -11438,7 +11986,6 @@ window.MARK_PATHS = {
       '</div>';
     return h;
   }
-
   /**
    * The roster, one person per line, on a four-column grid so the money
    * lines up down the table: name (and the read's type) · total in · the
@@ -11475,13 +12022,9 @@ window.MARK_PATHS = {
 
   function rosterRow(p) {
     var bi = Settle.totalBuyIn(p);
-    /* The read's type rides on the name; the exploit and the rest are a
-       tap away on the player card. Not shown once they have cashed out —
-       they are done. */
-    var who = p.playerId ? store.playerById(p.playerId) : null;
-    var rd = who && !p.cashedOut ? Profile.current(who) : null;
+    /* Just the name — the read lives on the player card, a tap away. */
     var nameBtn = '<button class="pname" data-act="player-card" data-id="' + p.id + '">' +
-      '<span class="pn">' + esc(p.name) + '</span>' + (rd && rd.type ? typePill(rd.type, true) : '') + '</button>';
+      '<span class="pn">' + esc(p.name) + '</span></button>';
     if (p.cashedOut) {
       var net = Settle.round2(Number(p.cashout) - bi);
       return '<div class="prow out">' + nameBtn +
@@ -11508,7 +12051,17 @@ window.MARK_PATHS = {
    * person, not to a spelling — the same identity step the old form had,
    * without the form.
    */
+  var SEAT_OPEN = false;
   function seatRow(L) {
+    /* At rest, one quiet line — like "+ Dealer". It opens in place; an
+       empty table starts open, because seating is the only thing to do. */
+    if (!SEAT_OPEN && L.players.length) return seatQuiet();
+    return seatOpenHTML(L);
+  }
+  function seatQuiet() {
+    return '<button class="seat-quiet" id="seat-row" data-act="seat-open">' + icon('plus', 14) + ' Seat someone</button>';
+  }
+  function seatOpenHTML(L) {
     return '<div class="prow ghost" id="seat-row">' +
       '<input class="input gname" id="seat-name" placeholder="' + (L.players.length ? 'Seat someone' : 'First player') +
       '" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" aria-label="Name of the player to seat">' +
@@ -12312,20 +12865,38 @@ window.MARK_PATHS = {
 
   var LOG_ROWS = 4;
 
+  /** One row of the table. `v` fills it from a paste; a row that came
+   *  with a net only carries it, so typing the buy-in fills the cash-out. */
+  function lnRowHTML(i, v) {
+    v = v || {};
+    var val = function (x) { return x == null ? '' : esc(String(Math.round(x * 100) / 100)); };
+    var hasNet = v.net != null && (v.buyIn == null || v.cashOut == null) && !v.stillIn;
+    return '<div class="rrow" data-row="' + i + '"' + (hasNet ? ' data-net="' + val(v.net) + '"' : '') + '>' +
+      '<input class="input" list="ln-names" data-ln="name" placeholder="Name" aria-label="Player ' + (i + 1) + ' name" value="' + esc(v.name || '') + '">' +
+      '<input class="input" inputmode="decimal" data-ln="in" placeholder="Buy-in" aria-label="Player ' + (i + 1) + ' buy-in" value="' + val(v.buyIn) + '">' +
+      '<input class="input" inputmode="decimal" data-ln="out" placeholder="' +
+      (hasNet ? 'net ' + esc(Settle.plain(v.net)) : (v.stillIn ? 'still in' : 'Cash-out')) +
+      '" aria-label="Player ' + (i + 1) + ' cash-out" value="' + val(v.cashOut) + '">' +
+      '<button class="icon-btn" data-act="ln-drop" aria-label="Remove row">' + icon('x', 14) + '</button></div>';
+  }
+
   function logNightForm() {
     var s = store.db.settings;
     var names = store.db.players.filter(function (p) { return !p.hero; })
       .map(function (p) { return p.name; }).sort();
-    var row = function (i) {
-      return '<div class="rrow" data-row="' + i + '">' +
-        '<input class="input" list="ln-names" data-ln="name" placeholder="Name" aria-label="Player ' + (i + 1) + ' name">' +
-        '<input class="input" inputmode="decimal" data-ln="in" placeholder="Buy-in" aria-label="Player ' + (i + 1) + ' buy-in">' +
-        '<input class="input" inputmode="decimal" data-ln="out" placeholder="Cash-out" aria-label="Player ' + (i + 1) + ' cash-out">' +
-        '<button class="icon-btn" data-act="ln-drop" aria-label="Remove row">' + icon('x', 14) + '</button></div>';
-    };
     var rows = [];
-    for (var i = 0; i < LOG_ROWS; i++) rows.push(row(i));
-    return '<div class="formgrid">' +
+    for (var i = 0; i < LOG_ROWS; i++) rows.push(lnRowHTML(i));
+    /* A night already in a message — the Share text, or what was typed in
+       the group — fills the form; venue, stakes and hours are then his. */
+    return '<div class="field lnpaste"><label for="ln-paste">Paste a Share message or chat summary</label>' +
+      '<textarea class="textarea" id="ln-paste" rows="3" autocomplete="off" autocorrect="off" spellcheck="false" ' +
+      'placeholder="Floral Towers · 10/11/2026&#10;Ernest   4,000 →  6,450  (+2,450)&#10;…"></textarea></div>' +
+      '<div class="line" style="margin-top:8px"><button class="btn btn-ghost" data-act="ln-paste">' + icon('clipboard-text', 15) +
+      ' Fill the form from it</button>' +
+      '<label class="lnunit" id="ln-unit-wrap" hidden>Listed buy-ins are ' +
+      '<select class="select" id="ln-unit"><option value="1">as written</option><option value="1000">in thousands</option></select></label></div>' +
+      '<div id="ln-paste-out" style="margin-top:8px"></div>' +
+      '<div class="formgrid" style="margin-top:12px">' +
       '<div class="field"><label for="ln-date">Date</label>' +
       '<input class="input" id="ln-date" type="date" value="' + esc(todayISO()) + '"></div>' +
       '<div class="field"><label for="ln-start">Sat down at</label>' +
@@ -12362,6 +12933,81 @@ window.MARK_PATHS = {
   }
 
   var lnMe = 'played';
+
+  function setLnMe(v) {
+    lnMe = v;
+    document.querySelectorAll('[data-act="ln-me"]').forEach(function (b) {
+      var on = b.getAttribute('data-me') === lnMe;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.classList.toggle('active', on);
+    });
+    var mine = $('ln-mine'); if (mine) mine.hidden = lnMe !== 'played';
+    lnBalance();
+  }
+
+  /**
+   * Read a pasted night into the form — the Ledger's own two readers, the
+   * Share message first. His row goes into his buy-in and cash-out, not
+   * into the table as his own opponent; the tip goes to the dealer's tip;
+   * a title that is not "Home game" is the venue. Nothing is filed: Review
+   * still shows every name and every figure before anything is written.
+   */
+  function lnApplyPaste(unit) {
+    var ta = $('ln-paste'), box = $('ln-paste-out');
+    if (!ta || !box) return;
+    var text = ta.value;
+    if (!text.trim()) { toast('Paste the message first.', 'err'); ta.focus(); return; }
+    var out = Paste.read(text, { currency: base(), unit: unit || 0 });
+    if (!out.rows.length) {
+      box.innerHTML = '<div class="alert warn">' + esc(out.warnings[0] || 'Nothing recognised in that text.') + '</div>';
+      return;
+    }
+    var settings = store.db.settings, mine = null, others = [];
+    out.rows.forEach(function (r) {
+      if (!mine && (Imp.looksLikeHero(r.name, settings) || Paste.isHeroName(r.name, settings.heroName))) mine = r;
+      else others.push(r);
+    });
+    if (out.date) $('ln-date').value = out.date;
+    if (out.venue) $('ln-venue').value = out.venue;
+    var tip = out.totals && out.totals.tip ? (out.totals.tip.buyIn != null ? out.totals.tip.buyIn : out.totals.tip.cashOut) : null;
+    $('ln-tip').value = tip != null ? String(tip) : '';
+    setLnMe(mine ? 'played' : 'satout');
+    if (mine) {
+      $('ln-my-in').value = mine.buyIn != null ? String(mine.buyIn) : '';
+      $('ln-my-out').value = mine.cashOut != null ? String(mine.cashOut) : '';
+    }
+    $('ln-rows').innerHTML = others.length
+      ? others.map(function (r, i) { return lnRowHTML(i, r); }).join('')
+      : lnRowHTML(0, null);
+    lnBalance();
+
+    /* The unit control appears only for a summary that lists buy-ins. */
+    var uw = $('ln-unit-wrap');
+    if (uw) {
+      var listed = out.kind === 'freeform' && (out.unitFrom !== 'default' ||
+        out.warnings.some(function (w) { return /buy-in unit/.test(w); }));
+      uw.hidden = !listed;
+      if (listed) $('ln-unit').value = String(out.unit || 1);
+    }
+
+    var still = others.filter(function (r) { return r.stillIn; }).map(function (r) { return r.name; });
+    var netOnly = others.filter(function (r) { return r.net != null && (r.buyIn == null || r.cashOut == null) && !r.stillIn; })
+      .map(function (r) { return r.name; });
+    var said = [];
+    said.push((out.kind === 'tracker' ? 'Read a Share message' : 'Read a chat summary') +
+      (out.date ? ' from ' + fmtDate(out.date) : '') + (out.venue ? ' at ' + out.venue : '') + ': ' +
+      plural(out.rows.length, 'player') + (tip ? ', tip ' + Settle.plain(tip) : '') + '.');
+    said.push(mine
+      ? 'You are ' + mine.name + ' — your figures are in your buy-in and cash-out.'
+      : 'None of these is you, so it is set to “I sat out”. If one of them is you, tap “I played”, put your figures in, and remove that row.');
+    if (still.length) said.push(still.join(', ') + (still.length === 1 ? ' was' : ' were') +
+      ' still in when it was shared — add the cash-out.');
+    if (netOnly.length) said.push(netOnly.join(', ') + ' came as a net only — type the buy-in and the cash-out follows.');
+    if (!out.date) said.push('No date in it — set the date above.');
+    box.innerHTML = '<div class="alert ok"><ul class="pastesaid">' + said.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
+      '</ul></div>' +
+      (out.warnings.length ? '<div class="alert warn" style="margin-top:6px"><ul class="pastesaid">' +
+        out.warnings.map(function (w) { return '<li>' + esc(w) + '</li>'; }).join('') + '</ul></div>' : '');
+  }
 
   function lnRows() {
     var out = [];
@@ -12434,6 +13080,7 @@ window.MARK_PATHS = {
     var notes = $('ln-notes').value.trim();
     var opts = {
       venue: venue, stakes: stakes, hours: hours != null && hours > 0 ? hours : null,
+      hoursUnknown: !(hours != null && hours > 0),
       heroIndex: heroIndex, source: 'logged', dealerName: dealerName,
       liveNotes: notes ? [{ t: t0, cat: 'Note', text: notes, seatId: null, name: '' }] : []
     };
@@ -14289,7 +14936,8 @@ window.MARK_PATHS = {
       : (deep ? '<button class="backlink" data-act="back" aria-label="Back">' + icon('arrow-left', 18) + '</button>' : '') +
       '<h1>' + esc(title) + '</h1>' + (sub ? '<span class="caption">' + esc(sub) + '</span>' : '');
     var undoBtn = tableScreen
-      ? '<button class="icon-btn" data-act="live-undo" aria-label="Undo the last change">' + icon('arrow-u-up-left', 18) + '</button>'
+      ? '<button class="icon-btn" data-act="live-undo" aria-label="Undo the last change">' + icon('arrow-u-up-left', 18) + '</button>' +
+        '<button class="icon-btn" data-act="share-ledger" aria-label="Share the group ledger">' + icon('share-network', 18) + '</button>'
       : '';
 
     document.body.className = 'has-bottom-nav' +
@@ -14396,7 +15044,7 @@ window.MARK_PATHS = {
    * rather than an error message telling him to select the text himself.
    */
   function copyText(t, srcId) {
-    var done = function () { toast('Copied.', 'ok'); };
+    var done = function () { toast(srcId === 'ledgerRaw' ? 'Ledger copied.' : 'Copied.', 'ok'); };
     var manual = function () {
       var ta = srcId ? $(srcId) : null;
       var made = false;
@@ -14423,6 +15071,28 @@ window.MARK_PATHS = {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(t).then(done, manual);
     } else manual();
+  }
+
+  /**
+   * The Share button, as the tracker had it: the whole group ledger —
+   * everyone's buy-in, cash-out and net, the Pot and Tip lines, and the
+   * who-pays-who once it balances (or how far out it is). A mid-game share
+   * is just the state of the table. The preview is the bare table; what
+   * leaves is fenced, so the columns survive in WhatsApp.
+   */
+  function openShareLedger() {
+    var L = live();
+    if (!L) return;
+    var preview = Live.shareText(L, { fence: false, currency: cur() });
+    var payload = Live.shareText(L, { currency: cur() });
+    var acts = [{ label: 'Copy', act: 'ledger-copy', primary: true }];
+    if (typeof navigator !== 'undefined' && navigator.share) acts.push({ label: 'Share…', act: 'ledger-share' });
+    acts.push({ label: 'Close', act: 'close' });
+    openModal('Group ledger',
+      '<div class="ledgerblock" id="ledgerBox">' + esc(preview) + '</div>' +
+      '<p class="hint">Sent as a code block so the columns line up in chat.</p>' +
+      '<textarea id="ledgerRaw" readonly aria-hidden="true" tabindex="-1" ' +
+      'style="position:absolute;left:-9999px;top:0;width:1px;height:1px">' + esc(payload) + '</textarea>', acts);
   }
 
   /** The share sheet — WhatsApp, Messages, anything the phone offers. */
@@ -14897,16 +15567,8 @@ window.MARK_PATHS = {
       ], 'ln-date');
       return;
     }
-    if (act === 'ln-me') {
-      lnMe = el.getAttribute('data-me');
-      document.querySelectorAll('[data-act="ln-me"]').forEach(function (b) {
-        var on = b.getAttribute('data-me') === lnMe;
-        b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.classList.toggle('active', on);
-      });
-      var mine = $('ln-mine'); if (mine) mine.hidden = lnMe !== 'played';
-      lnBalance();
-      return;
-    }
+    if (act === 'ln-me') { setLnMe(el.getAttribute('data-me')); return; }
+    if (act === 'ln-paste') { lnApplyPaste(); return; }
     if (act === 'ln-add') {
       var wrap = $('ln-rows'); if (!wrap) return;
       var n = wrap.querySelectorAll('.rrow').length;
@@ -14967,6 +15629,25 @@ window.MARK_PATHS = {
       return;
     }
     if (act === 'seat-add') return seatFromRow();
+    if (act === 'seat-open') {
+      SEAT_OPEN = true;
+      var q = $('seat-row');
+      if (q) q.outerHTML = seatOpenHTML(live());
+      var sn = $('seat-name');
+      if (sn) sn.focus();
+      return;
+    }
+    if (act === 'share-ledger') return openShareLedger();
+    if (act === 'ledger-copy') {
+      var tx = $('ledgerRaw') ? $('ledgerRaw').value : Live.shareText(live(), { currency: cur() });
+      copyText(tx, 'ledgerRaw');
+      return;
+    }
+    if (act === 'ledger-share') {
+      var tx2 = $('ledgerRaw') ? $('ledgerRaw').value : Live.shareText(live(), { currency: cur() });
+      if (navigator.share) navigator.share({ title: 'Home game ledger', text: tx2 })['catch'](function () { });
+      return;
+    }
     if (act === 'topup') {
       var inp = document.querySelector('[data-topup="' + id + '"]');
       if (!inp || !inp.value.trim()) { toast('How much?', 'err'); return; }
@@ -15786,7 +16467,16 @@ window.MARK_PATHS = {
         if (!e.target) return;
         if (e.target.id === 'ap-name') return refreshAddPlayer();
         if (e.target.id === 'seat-name') return refreshSeatRow(true);
-        if (e.target.closest && e.target.closest('#ln-rows, #ln-mine')) return lnBalance();
+        if (e.target.closest && e.target.closest('#ln-rows, #ln-mine')) {
+          var rr = e.target.closest('.rrow');
+          if (rr && rr.hasAttribute('data-net') && e.target.getAttribute('data-ln') === 'in') {
+            var oi = rr.querySelector('[data-ln="out"]'), bi = num(e.target.value), nt = num(rr.getAttribute('data-net'));
+            if (oi && (!oi.value || oi.getAttribute('data-auto') === '1') && String(e.target.value).trim() && bi != null && nt != null) {
+              oi.value = String(Settle.round2(bi + nt)); oi.setAttribute('data-auto', '1');
+            }
+          }
+          return lnBalance();
+        }
         if (e.target.id === 'ln-tip') return lnBalance();
         /* The name and the note live on the record as they are typed.
            Every commit re-renders, and a re-render rebuilds the whole
@@ -15804,6 +16494,10 @@ window.MARK_PATHS = {
       document.addEventListener('keydown', onKey);
       document.addEventListener('change', function (e) {
         if (e.target && (e.target.id === 'dealer-name' || e.target.id === 'tip')) saveDealer();
+        if (e.target && e.target.id === 'ln-unit') lnApplyPaste(Number(e.target.value));
+      });
+      document.addEventListener('paste', function (e) {
+        if (e.target && e.target.id === 'ln-paste') setTimeout(function () { lnApplyPaste(); }, 0);
       });
       /* The seat row's strip opens with the cursor. On a phone the keyboard
          takes the lower half of the screen, so once it is up the row is
@@ -15823,10 +16517,20 @@ window.MARK_PATHS = {
       document.addEventListener('focusout', function (e) {
         if (!e.target || (e.target.id !== 'seat-name' && e.target.id !== 'seat-amount')) return;
         setTimeout(function () {
-          var inp = $('seat-name'), strip = $('seat-strip'), a = document.activeElement;
+          var inp = $('seat-name'), amt = $('seat-amount'), strip = $('seat-strip'), a = document.activeElement;
           if (!inp || !strip) return;
-          if (inp.value.trim() || (a && (a.id === 'seat-name' || a.id === 'seat-amount'))) return;
+          if (a && (a.id === 'seat-name' || a.id === 'seat-amount' || (a.closest && a.closest('#seat-strip')))) return;
+          if (inp.value.trim() || (amt && String(amt.value).trim())) return;
           strip.hidden = true;
+          /* Left empty: fold back to the quiet line, in place, so whatever
+             was tapped instead is not redrawn under the finger. */
+          var L = live();
+          if (L && L.players.length) {
+            SEAT_OPEN = false;
+            var row = $('seat-row');
+            strip.parentNode.removeChild(strip);
+            if (row) row.outerHTML = seatQuiet();
+          }
         }, 200);
       });
       var rt = null;
