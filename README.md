@@ -1,4 +1,24 @@
-# Poker Hub — v1.3.3 · the code review
+# Poker Hub — v1.3.4 · opens without signal
+
+### What changed in v1.3.4 (12/11/2026)
+
+- **Offline start.** A small worker (`sw.js`, a second file beside
+  `index.html`) keeps the last copy of the page and hands it over when the
+  network cannot. Network first: with a connection the page comes from the
+  site as before, so a new version shows on the next open. The saved copy
+  is used when the request fails, answers with an error, or has not
+  answered in four seconds. It keeps to this app's folder. The gear menu
+  ends its readout with *offline ready* once the copy is in place — open
+  the app once with signal after this update.
+- **The clock stops at the last cash-out** and the header says *stopped*.
+  It used to run until the night was filed, so a night settled the next
+  morning carried the gap. It starts again if anyone buys back in or sits
+  down; a pause set by hand is left alone. With everyone out the header
+  drops "0 seated".
+- Hosted folder is now `index.html` + `sw.js` + `manifest.webmanifest` +
+  `icons/`. A downloaded `index.html` on its own works as before and makes
+  no network request.
+
 
 ### What changed in v1.3.3 (11/11/2026, evening)
 
@@ -39,9 +59,9 @@ a reachability pass over every module, and 4,500 random taps across the app.
 **Open — not changed, your call** (detail in the Project doc *Poker Hub —
 code review 11/11/2026*)
 
-1. No offline start: the app needs a connection to open (no service worker).
-2. Hours run until the night is filed, by design — a night filed the next
-   day carries the gap unless the clock was paused.
+1. ~~No offline start~~ — done in v1.3.4.
+2. ~~Hours run until the night is filed~~ — the clock stops at the last
+   cash-out from v1.3.4.
 3. The old Poker Ledger uses the same `pcg:` storage keys; on the same web
    address in the same browser it would read and write the hub's data.
 4. Merge has no memory of deletions: a deleted night comes back from an
@@ -178,7 +198,7 @@ code review 11/11/2026*)
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.3.3): 2,267 assertions, plus 3,000 random taps on the cleaned build with no error. v1.3.2: 2,255. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.3.4): 2,301 assertions, including the new offline suite (`test_offline.mjs`, a local server that goes down, crawls and errors). v1.3.3: 2,267 assertions, plus 3,000 random taps on the cleaned build with no error. v1.3.2: 2,255. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.

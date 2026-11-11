@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.3.3">
+<meta name="app-version" content="1.3.4">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.3.3 · EDB design system 2.0.0
+  Poker Hub 1.3.4 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-11 · © Ernest Tung
 -->
@@ -7904,6 +7904,22 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     });
   }
 
+  /**
+   * The clock runs while somebody is seated. When the last player cashes
+   * out it stops there, so a night filed the next morning carries the hours
+   * that were played rather than the hours until somebody remembered to
+   * file it (Ernest, 12/11/2026 — it used to run until filing). It starts
+   * again if anyone sits back down or is reopened. A pause set by hand is
+   * left alone: only a stop made here is one this will undo.
+   */
+  function syncClock(live, now) {
+    var last = live.segments[live.segments.length - 1];
+    if (!last) return;
+    var anyone = live.players.some(function (p) { return !p.cashedOut; });
+    if (!anyone && last.end == null) { last.end = now || 0; last.auto = true; }
+    else if (anyone && last.end != null && last.auto) live.segments.push({ start: now || 0, end: null });
+  }
+
   function byId(live, id) {
     for (var i = 0; i < live.players.length; i++) if (live.players[i].id === id) return live.players[i];
     return null;
@@ -7962,6 +7978,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     live.players.push(p);
     p.seat = chairFor(live, opts.seat);
     logEvent(live, vn.name, 'buyin', va.amount, now);
+    syncClock(live, now);
     return { player: p };
   }
 
@@ -7980,6 +7997,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     p.cashedOut = true;
     p.cashout = va.amount;
     logEvent(live, p.name, 'cashout', va.amount, now);
+    syncClock(live, now);
     return { player: p };
   }
 
@@ -7991,6 +8009,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     /* Their chair may have gone to somebody since. */
     if (p.seat == null) p.seat = chairFor(live, null);
     logEvent(live, p.name, 'reopen', null, now);
+    syncClock(live, now);
     return { player: p };
   }
 
@@ -8013,6 +8032,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     logEvent(live, p.name, 'adjust', -total, now);
     var was = live.tableSize;
     var moved = compact(live);
+    syncClock(live, now);
     return { removed: p, moved: moved, tableSize: live.tableSize, shrunk: live.tableSize < was };
   }
 
@@ -11247,7 +11267,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.3.3';
+  var APP_VERSION = '1.3.4';
   var EDS_VERSION = '2.0.0';
 
   var Settle = window.PHSettle, Layers = window.PHLayers, Ident = window.PHIdentity;
@@ -11473,17 +11493,21 @@ window.MARK_PATHS = {
     var seated = L.players.filter(function (p) { return !p.cashedOut; }).length;
     var out = L.players.length - seated;
     var paused = Live.isPaused(L);
+    /* Stopped by the last cash-out, as opposed to paused by hand. */
+    var lastSeg = L.segments[L.segments.length - 1], stopped = !!(lastSeg && lastSeg.auto);
     var bits = [];
     if (L.stakes) bits.push('<span class="mono">' + esc(L.stakes) + '</span>');
-    bits.push(L.players.length
-      ? '<span class="mono">' + seated + '</span> seated' + (out ? ' · <span class="mono">' + out + '</span> out' : '')
-      : 'nobody seated');
+    /* With everyone out, "0 seated" says nothing the count of the out does
+       not, and the line needs the room for the stopped clock. */
+    bits.push(!L.players.length ? 'nobody seated'
+      : !seated ? '<span class="mono">' + out + '</span> out'
+      : '<span class="mono">' + seated + '</span> seated' + (out ? ' · <span class="mono">' + out + '</span> out' : ''));
     return '<span class="specs"><span class="sx">' + bits.join(' · ') + '</span>' +
       '<button class="clockbtn' + (paused ? ' paused' : '') + '" data-act="live-pause" aria-label="' +
       (paused ? 'Resume the clock' : 'Pause the clock') + '">' +
       '<span class="dotlive" aria-hidden="true"></span>' +
       '<span class="clock">' + esc(Live.clock(Live.elapsed(L, now()))) + '</span>' +
-      (paused ? '<span class="pz">paused</span>' : '') + '</button></span>';
+      (paused ? '<span class="pz">' + (stopped ? 'stopped' : 'paused') + '</span>' : '') + '</button></span>';
   }
 
   /**
@@ -14254,6 +14278,15 @@ window.MARK_PATHS = {
 
   /* ── settings ──────────────────────────────────────────── */
 
+  /* Whether the saved copy is in place (sw.js). Over http(s) only: a file
+     opened from disk needs no network to begin with. */
+  function offlineNote() {
+    try {
+      if (!/^https?:$/.test(location.protocol) || !('serviceWorker' in navigator)) return '';
+      return navigator.serviceWorker.controller ? ' · offline ready' : ' · offline copy saving';
+    } catch (e) { return ''; }
+  }
+
   function settingsMenu() {
     var mode = themeMode(), c = store.counts(), m = store.db.meta || {};
     var item = function (act, ic, label, sub) {
@@ -14279,7 +14312,8 @@ window.MARK_PATHS = {
       (live() ? item('end-live', 'x-circle', 'End the live night without filing it') : '') +
       '<div class="menu-sep"></div>' +
       '<div class="screenfit mono" aria-label="Screen measurements">' + SAFE.width + '×' + SAFE.view +
-      ' of ' + SAFE.screen + ' · layout ' + SAFE.layout + ' · insets ' + SAFE.top + '/' + SAFE.bottom + (SAFE.fixed ? '→' + SAFE.used : '') + '</div>' +
+      ' of ' + SAFE.screen + ' · layout ' + SAFE.layout + ' · insets ' + SAFE.top + '/' + SAFE.bottom + (SAFE.fixed ? '→' + SAFE.used : '') +
+      '<span id="offnote">' + offlineNote() + '</span></div>' +
       '<div class="about"><span class="mark">' + monogram(14) + '</span>' +
       '<span class="v">v' + APP_VERSION + '</span><span>EDB v' + EDS_VERSION + '</span><span>© Ernest Tung</span></div></div>';
   }
@@ -15987,6 +16021,15 @@ window.MARK_PATHS = {
     setTheme(themeMode());
     fitSafeArea();
     Charts = window.PHCharts.create({ stats: Stats, esc: esc, money: money });
+    /* The menu is drawn before the offline worker has taken over on a
+       first visit; when it does, the note in the menu follows. */
+    try {
+      if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          var el = $('offnote'); if (el) el.textContent = offlineNote();
+        });
+      }
+    } catch (e) { }
     /* Everything lives on this device, so ask the browser not to clear it
        when space runs short. No prompt on iOS; a no-op where unsupported. */
     try {
@@ -16137,6 +16180,11 @@ window.MARK_PATHS = {
   t.setAttribute('sizes', '180x180');
   t.href = './icons/apple-touch-icon.png?v=2';
   link('icon', './icons/favicon-32.png', { sizes: '32x32' });
+  /* Offline start: sw.js keeps the last copy of this page and hands it
+     over when the network cannot (network first — see src/sw.js). */
+  if ('serviceWorker' in navigator) {
+    try { navigator.serviceWorker.register('./sw.js').catch(function(){}); } catch (e) {}
+  }
 }());
 </script>
 </body>
