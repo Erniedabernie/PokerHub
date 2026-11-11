@@ -7,14 +7,14 @@
 <meta name="apple-mobile-web-app-title" content="Poker Hub">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.3.0">
+<meta name="app-version" content="1.3.1">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.3.0 · EDB design system 2.0.0
+  Poker Hub 1.3.1 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-11 · © Ernest Tung
 -->
@@ -909,9 +909,6 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: 10px; }
 .trio .btn { min-height: 44px; padding: 0 6px; gap: 6px; justify-content: center; font-size: 13px; white-space: nowrap; min-width: 0; }
 .trio .ct { font-family: var(--font-mono); font-size: 12px; color: var(--muted-text); }
-.endnight { margin-top: var(--space-8); display: flex; flex-direction: column; align-items: center; text-align: center; }
-.endnight .btn { min-height: 44px; font-size: 13px; }
-.endnight .hint { margin-top: var(--space-1); max-width: 34ch; }
 /* Ending without filing loses the night's money record: real status, so red. */
 .btn.btn-danger { color: var(--error-text); border-color: var(--error); background: transparent; }
 .btn.btn-danger:hover { background: var(--error-dim); color: var(--error-text); }
@@ -1138,6 +1135,15 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 .venuechips, .venuefilter { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 2px; margin-left: -2px; margin-right: -2px; }
 .venuechips::-webkit-scrollbar, .venuefilter::-webkit-scrollbar { display: none; }
 .venuechips .chipbtn, .venuefilter .chipbtn { flex: none; }
+
+/* ── v1.3.1 ─────────────────────────────────────────────── */
+/* Total in · Total out stays at the top of the table: there from the first
+   screen, and held under the header while a long roster scrolls. */
+.tsum.tbanner {
+  position: sticky; top: var(--topbar-h, 69px); z-index: calc(var(--z-sticky) - 1);
+  background: var(--bg); margin: 0; padding: var(--space-1) 0 var(--space-2);
+}
+.nw { white-space: nowrap; }
 </style>
 </head>
 <body class="has-bottom-nav">
@@ -8136,6 +8142,9 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
          read off this, so the app's table and the chairs in front of him
          can never disagree. */
       tableSize: seatCount(opts.tableSize),
+      /* The size he chose. The table grows past it only when he says so,
+         and shrinks back to it when the extra people are gone. */
+      baseSize: seatCount(opts.tableSize),
       buttonSeat: 0,
       players: [],
       events: [],
@@ -8224,7 +8233,8 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     return out;
   }
 
-  /** Grow or shrink the table. It can never be smaller than what is used. */
+  /** Grow or shrink the table. It can never be smaller than what is used.
+      Chosen by hand, it is also the size the table returns to. */
   function setTableSize(live, n) {
     var want = seatCount(n);
     var highest = -1;
@@ -8233,8 +8243,61 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
       return { error: 'Seat ' + (highest + 1) + ' is taken. Move them first.' };
     }
     live.tableSize = want;
+    live.baseSize = want;
     if (live.buttonSeat >= want) live.buttonSeat = 0;
     return { tableSize: want };
+  }
+
+  function baseOf(live) { return seatCount(live.baseSize || live.tableSize); }
+
+  /**
+   * True when a newcomer has no chair: every chair is held by somebody
+   * still playing. A chair somebody has cashed out of is free for the
+   * next person — they have left it — so it does not count as full.
+   */
+  function needsChair(live) {
+    if (firstFreeSeat(live) != null) return false;
+    return !live.players.some(function (p) { return p.cashedOut && p.seat != null; });
+  }
+
+  /** A chair for somebody sitting down: the one asked for, the first empty
+      one, one a cashed-out player has left, or — only then — a new one. */
+  function chairFor(live, want) {
+    if (want != null && seatFree(live, want)) return want;
+    var free = firstFreeSeat(live);
+    if (free != null) return free;
+    var gone = live.players.filter(function (p) { return p.cashedOut && p.seat != null; })
+      .sort(function (a, b) { return a.seat - b.seat; })[0];
+    if (gone) { var s = gone.seat; gone.seat = null; return s; }
+    if (live.tableSize < MAX_SEATS) { live.tableSize = seatCount(live.tableSize + 1); return firstFreeSeat(live); }
+    return null;
+  }
+
+  /**
+   * Back towards the size he chose. Anybody in a chair past it moves into
+   * the first empty chair within it (the button with them if it was theirs),
+   * then the table shrinks to what is still used. Returns who moved.
+   */
+  function compact(live) {
+    var base = baseOf(live), moved = [];
+    if (live.tableSize <= base) return moved;
+    live.players.filter(function (p) { return p.seat != null && p.seat >= base; })
+      .sort(function (a, b) { return a.seat - b.seat; })
+      .forEach(function (p) {
+        for (var i = 0; i < base; i++) {
+          if (!playerInSeat(live, i)) {
+            if (live.buttonSeat === p.seat) live.buttonSeat = i;
+            moved.push({ player: p, from: p.seat, to: i });
+            p.seat = i;
+            break;
+          }
+        }
+      });
+    var highest = -1;
+    live.players.forEach(function (p) { if (p.seat != null) highest = Math.max(highest, p.seat); });
+    live.tableSize = Math.max(base, highest + 1);
+    if (live.buttonSeat >= live.tableSize) live.buttonSeat = 0;
+    return moved;
   }
 
   function setButton(live, seat) {
@@ -8439,17 +8502,14 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
       id: live.nextId++, name: vn.name, playerId: opts.playerId || null,
       /* His own chair is marked on the share picture; nobody else's is. */
       hero: !!opts.hero,
-      /* A chair, chosen or the first free one. Somebody who sits down at a
-         full table gets one anyway — the table grows rather than refusing
-         a real person who is really there. */
+      /* A chair: the one asked for, the first free one, one somebody has
+         cashed out of, or a new one. The app asks before it grows the
+         table (`needsChair`); this layer never refuses a real person. */
       seat: null,
       buyins: [va.amount], cashedOut: false, cashout: 0
     };
     live.players.push(p);
-    var want = opts.seat;
-    if (want == null || !seatFree(live, want)) want = firstFreeSeat(live);
-    if (want == null) { live.tableSize = seatCount(live.tableSize + 1); want = firstFreeSeat(live); }
-    p.seat = want;
+    p.seat = chairFor(live, opts.seat);
     logEvent(live, vn.name, 'buyin', va.amount, now);
     return { player: p };
   }
@@ -8477,6 +8537,8 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     if (!p.cashedOut) return { error: p.name + ' is still playing.' };
     p.cashedOut = false;
     p.cashout = 0;
+    /* Their chair may have gone to somebody since. */
+    if (p.seat == null) p.seat = chairFor(live, null);
     logEvent(live, p.name, 'reopen', null, now);
     return { player: p };
   }
@@ -8498,7 +8560,9 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     var total = Settle.totalBuyIn(p);
     live.players = live.players.filter(function (x) { return x.id !== id; });
     logEvent(live, p.name, 'adjust', -total, now);
-    return { removed: p };
+    var was = live.tableSize;
+    var moved = compact(live);
+    return { removed: p, moved: moved, tableSize: live.tableSize, shrunk: live.tableSize < was };
   }
 
   function setTip(live, amount) {
@@ -8681,6 +8745,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     seatCount: seatCount, seated: seated, playerInSeat: playerInSeat,
     seatFree: seatFree, firstFreeSeat: firstFreeSeat, emptySeats: emptySeats,
     setTableSize: setTableSize, setButton: setButton, moveSeat: moveSeat,
+    needsChair: needsChair, chairFor: chairFor, compact: compact, baseOf: baseOf,
     randomise: randomise, seatingPlan: seatingPlan, positionsFor: positionsFor,
     orderFrom: orderFrom,
     byId: byId, logEvent: logEvent, setDealer: setDealer,
@@ -11737,7 +11802,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.3.0';
+  var APP_VERSION = '1.3.1';
   var STAGE = 'Rebuild · EDB 2.0.0';
   var EDS_VERSION = '2.0.0';
 
@@ -11971,19 +12036,16 @@ window.MARK_PATHS = {
    * would be a lie told all night.
    */
   function liveSummary(L, t) {
-    if (!L.players.length) {
-      return '';
-    }
     var out = Settle.round2(t.cashouts + t.tip);
     var st = '';
-    if (!t.seated) {
+    if (!t.seated && L.players.length) {
       st = t.net === 0
         ? '<span class="st ok">' + icon('check-circle', 12) + ' balanced</span>'
         : '<span class="st off">' + esc(Settle.plain(Math.abs(t.net))) + ' ' + esc(offBy(t.net)) + '</span>';
     }
     return '<div class="tsum tbanner" id="tsum">' +
       '<div class="tb"><span class="l">Total in</span><span class="n">' + esc(Settle.plain(t.buyins)) + '</span></div>' +
-      '<div class="tb"><span class="l">Total out' + st + '</span><span class="n' + (!t.seated && t.net !== 0 ? ' off' : '') + '">' +
+      '<div class="tb"><span class="l">Total out' + st + '</span><span class="n' + (!t.seated && L.players.length && t.net !== 0 ? ' off' : '') + '">' +
       esc(Settle.plain(out)) + '</span></div></div>';
   }
 
@@ -12062,8 +12124,8 @@ window.MARK_PATHS = {
       trio('timeline', 'clock', 'Timeline', 0) +
       trio('seats', 'chair', 'Seating', 0) + '</div>';
 
-
-    return h + endNightBlock();
+    /* Ending a night without filing it lives in the gear menu, not here. */
+    return h;
   }
 
   function rosterRow(p) {
@@ -12239,15 +12301,6 @@ window.MARK_PATHS = {
    * Settling is the way out that keeps the money; this is the way out
    * that admits there was none.
    */
-  function endNightBlock() {
-    /* An empty table is the commonest thing to be stuck with — opened,
-       then forgotten — so the way out sits on the table as well as in the
-       menu. Quiet, and below everything that matters. */
-    return '<div class="endnight"><button class="btn btn-ghost btn-danger" data-act="end-live">' + icon('x-circle', 15) +
-      ' End this night without filing it</button>' +
-      '</div>';
-  }
-
   function liveTimeline(L) {
     if (!L.events.length) {
       return '<div class="empty"><h3>Nothing yet</h3><p>Every buy-in, rebuy and cash-out lands here, ' +
@@ -13413,7 +13466,7 @@ window.MARK_PATHS = {
    * what makes the ledger row, the hands and the dossier land on one
    * record rather than on a string.
    */
-  function seatFromRow() {
+  function seatFromRow(over) {
     var L0 = live(), nameEl = $('seat-name'), amtEl = $('seat-amount');
     if (!L0 || !nameEl || !amtEl) return;
     var typed = nameEl.value, am = amtEl.value;
@@ -13422,6 +13475,20 @@ window.MARK_PATHS = {
     if (res.state === 'refused') { toast(res.msg, 'err'); return; }
     var va = Live.validAmount(am);
     if (va.error) { toast(va.error, 'err'); amtEl.focus(); return; }
+    /* Every chair is taken by somebody still playing: ask before the table
+       grows past the size he chose. Yes, and the seating and positions
+       move to the bigger table; taking somebody off later brings it back. */
+    if (!over && Live.needsChair(L0)) {
+      var n = L0.tableSize, who = res.name || String(typed).trim();
+      openModal(n < Live.MAX_SEATS ? 'Over ' + n + '-handed' : 'The table is full',
+        n < Live.MAX_SEATS
+          ? '<p>' + esc(L0.venue || 'This table') + ' is ' + n + '-handed and every chair is taken. Seat ' + esc(who) +
+            ' as number ' + (n + 1) + '? The seating and positions move to <span class="nw">' + (n + 1) + '-handed</span>.</p>'
+          : '<p>Ten chairs is the most the table draws. ' + esc(who) + ' plays without a chair on the plan.</p>',
+        [{ label: 'Cancel', act: 'close' },
+         { label: n < Live.MAX_SEATS ? 'Make it ' + (n + 1) + '-handed' : 'Seat them anyway', act: 'seat-over', primary: true }]);
+      return;
+    }
 
     var pid = null, seatName = res.name, fresh = false;
     /* The hero is the one person at the table with no opponent record —
@@ -15097,6 +15164,10 @@ window.MARK_PATHS = {
 
       (locked() ? '' : '<nav class="bottom-nav" aria-label="Primary">' + navHTML + '</nav>');
 
+    /* The banner holds under the header; the header's height is measured
+       rather than assumed (status bar, phone or desktop). */
+    var tb = document.querySelector('.topbar');
+    if (tb) document.documentElement.style.setProperty('--topbar-h', tb.offsetHeight + 'px');
     if (Charts) Charts.paint($('app'));
   }
 
@@ -15756,6 +15827,7 @@ window.MARK_PATHS = {
       return;
     }
     if (act === 'seat-add') return seatFromRow();
+    if (act === 'seat-over') { closeModal(); return seatFromRow(true); }
     if (act === 'night-venue') {
       VIEW.filter = Object.assign({}, VIEW.filter || {}, { venue: el.getAttribute('data-venue') || null });
       render();
@@ -15849,7 +15921,11 @@ window.MARK_PATHS = {
         undoable: false,
         run: function () {
           var res = liveCommit(function (L) { return Live.removePlayer(L, Number(id), now()); });
-          return res && !res.error ? dp2.name + ' removed. Undo is on the live bar.' : '';
+          if (!res || res.error) return '';
+          var said = dp2.name + ' removed.';
+          if (res.shrunk) said += ' Back to ' + res.tableSize + '-handed' +
+            (res.moved && res.moved.length ? ' — ' + res.moved.map(function (m) { return m.player.name + ' to seat ' + (m.to + 1); }).join(', ') : '') + '.';
+          return said;
         }
       });
       return;

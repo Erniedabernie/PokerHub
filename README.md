@@ -1,4 +1,26 @@
-# Poker Hub — v1.3.0 · one table, everywhere
+# Poker Hub — v1.3.1 · a table that knows its size
+
+### What changed in v1.3.1 (11/11/2026)
+
+- **Past the table size, with a question.** When every chair is held by
+  somebody still playing, seating one more asks first: *Over 8-handed —
+  seat X as number 9?* Yes adds the chair, and Seating, positions and the
+  header follow. Cancel seats nobody and keeps the name typed. A chair
+  somebody cashed out of is reused without asking. Ten is still the most.
+- **And back again.** Each night remembers the size it was opened at.
+  Taking somebody off moves whoever sits past that size into the gap (the
+  button with them) and steps the table back down; the toast says who
+  moved where.
+- **The totals are always there.** Total in and Total out show from the
+  first moment of a night, at nought, and stay pinned under the header as
+  the list scrolls.
+- **Ending without filing is only in the gear menu** — the red button
+  under the table is gone.
+- **The bottom bar stays at the bottom.** On iOS 26 home-screen apps a
+  translucent status bar made the layout height change with how much the
+  page scrolled, so on a short page the bar floated. The status bar is now
+  opaque (black); the light theme shows a black band at the very top.
+
 
 ### What changed in v1.3.0 (11/11/2026)
 
@@ -85,7 +107,7 @@
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.3.0): 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.3.1): 2,250 assertions, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.
