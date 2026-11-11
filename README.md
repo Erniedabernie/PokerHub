@@ -1,4 +1,38 @@
-# Poker Hub — v1.2.2 · share, and nights from a message
+# Poker Hub — v1.3.0 · one table, everywhere
+
+### What changed in v1.3.0 (11/11/2026)
+
+- **One seat layout in the whole app.** The dealer sits at the **top** of
+  every table — the live table's Seating, the hand pictures and the
+  seating draw — seat 1 is the chair on the dealer's left (the right of
+  the picture), and the numbers run clockwise. It is decided in one place,
+  `PHEngine.seatAnchors` (the gap moved from 60°–120° to 240°–300°), and
+  Hand recall v2.2.0's dealer-at-6-o'clock is gone from every surface and
+  comment. `test_seats.mjs` pins it for every size from 2 to 10.
+- **Starting a night:** past venues are offered as chips (most-played
+  first) and as type-ahead; the small and big blind are two number fields;
+  the table size starts from a new **default table size** in Settings; the
+  dealer is a checkbox.
+- **Venue through the ledger:** a typed venue lands on the spelling already
+  used for that place (case-insensitive), so "floral towers" files under
+  Floral Towers; the same in Log a past night, a pasted message, editing a
+  night and the default. Nights gains a venue filter (one place's nights,
+  with its money and hourly), and Me's *By venue* counts each place once.
+- **Blinds on every night as numbers:** each night carries `sb` and `bb`
+  beside the "20/40" it is written as, filled from it on every load and
+  save — existing nights included. Settings keeps default blinds; editing
+  a night has the two fields.
+- **A quieter first screen:** no felt on an empty table (it is under
+  Seating), no instruction line, the first-player field accented, and no
+  "+ Dealer" until someone is seated (a dealer ticked at the start shows).
+- **Fewer instructions** across the app — the how-to lines on the table,
+  the hand sheet, the player card, Log a past night, Me, a night's page and
+  Settings are gone; facts and warnings stay. The backup reminder is one
+  line with its button.
+- **Fewer lines**, most visibly on the web layout: the tabs sit in the
+  header (one bar, one rule) instead of a second strip, and section
+  headings, stat blocks, list cards, list rows, modal headers and footers
+  and the footer no longer carry rules — spacing separates them.
 
 ### What changed in v1.2.2 (10/11/2026, late)
 
@@ -51,7 +85,7 @@
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.2.2): 2,142 assertions. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.3.0): 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.
