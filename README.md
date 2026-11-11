@@ -1,4 +1,22 @@
-# Poker Hub — v1.3.1 · a table that knows its size
+# Poker Hub — v1.3.2 · one column, bigger totals
+
+### What changed in v1.3.2 (11/11/2026)
+
+- **One column at every width.** A wide window shows the phone layout in
+  a centred 560 px column — header, page, command bar and bottom nav keep
+  to it, so the header no longer runs across the whole screen. The tabs in
+  the header on wide screens are gone; the bottom nav is used everywhere.
+- **Total in · Total out, bigger** — the home game tracker's stat boxes:
+  the figure at 28 px over its label, the boxes 70 px (from 40). Not quite
+  double: at double, History · Timeline · Seating drop off the first
+  screen with eight seated.
+- **Balanced without an extra line.** When everyone has cashed out and it
+  balances, the Total out box turns green and "balanced" sits beside its
+  label in a smaller size; if it is out, the figure and the gap are red on
+  the same line. The box never changes height.
+- The screen readout in the gear menu adds the layout height (the height
+  the bottom bar is pinned to), for a screenshot if the bar ever floats.
+
 
 ### What changed in v1.3.1 (11/11/2026)
 
@@ -107,7 +125,7 @@
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.3.1): 2,250 assertions, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.3.2): 2,255 assertions. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.

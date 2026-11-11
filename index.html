@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.3.1">
+<meta name="app-version" content="1.3.2">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.3.1 · EDB design system 2.0.0
+  Poker Hub 1.3.2 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-11 · © Ernest Tung
 -->
@@ -477,16 +477,7 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 .subline .btn { min-height: 32px; padding: 4px 10px; font-size: 13px; }
 
 /* ── primary nav ────────────────────────────────────────── */
-/* Phone: the bottom nav from the design system. Desktop: tabs under the
-   topbar, because the system hides the bottom nav from 768 px. */
-.topnav { display: none; }
-/* On a wide screen the tabs sit in the header — one bar, one line —
-   rather than a second strip with a rule of its own under it. */
-@media (min-width: 768px) {
-  .topbar .topnav { display: flex; flex: 1 1 auto; justify-content: center; border-bottom: none; margin: 0; padding: 0; gap: var(--space-2); overflow: visible; }
-  .topbar .topnav .tab { min-height: 44px; margin-bottom: 0; border-bottom: none; border-radius: var(--radius-md); }
-  .topbar .topnav .tab.active { color: var(--text); background: var(--surface); }
-}
+/* The bottom nav from the design system, at every width (see v1.3.2). */
 .bottom-nav a { text-decoration: none; }
 /* The nav, fitted to the foot of any screen: 44 px of tabs, then the
    home-indicator strip and nothing more (the system pads 6 px on top of it,
@@ -737,19 +728,11 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .clockbtn .pz { font-family: var(--font-ui); color: var(--warning-text); }
 
 /* The banner above the roster: total in, total out (the tip counted in
-   out). Thinner than a stat card, bigger than a line. */
+   out). Its boxes are styled under v1.3.2. */
 .tsum.tbanner {
   display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin: 2px 0 8px; padding: 0;
   background: none; border: none; min-height: 0;
 }
-.tbanner .tb { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
-.tbanner .tb { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 8px 12px; min-width: 0; }
-.tbanner .l { font-size: 12px; color: var(--muted-text); display: flex; flex-direction: column; gap: 0; white-space: nowrap; line-height: 1.2; }
-.tbanner .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 18px; line-height: 22px; color: var(--text); }
-.tbanner .n.off { color: var(--error-text); }
-.tbanner .st { display: inline-flex; align-items: center; gap: 3px; }
-.tbanner .st.ok { color: var(--success-text); }
-.tbanner .st.off { color: var(--error-text); }
 
 /* The quiet seat line: a ghost of a row until it is tapped. */
 .seat-quiet {
@@ -957,8 +940,8 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .planimg { width: 100%; border-radius: var(--radius-md); border: 1px solid var(--border); display: block; }
 
 /* ── the command bar ────────────────────────────────────── */
-/* Sits above the bottom nav on a phone; at the bottom edge once the nav
-   has gone (768 px). One primary action, the rest ghost. */
+/* Sits on the bottom nav, at every width. One primary action, the rest
+   ghost. */
 .cmdbar {
   position: fixed; left: 0; right: 0; z-index: var(--z-sticky);
   bottom: var(--nav-h); /* sits on the nav exactly — no gap for the roster to show through */
@@ -970,10 +953,6 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .cmdbar .btn-ghost { flex: 0 1 auto; }
 .cmdbar .icon-btn { width: 44px; height: 44px; flex: none; }
 body.has-cmdbar .container { padding-bottom: calc(var(--nav-h) + 65px + var(--space-4)); }
-@media (min-width: 768px) {
-  .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom)); }
-  body.has-cmdbar .container { padding-bottom: calc(96px + var(--safe-bottom)); }
-}
 /* Table mode: the nav is gone, so the bar drops to the edge. */
 body.locked .bottom-nav { display: none; }
 body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom)); }
@@ -1141,9 +1120,41 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
    screen, and held under the header while a long roster scrolls. */
 .tsum.tbanner {
   position: sticky; top: var(--topbar-h, 69px); z-index: calc(var(--z-sticky) - 1);
-  background: var(--bg); margin: 0; padding: var(--space-1) 0 var(--space-2);
+  background: var(--bg); margin: 0; padding: var(--space-1) 0 6px;
 }
 .nw { white-space: nowrap; }
+
+/* ── v1.3.2 ─────────────────────────────────────────────── */
+/* One column at every width. A wide window shows the phone layout in a
+   centred column: header, page, command bar and bottom nav all keep to it,
+   so nothing stretches across the screen. */
+:root { --col: 560px; --container-app: var(--col); }
+.topbar { max-width: var(--col); margin-left: auto; margin-right: auto; }
+.bottom-nav, .cmdbar { left: max(0px, calc(50% - var(--col) / 2)); right: max(0px, calc(50% - var(--col) / 2)); }
+.sheet { max-width: var(--col); }
+@media (min-width: 768px) {
+  .bottom-nav { display: flex; }
+  .has-bottom-nav .container, .has-bottom-nav .main { padding-bottom: calc(72px + var(--safe-bottom)); }
+  body.has-cmdbar .container { padding-bottom: calc(var(--nav-h) + 65px + var(--space-4)); }
+  .container { padding-left: var(--space-4); padding-right: var(--space-4); padding-top: var(--space-4); }
+}
+
+/* Total in · Total out — the home game tracker's stat boxes: the figure
+   large, the label under it. A balanced night turns the out box green, with
+   the word on the label's line; nothing adds a line. */
+.tbanner .tb {
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0;
+  padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+}
+.tbanner .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 28px; line-height: 28px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tbanner .l { font-size: 12px; line-height: 16px; height: 16px; color: var(--muted-text); display: flex; align-items: center; gap: 8px; white-space: nowrap; min-width: 0; }
+.tbanner .st { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; line-height: 16px; height: 16px; overflow: hidden; text-overflow: ellipsis; }
+.tbanner .st .icon { flex: none; }
+.tbanner .tb.tb-ok { background: var(--success-dim); border-color: rgba(16, 185, 129, .35); }
+.tbanner .tb.tb-ok .st { color: var(--success-text); }
+.tbanner .tb.tb-off .n, .tbanner .tb.tb-off .st { color: var(--error-text); }
+@media (max-width: 400px) { .tbanner .n { font-size: 25px; } }
 </style>
 </head>
 <body class="has-bottom-nav">
@@ -11802,7 +11813,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.3.1';
+  var APP_VERSION = '1.3.2';
   var STAGE = 'Rebuild · EDB 2.0.0';
   var EDS_VERSION = '2.0.0';
 
@@ -12037,16 +12048,19 @@ window.MARK_PATHS = {
    */
   function liveSummary(L, t) {
     var out = Settle.round2(t.cashouts + t.tip);
-    var st = '';
-    if (!t.seated && L.players.length) {
+    /* Everyone has cashed out: the out box says whether it balances — a
+       green box with "balanced" beside its label, or the gap in red. The
+       box keeps its height either way. */
+    var done = !t.seated && L.players.length > 0, st = '', cls = '';
+    if (done) {
       st = t.net === 0
-        ? '<span class="st ok">' + icon('check-circle', 12) + ' balanced</span>'
+        ? '<span class="st ok">' + icon('check-circle', 12) + 'balanced</span>'
         : '<span class="st off">' + esc(Settle.plain(Math.abs(t.net))) + ' ' + esc(offBy(t.net)) + '</span>';
+      cls = t.net === 0 ? ' tb-ok' : ' tb-off';
     }
     return '<div class="tsum tbanner" id="tsum">' +
-      '<div class="tb"><span class="l">Total in</span><span class="n">' + esc(Settle.plain(t.buyins)) + '</span></div>' +
-      '<div class="tb"><span class="l">Total out' + st + '</span><span class="n' + (!t.seated && L.players.length && t.net !== 0 ? ' off' : '') + '">' +
-      esc(Settle.plain(out)) + '</span></div></div>';
+      '<div class="tb"><span class="n">' + esc(Settle.plain(t.buyins)) + '</span><span class="l">Total in</span></div>' +
+      '<div class="tb' + cls + '"><span class="n">' + esc(Settle.plain(out)) + '</span><span class="l">Total out' + st + '</span></div></div>';
   }
 
   /** The player card at the table: who this is, what they have in, the
@@ -14884,7 +14898,7 @@ window.MARK_PATHS = {
       (live() ? item('end-live', 'x-circle', 'End the live night without filing it') : '') +
       '<div class="menu-sep"></div>' +
       '<div class="screenfit mono" aria-label="Screen measurements">' + SAFE.width + '×' + SAFE.view +
-      ' of ' + SAFE.screen + ' · insets ' + SAFE.top + '/' + SAFE.bottom + (SAFE.fixed ? '→' + SAFE.used : '') + '</div>' +
+      ' of ' + SAFE.screen + ' · layout ' + SAFE.layout + ' · insets ' + SAFE.top + '/' + SAFE.bottom + (SAFE.fixed ? '→' + SAFE.used : '') + '</div>' +
       '<div class="about"><span class="mark">' + monogram(14) + '</span>' +
       '<span class="v">v' + APP_VERSION + '</span><span>EDB v' + EDS_VERSION + '</span><span>© Ernest Tung</span></div></div>';
   }
@@ -15138,10 +15152,6 @@ window.MARK_PATHS = {
 
     $('app').innerHTML =
       '<header class="topbar' + (tableScreen ? ' tablehead' : '') + '"><div class="head-title">' + headTitle + '</div>' +
-      (locked() ? '' : '<nav class="tabs topnav" aria-label="Primary">' + NAV.map(function (t) {
-        var on = VIEW.name === t[0] || PARENT[VIEW.name] === t[0];
-        return '<button class="tab' + (on ? ' active' : '') + '" data-act="go" data-to="' + t[0] + '">' + t[1] + '</button>';
-      }).join('') + '</nav>') +
       '<div class="head-actions">' + undoBtn +
       (locked()
         ? '<button class="btn btn-ghost" data-act="unlock" aria-label="Unlock — leave table mode">' + icon('eye', 16) + ' Unlock</button>'
@@ -16641,7 +16651,10 @@ window.MARK_PATHS = {
     if (standalone && top > 0 && bottom > 0 && missing > 0) used = Math.max(0, bottom - missing);
     if (used !== bottom) root.style.setProperty('--safe-bottom', used + 'px');
     SAFE = { top: Math.round(top), bottom: Math.round(bottom), used: Math.round(used), view: Math.round(view),
-      screen: Math.round(scr), width: Math.round(window.innerWidth), fixed: used !== bottom };
+      screen: Math.round(scr), width: Math.round(window.innerWidth), fixed: used !== bottom,
+      /* the layout height the bottom bar is pinned to; on a sound screen it
+         equals the window's height */
+      layout: Math.round(document.documentElement.clientHeight) };
   }
 
   /* ── boot ──────────────────────────────────────────────── */
