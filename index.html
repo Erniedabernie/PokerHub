@@ -9,12 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="eds-version" content="2.0.0">
-<meta name="app-version" content="1.3.2">
+<meta name="app-version" content="1.3.3">
 <meta name="theme-color" content="#050a0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#edf3ff" media="(prefers-color-scheme: light)">
 <meta name="description" content="One store for the home game: buy-ins, hands, reads, settlement, ledger.">
 <!--
-  Poker Hub 1.3.2 · EDB design system 2.0.0
+  Poker Hub 1.3.3 · EDB design system 2.0.0
   Single file, zero network requests, works from file:// and from GitHub Pages
   Built 2026-11-11 · © Ernest Tung
 -->
@@ -431,10 +431,10 @@ details.acc .acc-body{padding:var(--space-3) var(--space-4);color:var(--muted-te
    Poker Hub — app layer on EDB 2.0.0.
 
    The shell is the design system's own: a sticky `.topbar`, a `.container`,
-   a phone `.bottom-nav` with four destinations (Tonight · Nights · Players ·
-   Me) and `.tabs` taking over from 768 px. The live table is the home game
-   tracker's roster row — status as a dot on the name, buy-in as the only
-   figure while someone is in, a cashed-out row folded to one line — laid
+   a `.bottom-nav` with four destinations (Tonight · Nights · Players · Me)
+   at every width, in one centred column. The live table is the home game
+   tracker's roster row — buy-in as the only figure while someone is in, a
+   cashed-out row folded to one line — laid
    out as option C of the 09/11/2026 canvas: table first, a hand opens as a
    sheet over it. Cards, chips and list rows are Hand recall's.
 
@@ -464,20 +464,8 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 }
 .backlink:hover { color: var(--text); }
 .backlink:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-md); }
-/* The line under the title: venue · stakes · date · clock. Mono numerals. */
-.subline {
-  max-width: var(--container-app); margin: 0 auto; padding: var(--space-2) var(--space-4) 0;
-  font-size: 12px; color: var(--muted-text); display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;
-}
-.subline .clock { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--text); }
-.subline .dotlive { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--success); display: inline-block; }
-.subline .dotlive.paused { background: var(--warning); }
-.subline .spacer { flex: 1 1 auto; }
-.subline .icon-btn { width: 32px; height: 32px; }
-.subline .btn { min-height: 32px; padding: 4px 10px; font-size: 13px; }
-
 /* ── primary nav ────────────────────────────────────────── */
-/* The bottom nav from the design system, at every width (see v1.3.2). */
+/* The bottom nav from the design system, at every width (see “one column”). */
 .bottom-nav a { text-decoration: none; }
 /* The nav, fitted to the foot of any screen: 44 px of tabs, then the
    home-indicator strip and nothing more (the system pads 6 px on top of it,
@@ -495,18 +483,16 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 .section { margin-bottom: var(--space-8); }
 .section > h2 {
   font-size: 18px; font-weight: 500; margin: 0 0 var(--space-1);
-  padding-bottom: 0; border-bottom: none;
 }
 .section > .sub { color: var(--muted-text); font-size: 13px; margin: var(--space-2) 0 var(--space-4); }
 .sechd {
   display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2);
-  padding: var(--space-3) 0 var(--space-1); border-bottom: none; margin-bottom: var(--space-2);
+  padding: var(--space-3) 0 var(--space-1); margin-bottom: var(--space-2);
 }
 .sechd h3 { font-size: 18px; font-weight: 500; margin: 0; }
 .sechd .tag, .sechd .caption { color: var(--muted-text); }
 .line { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
 .line.between { justify-content: space-between; }
-.grow { flex: 1 1 auto; }
 .muted-t { color: var(--muted-text); }
 .right { text-align: right; }
 .hint { font-size: 12px; color: var(--muted-text); line-height: 1.5; margin-top: var(--space-1); }
@@ -525,10 +511,6 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 .statcard .n { display: block; }
 .statcard .n.pos { color: var(--success-text); }
 .statcard .n.neg { color: var(--error-text); }
-.statcard .n.ok { color: var(--success-text); }
-.statcard .n.off { color: var(--warning-text); }
-.statcard .l.ok { color: var(--success-text); }
-.statcard .l.off { color: var(--warning-text); }
 @media (max-width: 640px) { .statcard .n { font-size: 26px; } }
 
 /* ── the verdict — the one Garamond flash on Me ─────────── */
@@ -636,10 +618,10 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 }
 .crd.sm { min-width: 22px; height: 28px; font-size: 12px; border-radius: var(--radius-sm); margin-right: 2px; }
 .crd.lg { min-width: 46px; height: 62px; font-size: 22px; }
-.crd.sp, .s-sp { color: var(--text); }
-.crd.he, .s-he { color: var(--error-text); }
-.crd.di, .s-di { color: var(--accent-text); }
-.crd.cl, .s-cl { color: var(--success-text); }
+.crd.sp { color: var(--text); }
+.crd.he { color: var(--error-text); }
+.crd.di { color: var(--accent-text); }
+.crd.cl { color: var(--success-text); }
 .crd.unk { color: var(--muted-text); }
 .crd.empty { border-style: dashed; background: transparent; }
 
@@ -728,11 +710,29 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .clockbtn .pz { font-family: var(--font-ui); color: var(--warning-text); }
 
 /* The banner above the roster: total in, total out (the tip counted in
-   out). Its boxes are styled under v1.3.2. */
-.tsum.tbanner {
-  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin: 2px 0 8px; padding: 0;
-  background: none; border: none; min-height: 0;
+   out). There from the first screen, and held under the header while a
+   long roster scrolls; the header's height is measured in render(). */
+.tbanner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2);
+  position: sticky; top: var(--topbar-h, 69px); z-index: calc(var(--z-sticky) - 1);
+  background: var(--bg); margin: 0; padding: var(--space-1) 0 6px;
 }
+/* Total in · Total out — the home game tracker's stat boxes: the figure
+   large, the label under it. A balanced night turns the out box green, with
+   the word on the label's line; nothing adds a line. */
+.tbanner .tb {
+  display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0;
+  padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+}
+.tbanner .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 28px; line-height: 28px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tbanner .l { font-size: 12px; line-height: 16px; height: 16px; color: var(--muted-text); display: flex; align-items: center; gap: 8px; white-space: nowrap; min-width: 0; }
+.tbanner .st { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; line-height: 16px; height: 16px; overflow: hidden; text-overflow: ellipsis; }
+.tbanner .st .i { flex: none; display: inline-flex; }
+.tbanner .tb.tb-ok { background: var(--success-dim); border-color: rgba(16, 185, 129, .35); }
+.tbanner .tb.tb-ok .st { color: var(--success-text); }
+.tbanner .tb.tb-off .n, .tbanner .tb.tb-off .st { color: var(--error-text); }
+@media (max-width: 400px) { .tbanner .n { font-size: 25px; } }
 
 /* The quiet seat line: a ghost of a row until it is tapped. */
 .seat-quiet {
@@ -751,45 +751,25 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .pastesaid { margin: 0; padding-left: 18px; font-size: 13px; }
 .pastesaid li + li { margin-top: 3px; }
 
-/* (kept for the empty-table hint) */
-.tsum {
-  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 6px; min-height: 28px;
-  padding: 4px 0 6px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted-text);
-}
-.tsum .tn { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 14px; color: var(--text); }
-.tsum .tsp { flex: 1 1 auto; }
-.tsum .ok { color: var(--success-text); display: inline-flex; align-items: center; gap: 4px; }
-.tsum .off { color: var(--error-text); }
-
 /* The roster: one person per line on a four-column grid, so the money
    lines up down the table — name · total in · rebuy · cash out. Controls
    are 44 px (the touch floor); the rows are what fit eight on a phone. */
 #playerList { display: flex; flex-direction: column; }
 .prow {
   display: grid; grid-template-columns: minmax(0, 1fr) 62px 88px 64px; column-gap: 6px; align-items: center;
-  min-height: 45px; padding: 0; border-bottom: none;
+  min-height: 45px;
 }
 .pname {
   display: flex; align-items: center; gap: 6px; min-width: 0; height: 44px;
   background: none; border: none; padding: 0; margin: 0; cursor: pointer; text-align: left;
-  font-family: var(--font-ui); font-size: 15px; font-weight: 500; color: var(--text);
+  font-family: var(--font-ui); font-size: 15px; font-weight: 500; color: var(--text); overflow: hidden;
 }
-.pname { overflow: hidden; }
 .pname .pn { flex: 0 0 auto; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* The read's type, small and mixed-case so it fits beside a full name.
-   When space runs out the pill gives way first — the name never does. */
-.pname .pill.sm {
-  flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
-  font-family: var(--font-ui); text-transform: none; letter-spacing: 0.02em; font-size: 11px; padding: 1px 6px;
-}
 .pname:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
-.dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--success); flex: none; }
-.dot.out { background: var(--muted); }
 .pamt {
   height: 44px; display: flex; align-items: center; justify-content: flex-end; gap: 1px;
   font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap;
 }
-.pamt .nb { font-size: 11px; color: var(--muted-text); }
 .tapnum { background: none; border: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
 .pamt.tapnum { font-family: var(--font-mono); font-size: 14px; color: var(--text); text-decoration: underline dashed var(--muted); text-underline-offset: 4px; }
 .tapnum:focus-visible { outline: none; box-shadow: var(--focus-ring); }
@@ -869,7 +849,6 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
    who, the tip, a quiet ×. */
 .prow.dline {
   margin-top: 10px; min-height: 44px; grid-template-columns: minmax(0, 1fr) 88px 44px; column-gap: 8px;
-  border-bottom: none; padding: 0;
 }
 .prow.dline .dwho { grid-column: 1 / 2; display: flex; align-items: center; gap: 8px; min-width: 0; }
 .dlab { font-size: 12px; color: var(--muted-text); flex: none; }
@@ -889,12 +868,9 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .dline-add:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* History · Timeline · Seating. */
-.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: 10px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: 8px; }
 .trio .btn { min-height: 44px; padding: 0 6px; gap: 6px; justify-content: center; font-size: 13px; white-space: nowrap; min-width: 0; }
 .trio .ct { font-family: var(--font-mono); font-size: 12px; color: var(--muted-text); }
-/* Ending without filing loses the night's money record: real status, so red. */
-.btn.btn-danger { color: var(--error-text); border-color: var(--error); background: transparent; }
-.btn.btn-danger:hover { background: var(--error-dim); color: var(--error-text); }
 .screenfit { font-size: 11px; color: var(--muted-text); padding: 0 var(--space-3) var(--space-2); }
 
 .pill.ptype { background: var(--accent-dim); color: var(--accent-text); white-space: nowrap; }
@@ -909,7 +885,6 @@ table.t td .alias { display: block; font-size: 11px; color: var(--muted-text); m
 .tl-type.adjust { color: var(--muted-text); }
 .notelist { list-style: none; padding: 0; margin: var(--space-3) 0 0; }
 .notelist li { display: flex; gap: var(--space-3); padding: var(--space-2) 0; font-size: 13px; align-items: baseline; }
-.notelist li:last-child { border-bottom: none; }
 .notelist .t { font-family: var(--font-mono); color: var(--muted-text); flex: 0 0 auto; }
 .notelist .who { color: var(--muted-text); }
 .notelist .g { flex: 1; min-width: 0; }
@@ -984,15 +959,12 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 .formgrid .full { grid-column: 1 / -1; }
 .field + .field { margin-top: var(--space-4); }
 .formgrid .field + .field { margin-top: 0; }
-.err-line { font-size: 12px; color: var(--error-text); margin-top: var(--space-2); }
-.err-line:empty { display: none; }
 .file { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 /* A table of people and figures typed by hand — Log a past night. */
 .rosterform { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
 .rosterform .rrow { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) 36px; gap: 6px; align-items: center; }
 .rosterform .rrow .input { min-height: 40px; padding: 6px 8px; font-size: 14px; }
 .rosterform .rrow .icon-btn { width: 36px; height: 36px; }
-.rosterform .rhead { font-size: 11px; color: var(--muted-text); }
 @media (max-width: 640px) { .rosterform .rrow .input { font-size: 16px; } }
 
 /* ── modal ──────────────────────────────────────────────── */
@@ -1049,8 +1021,6 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 .dact { margin-top: var(--space-3); display: flex; flex-wrap: wrap; gap: var(--space-2); }
 
 .rlist { list-style: none; padding: 0; margin: 0; }
-.ritem { }
-.ritem:last-child { border-bottom: none; }
 .ritem summary { display: flex; gap: var(--space-3); padding: 10px 0; cursor: pointer; list-style: none; align-items: baseline; }
 .ritem summary::-webkit-details-marker { display: none; }
 .ritem summary:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-md); }
@@ -1068,12 +1038,9 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 
 .hlist { list-style: none; padding: 0; margin: 0; }
 .hlist li { padding: 10px 0; font-size: 13px; color: var(--text); }
-.hlist li:last-child { border-bottom: none; }
 .hlist p { margin: 4px 0 0; line-height: 1.5; }
 .hhead { display: flex; align-items: baseline; gap: 10px; }
 .hhead .t { font-size: 12px; color: var(--muted-text); }
-.fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-4); }
-.fgrid .field + .field { margin-top: 0; }
 
 /* ── Me: leaks as bars ──────────────────────────────────── */
 .leaks { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -1086,18 +1053,16 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 @media (max-width: 640px) {
   .dfields { grid-template-columns: minmax(0, 1fr); row-gap: 2px; }
   .dfields dd { margin-bottom: var(--space-2); }
-  .fgrid { grid-template-columns: 1fr; }
 }
 
 /* ── the system's own touch floor, applied to the app's controls too ── */
 @media (pointer: coarse) {
-  .lrow, .chipbtn, .pname, .pread { min-height: 44px; }
+  .lrow, .chipbtn, .pname { min-height: 44px; }
   .chipbtn.sm { min-height: 36px; }
-  .pread { min-height: 32px; }
   .rosterform .rrow .icon-btn { width: 44px; height: 44px; }
 }
 
-/* ── v1.3.0 ─────────────────────────────────────────────── */
+/* ── the first screen, venues, the backup line ──────────── */
 /* The first player on an empty table: accented, so it reads as the thing
    to tap. */
 .prow.ghost.first .gname { border: 1px solid var(--accent); }
@@ -1115,16 +1080,9 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 .venuechips::-webkit-scrollbar, .venuefilter::-webkit-scrollbar { display: none; }
 .venuechips .chipbtn, .venuefilter .chipbtn { flex: none; }
 
-/* ── v1.3.1 ─────────────────────────────────────────────── */
-/* Total in · Total out stays at the top of the table: there from the first
-   screen, and held under the header while a long roster scrolls. */
-.tsum.tbanner {
-  position: sticky; top: var(--topbar-h, 69px); z-index: calc(var(--z-sticky) - 1);
-  background: var(--bg); margin: 0; padding: var(--space-1) 0 6px;
-}
 .nw { white-space: nowrap; }
 
-/* ── v1.3.2 ─────────────────────────────────────────────── */
+/* ── one column ─────────────────────────────────────────── */
 /* One column at every width. A wide window shows the phone layout in a
    centred column: header, page, command bar and bottom nav all keep to it,
    so nothing stretches across the screen. */
@@ -1135,26 +1093,8 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 @media (min-width: 768px) {
   .bottom-nav { display: flex; }
   .has-bottom-nav .container, .has-bottom-nav .main { padding-bottom: calc(72px + var(--safe-bottom)); }
-  body.has-cmdbar .container { padding-bottom: calc(var(--nav-h) + 65px + var(--space-4)); }
   .container { padding-left: var(--space-4); padding-right: var(--space-4); padding-top: var(--space-4); }
 }
-
-/* Total in · Total out — the home game tracker's stat boxes: the figure
-   large, the label under it. A balanced night turns the out box green, with
-   the word on the label's line; nothing adds a line. */
-.tbanner .tb {
-  display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0;
-  padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
-}
-.tbanner .n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 28px; line-height: 28px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tbanner .l { font-size: 12px; line-height: 16px; height: 16px; color: var(--muted-text); display: flex; align-items: center; gap: 8px; white-space: nowrap; min-width: 0; }
-.tbanner .st { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; line-height: 16px; height: 16px; overflow: hidden; text-overflow: ellipsis; }
-.tbanner .st .icon { flex: none; }
-.tbanner .tb.tb-ok { background: var(--success-dim); border-color: rgba(16, 185, 129, .35); }
-.tbanner .tb.tb-ok .st { color: var(--success-text); }
-.tbanner .tb.tb-off .n, .tbanner .tb.tb-off .st { color: var(--error-text); }
-@media (max-width: 400px) { .tbanner .n { font-size: 25px; } }
 </style>
 </head>
 <body class="has-bottom-nav">
@@ -1171,9 +1111,10 @@ body.locked .cmdbar { bottom: 0; padding-bottom: calc(10px + var(--safe-bottom))
 <input type="file" id="file-restore" class="file" accept="application/json,.json" tabindex="-1" aria-hidden="true">
 
 <script>/* Phosphor Regular (v2.1.1), inlined. No icon font, no CDN.
-   Vendored from the poker ledger's src/icons.js — the hub is the ledger,
-   so this is the same file rather than a second copy of a subset. */
-window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z\"/>","plus":"<path d=\"M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z\"/>","plus-circle":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z\"/>","x":"<path d=\"M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z\"/>","check":"<path d=\"M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z\"/>","minus":"<path d=\"M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z\"/>","caret-down":"<path d=\"M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z\"/>","caret-up":"<path d=\"M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z\"/>","caret-left":"<path d=\"M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z\"/>","caret-right":"<path d=\"M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z\"/>","arrow-left":"<path d=\"M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z\"/>","play":"<path d=\"M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z\"/>","pause":"<path d=\"M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32Zm0,176H160V48h40ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Zm0,176H56V48H96Z\"/>","timer":"<path d=\"M128,40a96,96,0,1,0,96,96A96.11,96.11,0,0,0,128,40Zm0,176a80,80,0,1,1,80-80A80.09,80.09,0,0,1,128,216ZM173.66,90.34a8,8,0,0,1,0,11.32l-40,40a8,8,0,0,1-11.32-11.32l40-40A8,8,0,0,1,173.66,90.34ZM96,16a8,8,0,0,1,8-8h48a8,8,0,0,1,0,16H104A8,8,0,0,1,96,16Z\"/>","clock":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z\"/>","note-pencil":"<path d=\"M229.66,58.34l-32-32a8,8,0,0,0-11.32,0l-96,96A8,8,0,0,0,88,128v32a8,8,0,0,0,8,8h32a8,8,0,0,0,5.66-2.34l96-96A8,8,0,0,0,229.66,58.34ZM124.69,152H104V131.31l64-64L188.69,88ZM200,76.69,179.31,56,192,43.31,212.69,64ZM224,128v80a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h80a8,8,0,0,1,0,16H48V208H208V128a8,8,0,0,1,16,0Z\"/>","pencil-simple":"<path d=\"M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z\"/>","trash":"<path d=\"M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z\"/>","floppy-disk":"<path d=\"M219.31,72,184,36.69A15.86,15.86,0,0,0,172.69,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V83.31A15.86,15.86,0,0,0,219.31,72ZM168,208H88V152h80Zm40,0H184V152a16,16,0,0,0-16-16H88a16,16,0,0,0-16,16v56H48V48H172.69L208,83.31ZM160,72a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h56A8,8,0,0,1,160,72Z\"/>","copy-simple":"<path d=\"M184,64H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H184a8,8,0,0,0,8-8V72A8,8,0,0,0,184,64Zm-8,144H48V80H176ZM224,40V184a8,8,0,0,1-16,0V48H72a8,8,0,0,1,0-16H216A8,8,0,0,1,224,40Z\"/>","users":"<path d=\"M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z\"/>","user":"<path d=\"M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z\"/>","user-circle":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z\"/>","arrows-merge":"<path d=\"M192,40v64a8,8,0,0,1-2.34,5.66L136,163.31v49.38l18.34-18.35a8,8,0,0,1,11.32,11.32l-32,32a8,8,0,0,1-11.32,0l-32-32a8,8,0,0,1,11.32-11.32L120,212.69V163.31L66.34,109.66A8,8,0,0,1,64,104V40a8,8,0,0,1,16,0v60.69l48,48,48-48V40a8,8,0,0,1,16,0Z\"/>","chart-line":"<path d=\"M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0v94.37L90.73,98a8,8,0,0,1,10.07-.38l58.81,44.11L218.73,90a8,8,0,1,1,10.54,12l-64,56a8,8,0,0,1-10.07.38L96.39,114.29,40,163.63V200H224A8,8,0,0,1,232,208Z\"/>","chart-bar":"<path d=\"M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z\"/>","trend-up":"<path d=\"M240,56v64a8,8,0,0,1-16,0V75.31l-82.34,82.35a8,8,0,0,1-11.32,0L96,123.31,29.66,189.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0L136,140.69,212.69,64H168a8,8,0,0,1,0-16h64A8,8,0,0,1,240,56Z\"/>","trend-down":"<path d=\"M240,128v64a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h44.69L136,107.31l-34.34,34.35a8,8,0,0,1-11.32,0l-72-72A8,8,0,0,1,29.66,58.34L96,124.69l34.34-34.35a8,8,0,0,1,11.32,0L224,172.69V128a8,8,0,0,1,16,0Z\"/>","target":"<path d=\"M221.87,83.16A104.1,104.1,0,1,1,195.67,49l22.67-22.68a8,8,0,0,1,11.32,11.32l-96,96a8,8,0,0,1-11.32-11.32l27.72-27.72a40,40,0,1,0,17.87,31.09,8,8,0,1,1,16-.9,56,56,0,1,1-22.38-41.65L184.3,60.39a87.88,87.88,0,1,0,23.13,29.67,8,8,0,0,1,14.44-6.9Z\"/>","scales":"<path d=\"M239.43,133l-32-80h0a8,8,0,0,0-9.16-4.84L136,62V40a8,8,0,0,0-16,0V65.58L54.26,80.19A8,8,0,0,0,48.57,85h0v.06L16.57,165a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32a7.92,7.92,0,0,0-.57-3L66.92,93.77,120,82V208H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16H136V78.42L187,67.1,160.57,133a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32A7.92,7.92,0,0,0,239.43,133ZM56,184c-7.53,0-22.76-3.61-23.93-14.64L56,109.54l23.93,59.82C78.76,180.39,63.53,184,56,184Zm144-32c-7.53,0-22.76-3.61-23.93-14.64L200,77.54l23.93,59.82C222.76,148.39,207.53,152,200,152Z\"/>","clipboard-text":"<path d=\"M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z\"/>","file-text":"<path d=\"M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z\"/>","table":"<path d=\"M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM40,112H80v32H40Zm56,0H216v32H96ZM216,64V96H40V64ZM40,160H80v32H40Zm176,32H96V160H216v32Z\"/>","list":"<path d=\"M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z\"/>","list-checks":"<path d=\"M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z\"/>","squares-four":"<path d=\"M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z\"/>","download-simple":"<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z\"/>","upload-simple":"<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z\"/>","arrow-square-out":"<path d=\"M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z\"/>","arrow-clockwise":"<path d=\"M240,56v48a8,8,0,0,1-8,8H184a8,8,0,0,1,0-16H211.4L184.81,71.64l-.25-.24a80,80,0,1,0-1.67,114.78,8,8,0,0,1,11,11.63A95.44,95.44,0,0,1,128,224h-1.32A96,96,0,1,1,195.75,60L224,85.8V56a8,8,0,1,1,16,0Z\"/>","magnifying-glass":"<path d=\"M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z\"/>","funnel":"<path d=\"M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm106.18,74.58A8,8,0,0,0,144,136v58.66L112,216V136a8,8,0,0,0-2.16-5.47L40,56H216Z\"/>","calendar-blank":"<path d=\"M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z\"/>","coins":"<path d=\"M184,89.57V84c0-25.08-37.83-44-88-44S8,58.92,8,84v40c0,20.89,26.25,37.49,64,42.46V172c0,25.08,37.83,44,88,44s88-18.92,88-44V132C248,111.3,222.58,94.68,184,89.57ZM232,132c0,13.22-30.79,28-72,28-3.73,0-7.43-.13-11.08-.37C170.49,151.77,184,139,184,124V105.74C213.87,110.19,232,122.27,232,132ZM72,150.25V126.46A183.74,183.74,0,0,0,96,128a183.74,183.74,0,0,0,24-1.54v23.79A163,163,0,0,1,96,152,163,163,0,0,1,72,150.25Zm96-40.32V124c0,8.39-12.41,17.4-32,22.87V123.5C148.91,120.37,159.84,115.71,168,109.93ZM96,56c41.21,0,72,14.78,72,28s-30.79,28-72,28S24,97.22,24,84,54.79,56,96,56ZM24,124V109.93c8.16,5.78,19.09,10.44,32,13.57v23.37C36.41,141.4,24,132.39,24,124Zm64,48v-4.17c2.63.1,5.29.17,8,.17,3.88,0,7.67-.13,11.39-.35A121.92,121.92,0,0,0,120,171.41v23.46C100.41,189.4,88,180.39,88,172Zm48,26.25V174.4a179.48,179.48,0,0,0,24,1.6,183.74,183.74,0,0,0,24-1.54v23.79a165.45,165.45,0,0,1-48,0Zm64-3.38V171.5c12.91-3.13,23.84-7.79,32-13.57V172C232,180.39,219.59,189.4,200,194.87Z\"/>","spade":"<path d=\"M131.58,16.85a8,8,0,0,0-7.16,0C120.32,18.9,24,67.84,24,136a56,56,0,0,0,74.15,53L88.34,221.7A8,8,0,0,0,96,232h64a8,8,0,0,0,7.66-10.3L157.85,189A56,56,0,0,0,232,136C232,67.84,135.68,18.9,131.58,16.85ZM176,176a40,40,0,0,1-26.29-9.85,8,8,0,0,0-12.92,8.33L149.25,216h-42.5l12.46-41.52a8,8,0,0,0-12.92-8.33A40,40,0,0,1,40,136c0-29.88,24.41-56.55,44.89-73.66A279.13,279.13,0,0,1,128,33.06a279.13,279.13,0,0,1,43.11,29.28C208.21,93.34,216,119.51,216,136A40,40,0,0,1,176,176Z\"/>","warning":"<path d=\"M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z\"/>","warning-circle":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z\"/>","info":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/>","question":"<path d=\"M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z\"/>","check-circle":"<path d=\"M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z\"/>","x-circle":"<path d=\"M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z\"/>","arrow-u-up-left":"<path d=\"M232,144a64.07,64.07,0,0,1-64,64H80a8,8,0,0,1,0-16h88a48,48,0,0,0,0-96H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,45.66L51.31,80H168A64.07,64.07,0,0,1,232,144Z\"/>","sliders-horizontal":"<path d=\"M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z\"/>","eye":"<path d=\"M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z\"/>","house":"<path d=\"M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V160h32v56a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z\"/>","flag":"<path d=\"M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z\"/>","chat-teardrop-text":"<path d=\"M172,112a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h68A8,8,0,0,1,172,112Zm-8,24H96a8,8,0,0,0,0,16h68a8,8,0,0,0,0-16Zm68-12A100.11,100.11,0,0,1,132,224H48a16,16,0,0,1-16-16V124a100,100,0,0,1,200,0Zm-16,0a84,84,0,0,0-168,0v84h84A84.09,84.09,0,0,0,216,124Z\"/>","battery-medium":"<path d=\"M200,56H32A24,24,0,0,0,8,80v96a24,24,0,0,0,24,24H200a24,24,0,0,0,24-24V80A24,24,0,0,0,200,56Zm8,120a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H200a8,8,0,0,1,8,8ZM104,96v64a8,8,0,0,1-16,0V96a8,8,0,0,1,16,0ZM64,96v64a8,8,0,0,1-16,0V96a8,8,0,0,1,16,0Zm192,0v64a8,8,0,0,1-16,0V96a8,8,0,0,1,16,0Z\"/>","fire":"<path d=\"M183.89,153.34a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68ZM216,144a88,88,0,0,1-176,0c0-27.92,11-56.47,32.66-84.85a8,8,0,0,1,11.93-.89l24.12,23.41,22-60.41a8,8,0,0,1,12.63-3.41C165.21,36,216,84.55,216,144Zm-16,0c0-46.09-35.79-85.92-58.21-106.33L119.52,98.74a8,8,0,0,1-13.09,3L80.06,76.16C64.09,99.21,56,122,56,144a72,72,0,0,0,144,0Z\"/>","seal-check":"<path d=\"M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z\"/>","crosshair":"<path d=\"M232,120h-8.34A96.14,96.14,0,0,0,136,32.34V24a8,8,0,0,0-16,0v8.34A96.14,96.14,0,0,0,32.34,120H24a8,8,0,0,0,0,16h8.34A96.14,96.14,0,0,0,120,223.66V232a8,8,0,0,0,16,0v-8.34A96.14,96.14,0,0,0,223.66,136H232a8,8,0,0,0,0-16Zm-96,87.6V200a8,8,0,0,0-16,0v7.6A80.15,80.15,0,0,1,48.4,136H56a8,8,0,0,0,0-16H48.4A80.15,80.15,0,0,1,120,48.4V56a8,8,0,0,0,16,0V48.4A80.15,80.15,0,0,1,207.6,120H200a8,8,0,0,0,0,16h7.6A80.15,80.15,0,0,1,136,207.6ZM128,88a40,40,0,1,0,40,40A40,40,0,0,0,128,88Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,152Z\"/>","dice-five":"<path d=\"M192,32H64A32,32,0,0,0,32,64V192a32,32,0,0,0,32,32H192a32,32,0,0,0,32-32V64A32,32,0,0,0,192,32Zm16,160a16,16,0,0,1-16,16H64a16,16,0,0,1-16-16V64A16,16,0,0,1,64,48H192a16,16,0,0,1,16,16ZM104,92A12,12,0,1,1,92,80,12,12,0,0,1,104,92Zm72,0a12,12,0,1,1-12-12A12,12,0,0,1,176,92Zm-72,72a12,12,0,1,1-12-12A12,12,0,0,1,104,164Zm36-36a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm36,36a12,12,0,1,1-12-12A12,12,0,0,1,176,164Z\"/>","stack":"<path d=\"M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z\"/>","dots-three":"<path d=\"M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z\"/>","shuffle":"<path d=\"M237.66,178.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L212.69,192H200.94a72.12,72.12,0,0,1-58.59-30.15l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.1,56.1,0,0,0,200.94,176h11.75l-10.35-10.34a8,8,0,0,1,11.32-11.32ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.1,56.1,0,0,1,200.94,80h11.75L202.34,90.34a8,8,0,0,0,11.32,11.32l24-24a8,8,0,0,0,0-11.32l-24-24a8,8,0,0,0-11.32,11.32L212.69,64H200.94a72.12,72.12,0,0,0-58.59,30.15l-1.2,1.67A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z\"/>","share-network":"<path d=\"M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63a40,40,0,1,0,0,55.82l46.1,29.63A40,40,0,1,0,176,160Zm0-128a24,24,0,1,1-24,24A24,24,0,0,1,176,32ZM64,152a24,24,0,1,1,24-24A24,24,0,0,1,64,152Zm112,72a24,24,0,1,1,24-24A24,24,0,0,1,176,224Z\"/>","film-strip":"<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,88h80v80H40Zm96-16V56h32V72Zm-16,0H88V56h32Zm0,112v16H88V184Zm16,0h32v16H136Zm0-16V88h80v80Zm80-96H184V56h32ZM72,56V72H40V56ZM40,184H72v16H40Zm176,16H184V184h32v16Z\"/>","diamond":"<path d=\"M235.33,116.72,139.28,20.66a16,16,0,0,0-22.56,0l-96,96.06a16,16,0,0,0,0,22.56l96.05,96.06h0a16,16,0,0,0,22.56,0l96.05-96.06a16,16,0,0,0,0-22.56ZM128,224h0L32,128,128,32,224,128Z\"/>","chair":"<path d=\"M208,136H176V104h16a16,16,0,0,0,16-16V40a16,16,0,0,0-16-16H64A16,16,0,0,0,48,40V88a16,16,0,0,0,16,16H80v32H48a16,16,0,0,0-16,16v16a16,16,0,0,0,16,16h8v40a8,8,0,0,0,16,0V184H184v40a8,8,0,0,0,16,0V184h8a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136ZM64,40H192V88H64Zm32,64h64v32H96Zm112,64H48V152H208v16Z\"/>","sign-out":"<path d=\"M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z\"/>"};
+   The 34 icons the hub draws — trimmed on 11/11/2026 from the poker
+   ledger's full set of 70. The build fails on an icon name that is not
+   here, so adding one means adding its path to this file. */
+window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z\"/>","plus":"<path d=\"M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z\"/>","plus-circle":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z\"/>","x":"<path d=\"M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z\"/>","check":"<path d=\"M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z\"/>","caret-right":"<path d=\"M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z\"/>","arrow-left":"<path d=\"M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z\"/>","play":"<path d=\"M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z\"/>","pause":"<path d=\"M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32Zm0,176H160V48h40ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Zm0,176H56V48H96Z\"/>","clock":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z\"/>","trash":"<path d=\"M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z\"/>","floppy-disk":"<path d=\"M219.31,72,184,36.69A15.86,15.86,0,0,0,172.69,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V83.31A15.86,15.86,0,0,0,219.31,72ZM168,208H88V152h80Zm40,0H184V152a16,16,0,0,0-16-16H88a16,16,0,0,0-16,16v56H48V48H172.69L208,83.31ZM160,72a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h56A8,8,0,0,1,160,72Z\"/>","copy-simple":"<path d=\"M184,64H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H184a8,8,0,0,0,8-8V72A8,8,0,0,0,184,64Zm-8,144H48V80H176ZM224,40V184a8,8,0,0,1-16,0V48H72a8,8,0,0,1,0-16H216A8,8,0,0,1,224,40Z\"/>","users":"<path d=\"M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z\"/>","user":"<path d=\"M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z\"/>","clipboard-text":"<path d=\"M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z\"/>","table":"<path d=\"M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM40,112H80v32H40Zm56,0H216v32H96ZM216,64V96H40V64ZM40,160H80v32H40Zm176,32H96V160H216v32Z\"/>","download-simple":"<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z\"/>","upload-simple":"<path d=\"M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z\"/>","arrow-clockwise":"<path d=\"M240,56v48a8,8,0,0,1-8,8H184a8,8,0,0,1,0-16H211.4L184.81,71.64l-.25-.24a80,80,0,1,0-1.67,114.78,8,8,0,0,1,11,11.63A95.44,95.44,0,0,1,128,224h-1.32A96,96,0,1,1,195.75,60L224,85.8V56a8,8,0,1,1,16,0Z\"/>","calendar-blank":"<path d=\"M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z\"/>","spade":"<path d=\"M131.58,16.85a8,8,0,0,0-7.16,0C120.32,18.9,24,67.84,24,136a56,56,0,0,0,74.15,53L88.34,221.7A8,8,0,0,0,96,232h64a8,8,0,0,0,7.66-10.3L157.85,189A56,56,0,0,0,232,136C232,67.84,135.68,18.9,131.58,16.85ZM176,176a40,40,0,0,1-26.29-9.85,8,8,0,0,0-12.92,8.33L149.25,216h-42.5l12.46-41.52a8,8,0,0,0-12.92-8.33A40,40,0,0,1,40,136c0-29.88,24.41-56.55,44.89-73.66A279.13,279.13,0,0,1,128,33.06a279.13,279.13,0,0,1,43.11,29.28C208.21,93.34,216,119.51,216,136A40,40,0,0,1,176,176Z\"/>","info":"<path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/>","check-circle":"<path d=\"M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z\"/>","x-circle":"<path d=\"M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z\"/>","arrow-u-up-left":"<path d=\"M232,144a64.07,64.07,0,0,1-64,64H80a8,8,0,0,1,0-16h88a48,48,0,0,0,0-96H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,45.66L51.31,80H168A64.07,64.07,0,0,1,232,144Z\"/>","sliders-horizontal":"<path d=\"M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z\"/>","eye":"<path d=\"M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z\"/>","seal-check":"<path d=\"M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z\"/>","shuffle":"<path d=\"M237.66,178.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L212.69,192H200.94a72.12,72.12,0,0,1-58.59-30.15l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.1,56.1,0,0,0,200.94,176h11.75l-10.35-10.34a8,8,0,0,1,11.32-11.32ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.1,56.1,0,0,1,200.94,80h11.75L202.34,90.34a8,8,0,0,0,11.32,11.32l24-24a8,8,0,0,0,0-11.32l-24-24a8,8,0,0,0-11.32,11.32L212.69,64H200.94a72.12,72.12,0,0,0-58.59,30.15l-1.2,1.67A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z\"/>","share-network":"<path d=\"M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63a40,40,0,1,0,0,55.82l46.1,29.63A40,40,0,1,0,176,160Zm0-128a24,24,0,1,1-24,24A24,24,0,0,1,176,32ZM64,152a24,24,0,1,1,24-24A24,24,0,0,1,64,152Zm112,72a24,24,0,1,1,24-24A24,24,0,0,1,176,224Z\"/>","film-strip":"<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,88h80v80H40Zm96-16V56h32V72Zm-16,0H88V56h32Zm0,112v16H88V184Zm16,0h32v16H136Zm0-16V88h80v80Zm80-96H184V56h32ZM72,56V72H40V56ZM40,184H72v16H40Zm176,16H184V184h32v16Z\"/>","diamond":"<path d=\"M235.33,116.72,139.28,20.66a16,16,0,0,0-22.56,0l-96,96.06a16,16,0,0,0,0,22.56l96.05,96.06h0a16,16,0,0,0,22.56,0l96.05-96.06a16,16,0,0,0,0-22.56ZM128,224h0L32,128,128,32,224,128Z\"/>","chair":"<path d=\"M208,136H176V104h16a16,16,0,0,0,16-16V40a16,16,0,0,0-16-16H64A16,16,0,0,0,48,40V88a16,16,0,0,0,16,16H80v32H48a16,16,0,0,0-16,16v16a16,16,0,0,0,16,16h8v40a8,8,0,0,0,16,0V184H184v40a8,8,0,0,0,16,0V184h8a16,16,0,0,0,16-16V152A16,16,0,0,0,208,136ZM64,40H192V88H64Zm32,64h64v32H96Zm112,64H48V152H208v16Z\"/>"};
 </script>
 <script>/* ============================================================
    Poker hub — settlement core.
@@ -2045,7 +1986,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     _seq++;
     return 'pl-' + (now || 0).toString(36) + '-' + _seq.toString(36);
   }
-  function _resetIds() { _seq = 0; }
 
   /**
    * Find or create. Returns { player, created, renamedFrom }.
@@ -2185,7 +2125,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     nearby: nearby, rename: rename, removeAlias: removeAlias,
     keysOf: keysOf, index: index, find: find, findByExtId: findByExtId,
     ensure: ensure, addAlias: addAlias, merge: merge, split: split,
-    seatName: seatName, newId: newId, _resetIds: _resetIds
+    seatName: seatName, newId: newId
   };
 }));
 </script>
@@ -2835,7 +2775,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     var idb = opts.idb || Idb.auto();
     var now = opts.now || function () { return Date.now(); };
 
-    var listeners = [];
     var quotaHit = false;
 
     var S = {
@@ -2865,14 +2804,10 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     }
     function write(key, value) {
       try { local.setItem(key, JSON.stringify(value)); quotaHit = false; return true; }
-      catch (e) { quotaHit = true; emit('quota', key); return false; }
+      catch (e) { quotaHit = true; return false; }
     }
     function drop(key) { try { local.removeItem(key); } catch (e) { } }
 
-    function emit(ev, payload) {
-      listeners.forEach(function (fn) { try { fn(ev, payload); } catch (e) { } });
-    }
-    S.on = function (fn) { listeners.push(fn); return function () { listeners.splice(listeners.indexOf(fn), 1); }; };
     S.quotaHit = function () { return quotaHit; };
 
     /* ── touch ─────────────────────────────────────────────── */
@@ -3371,8 +3306,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     return typeof c === 'string' && c.length === 2 &&
       RANKS.indexOf(c[0]) >= 0 && SUITS.indexOf(c[1]) >= 0;
   }
-  /* anything that may occupy a card slot — a real card, or an unknown */
-  function cardEntry(c) { return c === UNKNOWN || cardValid(c); }
   function cardGlyph(c) {
     if (c === UNKNOWN) return UNKNOWN;
     return cardValid(c) ? c[0] + SUIT_GLYPH[c[1]] : '';
@@ -4083,7 +4016,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     RANKS: RANKS, SUITS: SUITS, SUIT_GLYPH: SUIT_GLYPH,
     STREETS: STREETS, STREET_TAG: STREET_TAG, BOARD_COUNT: BOARD_COUNT,
     UNKNOWN: UNKNOWN,
-    cardValid: cardValid, cardEntry: cardEntry,
+    cardValid: cardValid,
     cardGlyph: cardGlyph, cardsGlyph: cardsGlyph,
     seatOrder: seatOrder, positionsFor: positionsFor, straddleSeat: straddleSeat,
     seatName: seatName,
@@ -5405,7 +5338,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
 
   var _seq = 0;
   function uid(prefix, now) { _seq++; return prefix + '-' + (now || 0).toString(36) + '-' + _seq.toString(36); }
-  function _resetIds() { _seq = 0; }
 
   function arr(v) { return Array.isArray(v) ? v : []; }
   function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
@@ -6886,6 +6818,11 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
           : 'This import cannot be applied.'
       ));
     }
+    /* A plan is applied once. The snapshot below is asynchronous, so a
+       second call arriving before it resolves used to apply the same plan
+       twice — the night filed as two nights. */
+    if (p.committed) return Promise.reject(new Error('That has already been filed.'));
+    p.committed = true;
     return store.snapshot('import: ' + p.kind).then(function () {
       return Promise.resolve(p.apply());
     }).then(function (report) {
@@ -6904,8 +6841,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     signature: signature, priorImport: priorImport,
     planTracker: planTracker, planHandRecall: planHandRecall, planLedger: planLedger,
     matchSession: matchSession, toISO: toISO, currencyCode: currencyCode,
-    heroAliases: heroAliases, looksLikeHero: looksLikeHero, nameHand: nameHand,
-    _resetIds: _resetIds
+    heroAliases: heroAliases, looksLikeHero: looksLikeHero, nameHand: nameHand
   };
 }));
 </script>
@@ -7064,10 +7000,15 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
 
   function applyMerge(store, payload, opts) {
     opts = opts || {};
-    var plan = opts.plan || planMerge(store, payload);
-    if (!plan.ok) return Promise.reject(new Error(plan.warnings[0] || 'That file cannot be merged.'));
+    var check = opts.plan || planMerge(store, payload);
+    if (!check.ok) return Promise.reject(new Error(check.warnings[0] || 'That file cannot be merged.'));
 
     return store.snapshot('merge import').then(function () {
+      /* Planned against the store as it stands now, not as it stood when
+         the button was pressed: a second merge queued behind this
+         snapshot then finds nothing left to add, rather than adding
+         everything again. */
+      var plan = opts.plan || planMerge(store, payload);
       COLLECTIONS.forEach(function (c) {
         var d = plan.collections[c];
         var list = store.db[c];
@@ -7145,8 +7086,14 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
       store.db.ledger = clone(arr(payload.ledger));
       store.db.live = clone(payload.live || null);
       if (payload.meta) {
+        /* The file's meta carries the other device's undo pointer — often
+           null. Taking it wholesale wiped the pointer to the snapshot just
+           taken, so the most destructive action could not be undone. */
+        var undoAt = store.db.meta.undoAt, undoLabel = store.db.meta.undoLabel;
         store.db.meta = Object.assign({}, store.db.meta, payload.meta);
         store.db.meta.schema = store.SCHEMA;
+        store.db.meta.undoAt = undoAt;
+        store.db.meta.undoLabel = undoLabel;
       }
       store.hands = [];
       store.saveAllLocal();
@@ -7167,9 +7114,14 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
   };
 }));
 </script>
-<script>/* Poker ledger — statistics engine.
+<script>/* Poker hub — statistics engine (from the poker ledger).
    No DOM, no storage: everything here is a pure function of its arguments,
    which is why it can be tested under plain node.
+
+   Trimmed on 11/11/2026 to what the hub uses: the win-rate verdict, the
+   KPIs, the bankroll curve and the breakdowns. The ledger's simulator,
+   beta maths, opponent ledger, CSV and date parsing went — nothing here
+   called them (the paste reader has its own date parsing, in paste.js).
 
    The central claim the app makes is "you are / are not a proven winner", so
    the maths below is the part that has to be right. Model: a session's result
@@ -7185,7 +7137,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
 
   function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
   function round(n, dp) { var f = Math.pow(10, dp || 0); return Math.round(n * f) / f; }
-  function sum(a) { var t = 0, i; for (i = 0; i < a.length; i++) t += a[i]; return t; }
 
   /* ── stakes ──────────────────────────────────────────────── */
 
@@ -7199,13 +7150,9 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     return one ? num(one[1]) : 0;
   }
 
-  /* Sort key so 0.05/0.10 < 1/2 < 5/10 regardless of string order. */
-  function stakeKey(stakes) { return bigBlind(stakes); }
-
   /* ── currency ────────────────────────────────────────────── */
 
   var DEFAULT_RATES = { HKD: 1, USD: 7.8, GBP: 10.5, EUR: 9.1, CNY: 1.09, JPY: 0.052 };
-  var SYMBOL = { HKD: 'HK$', USD: 'US$', GBP: '£', EUR: '€', CNY: 'CN¥', JPY: 'JP¥' };
 
   /* rates[c] = how many units of the BASE currency one unit of c is worth.
      The base currency's own rate is 1 by definition and is forced here, so a
@@ -7223,21 +7170,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
   }
 
   function toBase(amount, cur, settings) { return num(amount) * rateFor(cur, settings); }
-
-  function fmtMoney(n, cur, dp) {
-    var sym = SYMBOL[cur] || (cur ? cur + ' ' : '');
-    var v = num(n), neg = v < 0;
-    var s = Math.abs(v).toLocaleString('en-US', {
-      minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0
-    });
-    return (neg ? '−' : '') + sym + s;
-  }
-
-  function fmtSigned(n, cur, dp) {
-    var v = num(n);
-    if (Math.round(v * 100) === 0) return fmtMoney(0, cur, dp);
-    return (v > 0 ? '+' : '') + fmtMoney(v, cur, dp);
-  }
 
   function fmtNum(n, dp) {
     var v = num(n), neg = v < 0;
@@ -7387,508 +7319,17 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
     });
   }
 
-  var DOW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-  function lengthBucket(h) {
-    h = num(h);
-    if (h < 3) return 'Under 3 h';
-    if (h < 5) return '3–5 h';
-    if (h < 8) return '5–8 h';
-    return '8 h or more';
-  }
-
-  function dayOfWeek(dateStr) {
-    var p = String(dateStr || '').split('-');
-    if (p.length !== 3) return null;
-    var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
-    return isNaN(d.getTime()) ? null : DOW[d.getUTCDay()];
-  }
-
-  /* ── table composition ───────────────────────────────────── */
-
-  /* Your win rate in the sessions a given player sat in, against your win rate
-     in the sessions they did not. Both sides get a CI; the difference is only
-     worth reading when the two intervals barely overlap, which the caller
-     renders rather than asserting here. */
-  function tableComposition(sessions, players, settings, minHours) {
-    minHours = minHours == null ? 5 : minHours;
-    var done = sessions.filter(complete);
-    return players.map(function (p) {
-      var withP = [], without = [], i, s;
-      for (i = 0; i < done.length; i++) {
-        s = done[i];
-        if ((s.villains || []).indexOf(p.id) >= 0) withP.push(s); else without.push(s);
-      }
-      var a = winRate(withP, settings), b = winRate(without, settings);
-      return {
-        id: p.id, name: p.name,
-        withRate: a, withoutRate: b,
-        delta: a.r - b.r,
-        enough: a.hours >= minHours && a.n >= 2
-      };
-    }).filter(function (x) { return x.withRate.n > 0; })
-      .sort(function (x, y) { return y.withRate.hours - x.withRate.hours; });
-  }
-
-  /* ── variance simulator ──────────────────────────────────── */
-
-  function mulberry32(seed) {
-    var a = seed >>> 0;
-    return function () {
-      a |= 0; a = (a + 0x6D2B79F5) | 0;
-      var t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-
-  function gaussian(rnd) {
-    var u = 0, v = 0;
-    while (u === 0) u = rnd();
-    while (v === 0) v = rnd();
-    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-  }
-
-  /* Runs `runs` alternative histories of the same hours sequence at a given
-     true win rate, and returns percentile bands of cumulative net.
-     Pass trueRate 0 to draw what a break-even player's graph looks like. */
-  function simulate(hoursSeq, trueRate, sigma, runs, seed) {
-    runs = runs || 400;
-    var rnd = mulberry32(seed == null ? 12345 : seed);
-    var steps = hoursSeq.length, paths = [], i, j, cum, h;
-    for (i = 0; i < runs; i++) {
-      cum = 0;
-      var path = new Array(steps);
-      for (j = 0; j < steps; j++) {
-        h = num(hoursSeq[j]);
-        cum += trueRate * h + gaussian(rnd) * sigma * Math.sqrt(h);
-        path[j] = cum;
-      }
-      paths.push(path);
-    }
-    var qs = [0.05, 0.25, 0.5, 0.75, 0.95];
-    var bands = qs.map(function () { return new Array(steps); });
-    var col = new Array(runs);
-    for (j = 0; j < steps; j++) {
-      for (i = 0; i < runs; i++) col[i] = paths[i][j];
-      col.sort(function (a, b) { return a - b; });
-      for (var q = 0; q < qs.length; q++) bands[q][j] = col[quantIndex(runs, qs[q])];
-    }
-    return { q05: bands[0], q25: bands[1], q50: bands[2], q75: bands[3], q95: bands[4], runs: runs };
-  }
-
-  function quantIndex(n, p) {
-    var i = Math.round(p * (n - 1));
-    return i < 0 ? 0 : (i > n - 1 ? n - 1 : i);
-  }
-
-  /* Share of simulated break-even histories that finish at or above the real
-     result. A high number means the real graph is indistinguishable from luck. */
-  function luckPercentile(hoursSeq, realNet, sigma, runs, seed) {
-    runs = runs || 2000;
-    var rnd = mulberry32(seed == null ? 777 : seed), i, j, cum, atLeast = 0;
-    for (i = 0; i < runs; i++) {
-      cum = 0;
-      for (j = 0; j < hoursSeq.length; j++) cum += gaussian(rnd) * sigma * Math.sqrt(num(hoursSeq[j]));
-      if (cum >= realNet) atLeast++;
-    }
-    return atLeast / runs;
-  }
-
-  /* ── beta maths, for opponent rates on small samples ─────── */
-
-  function logGamma(x) {
-    var c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-      -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
-    var y = x, t = x + 5.5, s = 1.000000000190015;
-    t -= (x + 0.5) * Math.log(t);
-    for (var j = 0; j < 6; j++) s += c[j] / ++y;
-    return -t + Math.log(2.5066282746310005 * s / x);
-  }
-
-  /* Regularised incomplete beta I_x(a,b), Lentz continued fraction. */
-  function regIncBeta(x, a, b) {
-    if (x <= 0) return 0;
-    if (x >= 1) return 1;
-    var lbeta = logGamma(a + b) - logGamma(a) - logGamma(b) +
-      a * Math.log(x) + b * Math.log(1 - x);
-    if (x < (a + 1) / (a + b + 2)) return Math.exp(lbeta) * betacf(x, a, b) / a;
-    return 1 - Math.exp(lbeta) * betacf(1 - x, b, a) / b;
-  }
-
-  function betacf(x, a, b) {
-    var TINY = 1e-30, MAXIT = 200, EPS = 3e-12;
-    var qab = a + b, qap = a + 1, qam = a - 1;
-    var c = 1, d = 1 - qab * x / qap;
-    if (Math.abs(d) < TINY) d = TINY;
-    d = 1 / d;
-    var h = d, m, m2, aa, del;
-    for (m = 1; m <= MAXIT; m++) {
-      m2 = 2 * m;
-      aa = m * (b - m) * x / ((qam + m2) * (a + m2));
-      d = 1 + aa * d; if (Math.abs(d) < TINY) d = TINY;
-      c = 1 + aa / c; if (Math.abs(c) < TINY) c = TINY;
-      d = 1 / d; h *= d * c;
-      aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
-      d = 1 + aa * d; if (Math.abs(d) < TINY) d = TINY;
-      c = 1 + aa / c; if (Math.abs(c) < TINY) c = TINY;
-      d = 1 / d; del = d * c; h *= del;
-      if (Math.abs(del - 1) < EPS) break;
-    }
-    return h;
-  }
-
-  /* Inverse by bisection — slower than Newton, but it cannot diverge, and at
-     the sizes involved here (a handful of calls per render) it costs nothing. */
-  function betaQuantile(p, a, b) {
-    if (p <= 0) return 0;
-    if (p >= 1) return 1;
-    var lo = 0, hi = 1, mid, i;
-    for (i = 0; i < 80; i++) {
-      mid = (lo + hi) / 2;
-      if (regIncBeta(mid, a, b) < p) lo = mid; else hi = mid;
-    }
-    return (lo + hi) / 2;
-  }
-
-  /* Empirical-Bayes prior over a set of {x, n} rate observations, by method of
-     moments on the pooled mean and between-player spread. Falls back to a weak
-     Jeffreys prior when the pool is too small or shows no real spread. */
-  function fitBetaPrior(obs) {
-    var use = obs.filter(function (o) { return o.n > 0; });
-    if (use.length < 4) return { alpha: 0.5, beta: 0.5, pooled: pooledRate(use), fitted: false };
-    var mean = pooledRate(use), i, w = 0, ss = 0, pi;
-    for (i = 0; i < use.length; i++) {
-      pi = use[i].x / use[i].n;
-      ss += use[i].n * (pi - mean) * (pi - mean);
-      w += use[i].n;
-    }
-    var vb = w > 0 ? ss / w : 0;                  /* observed spread */
-    var within = mean * (1 - mean);
-    var nbar = w / use.length;
-    var tau2 = vb - within / Math.max(nbar, 1);    /* strip sampling noise */
-    if (!(tau2 > 1e-6) || !(within > 1e-9)) {
-      return { alpha: 0.5, beta: 0.5, pooled: mean, fitted: false };
-    }
-    var k = within / tau2 - 1;                     /* prior sample size */
-    if (!(k > 0.5)) return { alpha: 0.5, beta: 0.5, pooled: mean, fitted: false };
-    if (k > 400) k = 400;
-    return { alpha: mean * k, beta: (1 - mean) * k, pooled: mean, fitted: true };
-  }
-
-  function pooledRate(obs) {
-    var x = 0, n = 0;
-    for (var i = 0; i < obs.length; i++) { x += obs[i].x; n += obs[i].n; }
-    return n > 0 ? x / n : 0;
-  }
-
-  /* Posterior mean + 95% credible interval for one rate under a fitted prior. */
-  function shrunkRate(x, n, prior) {
-    var a = x + prior.alpha, b = (n - x) + prior.beta;
-    if (n <= 0) return { mean: prior.pooled, lo: 0, hi: 1, n: 0, raw: null, width: 1 };
-    var lo = betaQuantile(0.025, a, b), hi = betaQuantile(0.975, a, b);
-    return { mean: a / (a + b), lo: lo, hi: hi, n: n, raw: x / n, width: hi - lo };
-  }
-
-  /* ── opponent money ledger ───────────────────────────────── */
-
-  /* Per-session results for one opponent, shrunk toward the pool's mean
-     session result. Without hours for them, the unit is one session, not one
-     hour; the caller must not present it as an hourly rate. */
-  function playerLedger(entries, allEntries, settings) {
-    var mine = entries.map(function (e) { return toBase(num(e.net), e.currency, settings); });
-    var n = mine.length, total = sum(mine);
-    var out = {
-      n: n, total: round(total, 2), mean: n ? total / n : 0,
-      best: n ? Math.max.apply(null, mine) : 0,
-      worst: n ? Math.min.apply(null, mine) : 0,
-      wins: mine.filter(function (v) { return v > 0; }).length,
-      shrunk: null, lo: null, hi: null
-    };
-    if (!n) return out;
-
-    /* Pool: mean session result and within-player variance across everyone. */
-    var byPlayer = {}, i, e, v;
-    for (i = 0; i < allEntries.length; i++) {
-      e = allEntries[i];
-      v = toBase(num(e.net), e.currency, settings);
-      (byPlayer[e.playerId] || (byPlayer[e.playerId] = [])).push(v);
-    }
-    var ids = Object.keys(byPlayer), means = [], within = 0, wn = 0;
-    for (i = 0; i < ids.length; i++) {
-      var arr = byPlayer[ids[i]], m = sum(arr) / arr.length;
-      means.push({ m: m, n: arr.length });
-      for (var j = 0; j < arr.length; j++) { within += (arr[j] - m) * (arr[j] - m); wn++; }
-    }
-    var poolMean = 0, tw = 0;
-    for (i = 0; i < means.length; i++) { poolMean += means[i].m * means[i].n; tw += means[i].n; }
-    poolMean = tw ? poolMean / tw : 0;
-    var s2 = wn > ids.length ? within / (wn - ids.length) : 0;   /* within-player variance */
-    var between = 0;
-    for (i = 0; i < means.length; i++) between += (means[i].m - poolMean) * (means[i].m - poolMean);
-    var tau2 = means.length > 1 ? Math.max(0, between / (means.length - 1) - s2 / (tw / means.length)) : 0;
-
-    out.poolMean = poolMean;
-    if (s2 > 0 && tau2 > 0) {
-      var wgt = tau2 / (tau2 + s2 / n);
-      out.shrunk = poolMean + wgt * (out.mean - poolMean);
-      out.weight = wgt;
-    } else {
-      out.shrunk = poolMean;                 /* no measurable spread: everyone is average */
-      out.weight = 0;
-    }
-    var se = s2 > 0 ? Math.sqrt(s2 / n) : 0;
-    out.lo = out.mean - Z95 * se;
-    out.hi = out.mean + Z95 * se;
-    out.se = se;
-    out.separated = s2 > 0 && (out.lo > poolMean || out.hi < poolMean);
-    return out;
-  }
-
-  /* ── CSV ─────────────────────────────────────────────────── */
-
-  var CSV_COLS = ['id', 'date', 'startTime', 'variant', 'stakes', 'currency', 'location', 'buyIn',
-    'cashOut', 'expenses', 'rake', 'hours', 'gameRating', 'notes', 'villains', 'liveNotes', 'source'];
-
-  function csvCell(v) {
-    var s = v == null ? '' : String(v);
-    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-  }
-
-  function flattenNotes(list) {
-    return (list || []).map(function (n) {
-      return [n.t, n.cat, (n.who || '').replace(/[|;]/g, ' '), (n.text || '').replace(/[|;]/g, ' ')].join('|');
-    }).join(' ;; ');
-  }
-
-  function unflattenNotes(s) {
-    if (!s) return [];
-    return String(s).split(';;').map(function (chunk) {
-      var p = chunk.trim().split('|');
-      return { t: num(p[0]), cat: p[1] || 'Note', who: p[2] || '', text: p[3] || '' };
-    }).filter(function (n) { return n.text || n.who; });
-  }
-
-  function toCSV(sessions, nameOf) {
-    nameOf = nameOf || function (id) { return id; };
-    var lines = [CSV_COLS.join(',')];
-    sessions.slice().sort(byDate).forEach(function (s) {
-      lines.push(CSV_COLS.map(function (c) {
-        if (c === 'liveNotes') return csvCell(flattenNotes(s.liveNotes));
-        if (c === 'villains') return csvCell((s.villains || []).map(nameOf).join('; '));
-        return csvCell(s[c]);
-      }).join(','));
-    });
-    return lines.join('\r\n');
-  }
-
-  /* Tolerant CSV reader — handles quoted fields, embedded commas and CRLF. */
-  function parseCSV(text) {
-    var rows = [], row = [], cur = '', i = 0, q = false, ch;
-    text = String(text || '').replace(/^﻿/, '');
-    while (i < text.length) {
-      ch = text[i];
-      if (q) {
-        if (ch === '"') {
-          if (text[i + 1] === '"') { cur += '"'; i += 2; continue; }
-          q = false; i++; continue;
-        }
-        cur += ch; i++; continue;
-      }
-      if (ch === '"') { q = true; i++; continue; }
-      if (ch === ',') { row.push(cur); cur = ''; i++; continue; }
-      if (ch === '\r') { i++; continue; }
-      if (ch === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; i++; continue; }
-      cur += ch; i++;
-    }
-    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
-    return rows.filter(function (r) { return r.length > 1 || (r[0] || '').trim() !== ''; });
-  }
-
-  function fromCSV(text) {
-    var rows = parseCSV(text);
-    if (!rows.length) return { sessions: [], errors: ['The file is empty.'] };
-    var head = rows[0].map(function (h) { return h.trim(); });
-    var errors = [];
-    if (head.indexOf('date') < 0) return { sessions: [], errors: ['No "date" column — this is not a sessions export.'] };
-    var out = [];
-    for (var i = 1; i < rows.length; i++) {
-      var r = rows[i], o = {}, j;
-      for (j = 0; j < head.length; j++) o[head[j]] = r[j] == null ? '' : r[j].trim();
-      if (!o.date) continue;
-      var s = {
-        date: normDate(o.date),
-        startTime: normTime(o.startTime),
-        variant: o.variant || 'NLHE',
-        stakes: o.stakes || '',
-        currency: o.currency || 'HKD',
-        location: o.location || '',
-        buyIn: num(o.buyIn), cashOut: num(o.cashOut),
-        expenses: num(o.expenses), rake: num(o.rake), hours: num(o.hours),
-        gameRating: o.gameRating || '',
-        notes: o.notes || '',
-        liveNotes: unflattenNotes(o.liveNotes),
-        villainNames: (o.villains || '').split(';').map(function (x) { return x.trim(); }).filter(Boolean),
-        source: o.source || 'import:csv'
-      };
-      if (!s.date) { errors.push('Row ' + (i + 1) + ': could not read the date "' + o.date + '".'); continue; }
-      out.push(s);
-    }
-    return { sessions: out, errors: errors };
-  }
-
   /* ── dates ───────────────────────────────────────────────── */
-
-  var MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-  /* Deliberately liberal: the historical backlog came in as "28 2 2026" and
-     "5 Juen". Anything that resolves to a real day is accepted; anything that
-     does not returns null so the caller can show the row and ask. */
-  function normDate(raw, fallbackYear) {
-    if (!raw) return null;
-    var s = String(raw).trim().toLowerCase().replace(/(\d)(st|nd|rd|th)\b/g, '$1');
-    var m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-    if (m) return iso(+m[1], +m[2], +m[3]);
-
-    m = s.match(/^(\d{1,2})\s*[/.\-\s]\s*(\d{1,2})\s*[/.\-\s]\s*(\d{2,4})$/);
-    if (m) {
-      var y = +m[3]; if (y < 100) y += y < 70 ? 2000 : 1900;
-      return iso(y, +m[2], +m[1]);                    /* DD/MM/YYYY — never US order */
-    }
-    m = s.match(/^(\d{1,2})\s*[/.\-\s]\s*(\d{1,2})$/);
-    if (m) return iso(fallbackYear || new Date().getFullYear(), +m[2], +m[1]);
-
-    /* "5 Juen", "5 june 2026", "june 5" — month by 3-letter prefix, typo-safe. */
-    var mon = null, monIdx = -1;
-    var words = s.split(/[^a-z0-9]+/).filter(Boolean);
-    for (var i = 0; i < words.length; i++) {
-      var w = words[i];
-      if (/^\d+$/.test(w)) continue;
-      var k = monthIndex(w);
-      if (k >= 0) { mon = k; monIdx = i; break; }
-    }
-    if (mon != null) {
-      var nums = words.filter(function (w) { return /^\d+$/.test(w); }).map(Number);
-      var day = null, year = null;
-      for (var j = 0; j < nums.length; j++) {
-        if (nums[j] > 31) year = nums[j];
-        else if (day == null) day = nums[j];
-      }
-      if (day) return iso(year || fallbackYear || new Date().getFullYear(), mon + 1, day);
-    }
-    /* ISO datetimes only. A general `new Date(x)` fallback is deliberately not
-       here — it happily turns "Marcus -3000" into a date. */
-    m = s.match(/^(\d{4})-(\d{2})-(\d{2})t/);
-    if (m) return iso(+m[1], +m[2], +m[3]);
-    return null;
-  }
-
-  /* Pull the first date-looking fragment out of a longer line. */
-  function findDate(line, fallbackYear) {
-    var s = String(line || '');
-    var pats = [
-      /\b(\d{4}-\d{1,2}-\d{1,2})\b/,
-      /\b(\d{1,2}\s*[/.\-]\s*\d{1,2}\s*[/.\-]\s*\d{2,4})\b/,
-      /\b(\d{1,2}\s+[a-z]{3,9}\s+\d{4})\b/i,
-      /\b(\d{1,2}\s+[a-z]{3,9})\b/i,
-      /\b([a-z]{3,9}\s+\d{1,2})\b/i,
-      /\b(\d{1,2}\s*[/.\-]\s*\d{1,2})\b/
-    ];
-    for (var i = 0; i < pats.length; i++) {
-      var m = s.match(pats[i]);
-      if (m) {
-        var d = normDate(m[1], fallbackYear);
-        if (d) return d;
-      }
-    }
-    return null;
-  }
-
-  function monthIndex(w) {
-    var i;
-    for (i = 0; i < 12; i++) if (w.slice(0, 3) === MONTHS[i]) return i;
-    /* one-transposition tolerance: "juen" -> "june", "arpil" -> "april" */
-    var full = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
-      'august', 'september', 'october', 'november', 'december'];
-    for (i = 0; i < 12; i++) {
-      if (w.length >= 3 && sortedLetters(w.slice(0, 4)) === sortedLetters(full[i].slice(0, 4))) return i;
-    }
-    return -1;
-  }
-  function sortedLetters(s) { return s.split('').sort().join(''); }
-
-  function iso(y, m, d) {
-    if (!(m >= 1 && m <= 12) || !(d >= 1 && d <= 31)) return null;
-    var dt = new Date(Date.UTC(y, m - 1, d));
-    if (dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
-    return y + '-' + pad2(m) + '-' + pad2(d);
-  }
-  function pad2(n) { return (n < 10 ? '0' : '') + n; }
-
-  /* "21:30" · "9pm" · "2130" -> "21:30", anything else -> ''. */
-  function normTime(raw) {
-    if (!raw) return '';
-    var s = String(raw).trim().toLowerCase();
-    var m = s.match(/^(\d{1,2})[:.]?(\d{2})?\s*(am|pm)?$/);
-    if (!m) return '';
-    var h = +m[1], mi = m[2] ? +m[2] : 0;
-    if (m[3] === 'pm' && h < 12) h += 12;
-    if (m[3] === 'am' && h === 12) h = 0;
-    if (!(h >= 0 && h < 24) || !(mi >= 0 && mi < 60)) return '';
-    return pad2(h) + ':' + pad2(mi);
-  }
-  function startHour(s) {
-    var t = normTime(s.startTime);
-    return t ? parseInt(t.slice(0, 2), 10) : null;
-  }
-
-  /* Afternoon / Evening / Late / Overnight — the buckets a shift schedule
-     actually produces, not clock hours. */
-  var SLOTS = [
-    ['Afternoon', 12, 18], ['Evening', 18, 21], ['Late', 21, 24], ['Overnight', 0, 12]
-  ];
-  function slotOf(hour) {
-    if (hour == null) return null;
-    for (var i = 0; i < SLOTS.length; i++) {
-      if (hour >= SLOTS[i][1] && hour < SLOTS[i][2]) return i;
-    }
-    return null;
-  }
 
   function fmtDate(isoStr) {
     var p = String(isoStr || '').split('-');
     return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : (isoStr || '');
   }
 
-  /* ── period filters ──────────────────────────────────────── */
-
-  function periodStart(period, today) {
-    var d = today ? new Date(today + 'T00:00:00Z') : new Date();
-    var y = d.getUTCFullYear(), m = d.getUTCMonth(), day = d.getUTCDate();
-    if (period === '30d') return shift(y, m, day, -30);
-    if (period === '90d') return shift(y, m, day, -90);
-    if (period === '12mo') return iso(y - 1, m + 1, day) || iso(y - 1, m + 1, 28);
-    if (period === 'ytd') return iso(y, 1, 1);
-    return null;
-  }
-  function shift(y, m, day, days) {
-    var d = new Date(Date.UTC(y, m, day + days));
-    return iso(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate());
-  }
-
   var API = {
-    num: num, round: round, bigBlind: bigBlind, stakeKey: stakeKey,
-    DEFAULT_RATES: DEFAULT_RATES, toBase: toBase,
-    fmtMoney: fmtMoney, fmtSigned: fmtSigned, fmtNum: fmtNum, fmtPct: fmtPct,
-    netOf: netOf, netBase: netBase, netBB: netBB, complete: complete,
-    winRate: winRate, kpis: kpis, bankrollSeries: bankrollSeries, byDate: byDate,
-    groupBy: groupBy, lengthBucket: lengthBucket, dayOfWeek: dayOfWeek, DOW: DOW,
-    tableComposition: tableComposition,
-    simulate: simulate, luckPercentile: luckPercentile,
-    regIncBeta: regIncBeta, betaQuantile: betaQuantile, fitBetaPrior: fitBetaPrior,
-    shrunkRate: shrunkRate, playerLedger: playerLedger,
-    toCSV: toCSV, fromCSV: fromCSV, normDate: normDate, findDate: findDate, iso: iso, fmtDate: fmtDate, periodStart: periodStart,
-    normTime: normTime, startHour: startHour, SLOTS: SLOTS, slotOf: slotOf
+    num: num, round: round, bigBlind: bigBlind, toBase: toBase, fmtNum: fmtNum, fmtPct: fmtPct,
+    netOf: netOf, netBase: netBase, netBB: netBB, complete: complete, winRate: winRate, kpis: kpis,
+    bankrollSeries: bankrollSeries, byDate: byDate, groupBy: groupBy, fmtDate: fmtDate
   };
 
   root.PLStats = API;
@@ -8119,7 +7560,6 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
 
   var NOTE_CATS = ['Tell', 'Sizing', 'Villain', 'Dynamic', 'Hand', 'Note'];
   var UNDO_CAP = 80;
-  var DEALER_NAME = Settle.DEALER_NAME;
 
   function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
   function clone(v) { return v == null ? v : JSON.parse(JSON.stringify(v)); }
@@ -8750,7 +8190,7 @@ window.PHICONS = {"gear":"<path d=\"M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,
   }
 
   return {
-    NOTE_CATS: NOTE_CATS, UNDO_CAP: UNDO_CAP, DEALER_NAME: DEALER_NAME,
+    NOTE_CATS: NOTE_CATS, UNDO_CAP: UNDO_CAP,
     MIN_SEATS: MIN_SEATS, MAX_SEATS: MAX_SEATS, POSITIONS: POSITIONS,
     create: create, validName: validName, validAmount: validAmount,
     seatCount: seatCount, seated: seated, playerInSeat: playerInSeat,
@@ -10760,7 +10200,6 @@ window.MARK_PATHS = {
   'use strict';
 
   function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
-  function arr(v) { return Array.isArray(v) ? v : []; }
   function r2(n) { return Math.round(n * 100) / 100; }
 
   /**
@@ -10968,11 +10407,6 @@ window.MARK_PATHS = {
   function heroPlayer(h) {
     var seat = heroSeatOf(h);
     return (h.players || []).filter(function (x) { return x.seat === seat; })[0] || null;
-  }
-  function acts(h, seat, street) {
-    return (h.actions || []).filter(function (a) {
-      return a.seat === seat && (!street || a.street === street);
-    });
   }
 
   /**
@@ -11813,8 +11247,7 @@ window.MARK_PATHS = {
 (function () {
   'use strict';
 
-  var APP_VERSION = '1.3.2';
-  var STAGE = 'Rebuild · EDB 2.0.0';
+  var APP_VERSION = '1.3.3';
   var EDS_VERSION = '2.0.0';
 
   var Settle = window.PHSettle, Layers = window.PHLayers, Ident = window.PHIdentity;
@@ -11828,6 +11261,16 @@ window.MARK_PATHS = {
   var pending = null, pendingRaw = null, pendingConfirm = null;
   var toastTimer = null, tickTimer = null, Charts = null;
   var liveUndo = [];
+  /* Filing, importing, merging, replacing and undoing all snapshot first,
+     which is asynchronous. A second tap in that window used to run the
+     whole thing again — a night filed twice. One at a time. */
+  var BUSY = false;
+  function once(run) {
+    if (BUSY) return;
+    BUSY = true;
+    var free = function () { BUSY = false; };
+    try { run().then(free, free); } catch (e) { BUSY = false; throw e; }
+  }
   var tellCat = 'Tell';
 
   /* ── tiny DOM ──────────────────────────────────────────── */
@@ -11972,8 +11415,15 @@ window.MARK_PATHS = {
     if (liveUndo.length > Live.UNDO_CAP) liveUndo.shift();
     var r = fn(live());
     if (r && r.error) { liveUndo.pop(); toast(r.error, 'err'); return r; }
-    store.saveLive();
+    var saved = store.saveLive();
     render();
+    /* The table screen carries no banners, so a save the browser refused
+       is said here — otherwise the night lives in memory only and is gone
+       when the app closes. Deferred, so it lands after the caller's own
+       "topped up" and is the message left showing. */
+    if (!saved) setTimeout(function () {
+      toast('Not saved — this browser has no storage left. Back up from the gear menu now.', 'err');
+    }, 0);
     return r;
   }
   function liveUndoStep() {
@@ -11987,7 +11437,6 @@ window.MARK_PATHS = {
     var L = live();
     if (!L) {
       var last = sortedSessions()[0];
-      var m0 = store.db.meta || {};
       return page(banners() +
         '<div class="empty"><span class="tag">No night running</span>' +
         '<h3>Start one when the first buy-in lands</h3>' +
@@ -11997,8 +11446,7 @@ window.MARK_PATHS = {
         '<button class="btn btn-ghost" data-act="log-night">Log a past night</button></div></div>' +
         (last
           ? '<div class="section"><h2>Last night</h2><div class="rowlist">' + sessionRow(last) + '</div></div>'
-          : '') +
-        (m0.lastBackupAt ? '' : ''));
+          : ''));
     }
 
     var t = Live.totals(L);
@@ -12058,7 +11506,7 @@ window.MARK_PATHS = {
         : '<span class="st off">' + esc(Settle.plain(Math.abs(t.net))) + ' ' + esc(offBy(t.net)) + '</span>';
       cls = t.net === 0 ? ' tb-ok' : ' tb-off';
     }
-    return '<div class="tsum tbanner" id="tsum">' +
+    return '<div class="tbanner" id="tsum">' +
       '<div class="tb"><span class="n">' + esc(Settle.plain(t.buyins)) + '</span><span class="l">Total in</span></div>' +
       '<div class="tb' + cls + '"><span class="n">' + esc(Settle.plain(out)) + '</span><span class="l">Total out' + st + '</span></div></div>';
   }
@@ -12307,7 +11755,6 @@ window.MARK_PATHS = {
       L.tableSize + '-handed</button>' +
       '</div>';
   }
-
 
   /**
    * A night left running is the normal accident — the app was closed
@@ -12797,9 +12244,6 @@ window.MARK_PATHS = {
      both, and everything after that is the same recorder.
      ══════════════════════════════════════════════════════════ */
 
-  /** The recorder's state when no night is running lives in the store. */
-  function recallRec() { return store.db.meta && store.db.meta.recall; }
-
   function saveRecall() { store.saveMeta(); }
 
   function pickNightForm() {
@@ -12955,13 +12399,6 @@ window.MARK_PATHS = {
         (hd.heroInHand ? est(hd.heroNet) : 'one you watched') + '.', 'ok');
     }).catch(function (err) { toast(err.message, 'err'); });
   }
-
-  function viewRecord() {
-    var r = rec();
-    if (!r) return '<main class="main"><div class="empty"><h3>No hand in progress</h3></div></main>';
-    return '<main class="main">' + (r.stage === 'play' ? recPlay(r) : recSetup(r)) + '</main>';
-  }
-
 
   /* ══════════════════════════════════════════════════════════
      LOG A PAST NIGHT
@@ -13549,20 +12986,17 @@ window.MARK_PATHS = {
   function refreshAddPlayer() {
     var inp = $('ap-name');
     if (!inp) return;
-    /* Two callers, one form: seating somebody at a live table, and adding
-       somebody to a hand being remembered. The roster differs; the
-       identity step does not. */
-    var seatBtn = document.querySelector('[data-act="do-add-seat"]');
-    var roster = seatBtn ? { players: rec().hand.seats } : live();
-    if (!roster) return;
-    var opts = seatBtn ? { prefer: window._recallPrefer } : {};
+    /* One caller now: adding somebody to a hand being recorded (a live
+       table seats people from the row on the table itself). */
+    var seatBtn = document.querySelector('[data-act="do-add-seat"]'), r0 = rec();
+    if (!seatBtn || !r0) return;
+    var roster = { players: r0.hand.seats };
     var res = apResolve(roster, inp.value);
-    var near = suggestions(roster, inp.value, opts);
+    var near = suggestions(roster, inp.value, { prefer: window._recallPrefer });
     var sug = $('ap-sug'), mat = $('ap-match');
     if (sug) sug.innerHTML = apChipsHTML(near);
     if (mat) mat.innerHTML = apMatchHTML(res, near);
-    var btn = seatBtn || document.querySelector('[data-act="do-add-player"]');
-    if (btn) btn.textContent = res.state === 'new' ? 'Add as a new person' : 'Add';
+    seatBtn.textContent = res.state === 'new' ? 'Add as a new person' : 'Add';
   }
 
   function settleBody(L) {
@@ -14538,59 +13972,6 @@ window.MARK_PATHS = {
     return h + '<p class="dmeta">By ' + esc(whoWrote(cur)) + ' · ' + esc(fmtDate(cur.asOf)) + '</p></div>';
   }
 
-  /**
-   * Writing or revising a read by hand. Whatever is saved becomes a new
-   * dated revision signed "you"; the one it replaces goes into history.
-   */
-  var READ_EDIT = null;
-  function readForm(p) {
-    var cur = Profile.current(p) || Profile.clean({});
-    var h = '<div class="field"><label>Type</label><div class="chips" id="rd-type">' +
-      Profile.TYPES.map(function (t) {
-        return '<button class="chipbtn' + (cur.type === t.key ? ' on' : '') + '" data-act="rd-type" data-v="' +
-          t.key + '" aria-pressed="' + (cur.type === t.key) + '">' + esc(t.label) + '</button>';
-      }).join('') +
-      '<button class="chipbtn' + (!cur.type ? ' on' : '') + '" data-act="rd-type" data-v="" aria-pressed="' +
-      (!cur.type) + '">Not typed</button></div>' +
-      '<span class="hint">From your framework. Leave it untyped while the evidence is thin — ' +
-      'typing off three hands is the first failure mode on the list.</span></div>';
-    function area(id, label, v, hint, rows) {
-      return '<div class="field"><label for="' + id + '">' + label + '</label>' +
-        '<textarea class="textarea" id="' + id + '" rows="' + (rows || 2) + '">' + esc(v || '') + '</textarea>' +
-        (hint ? '<span class="hint">' + hint + '</span>' : '') + '</div>';
-    }
-    function pick(id, label, v) {
-      return '<div class="field"><label for="' + id + '">' + label + '</label><select class="select" id="' + id + '">' +
-        Profile.AXIS.map(function (a) {
-          return '<option value="' + a + '"' + (v === a ? ' selected' : '') + '>' +
-            esc(Profile.AXIS_LABEL[a]) + '</option>';
-        }).join('') + '</select></div>';
-    }
-    h += '<div class="field"><label for="rd-q">Summary</label><input class="input" id="rd-q" value="' +
-      esc(cur.qualifier || '') + '" placeholder="One line — what they are"></div>' +
-      area('rd-entry', 'Entry', cur.entry, 'How they get into pots.', 4) +
-      area('rd-post', 'After the flop', cur.postflop, 'What they do once it is dealt.', 4) +
-      area('rd-x', 'Exploit', cur.exploit, 'One specific thing that makes money against them.', 3) +
-      '<div class="fgrid">' + pick('rd-ac', 'Attacks a check', cur.attacksCheck) +
-      pick('rd-fr', 'Folds to a raise', cur.foldsToRaise) + '</div>' +
-      area('rd-tells', 'Tells', (cur.tells || []).join('\n'), 'Physical reads, one a line, dated — they decay.', 2) +
-      '<div class="field"><label for="rd-ch">What moved</label><input class="input" id="rd-ch" value="" ' +
-      'placeholder="Optional — why this replaces the last one"></div>';
-    return h;
-  }
-
-  function readFromForm() {
-    var v = function (id) { var el = $(id); return el ? el.value : ''; };
-    var on = document.querySelector('#rd-type .chipbtn.on');
-    return {
-      type: on ? on.getAttribute('data-v') : '',
-      qualifier: v('rd-q'), entry: v('rd-entry'), postflop: v('rd-post'), exploit: v('rd-x'),
-      attacksCheck: v('rd-ac'), foldsToRaise: v('rd-fr'),
-      tells: v('rd-tells').split('\n').map(function (x) { return x.trim(); }).filter(Boolean),
-      changes: v('rd-ch')
-    };
-  }
-
   function aliasesOf(p) {
     if (!p || !p.aliases) return '';
     var a = p.aliases.filter(function (x) {
@@ -15072,7 +14453,6 @@ window.MARK_PATHS = {
     ['live', 'Tonight', 'spade'], ['nights', 'Nights', 'calendar-blank'],
     ['players', 'Players', 'users'], ['home', 'Me', 'user']
   ];
-  var TABS = NAV;
   var PARENT = { session: 'nights', player: 'players', hand: 'hands', hands: 'home', data: 'home', record: 'live' };
   var TITLES = {
     live: 'Tonight', home: 'Me', nights: 'Nights', session: 'Night',
@@ -15528,7 +14908,7 @@ window.MARK_PATHS = {
   function doSettle() {
     var L = live();
     var liveId = L ? L.id : null;
-    Imp.commit(store, pending).then(function (rep) {
+    once(function () { return Imp.commit(store, pending).then(function (rep) {
       /* Hands recorded tonight have been waiting for the night to have an
          id. A hand belongs to the night it was played in — that is what
          makes it deletable with it and countable against it. */
@@ -15554,7 +14934,7 @@ window.MARK_PATHS = {
       openModal('Night filed', '<p>' + esc(filedLine) + '</p>' +
         '<p class="hint" style="margin-top:8px">Everything is on this phone only.</p>',
         [{ label: 'Later', act: 'close' }, { label: 'Back up now', act: 'backup', primary: true }]);
-    }).catch(function (err) { toast(err.message, 'err'); });
+    }).catch(function (err) { toast(err.message, 'err'); }); });
   }
 
   /* ── events ────────────────────────────────────────────── */
@@ -15618,12 +14998,6 @@ window.MARK_PATHS = {
        fire the chip *and* the primary action behind it. */
     if (t.tagName === 'BUTTON' || t.tagName === 'A' || t.tagName === 'SELECT') return;
 
-    /* Name first, amount second: Enter on a name with no buy-in yet moves
-       along rather than submitting a form it knows is incomplete. */
-    if (t.id === 'ap-name') {
-      var amt = $('ap-amount');
-      if (amt && !String(amt.value).trim()) { e.preventDefault(); amt.focus(); return; }
-    }
     /* The seat row: the same name-then-amount order, then seat. */
     if (t.id === 'seat-name') {
       e.preventDefault();
@@ -15693,8 +15067,6 @@ window.MARK_PATHS = {
     if (fill) {
       $('ap-name').value = fill.getAttribute('data-fill-name');
       refreshAddPlayer();
-      var amtEl = $('ap-amount');
-      if (amtEl) { amtEl.focus(); amtEl.select(); }
       return;
     }
 
@@ -15763,7 +15135,6 @@ window.MARK_PATHS = {
     if (act === 'rec-close') {
       VIEW = { name: 'live', id: null, filter: null, sub: 'table' }; render(); return;
     }
-
 
     /* ── a past night ── */
     if (act === 'log-night') {
@@ -16066,7 +15437,7 @@ window.MARK_PATHS = {
       if (rec()) {
         confirmDestroy({
           title: 'Start a new hand?',
-          body: recTitle() + ' is half recorded. Starting another drops it.',
+          body: esc(recTitle()) + ' is half recorded. Starting another drops it.',
           list: [], undoable: false, action: 'Drop it and start',
           run: function () { clearRec(); startRecording(); return ''; }
         });
@@ -16081,7 +15452,7 @@ window.MARK_PATHS = {
       if (rec()) {
         confirmDestroy({
           title: 'Start a new hand?',
-          body: recTitle() + ' is half recorded. Starting another drops it.',
+          body: esc(recTitle()) + ' is half recorded. Starting another drops it.',
           list: [], undoable: false, action: 'Drop it and start',
           run: function () { clearRec(); openModal('Which night?', pickNightForm(), []); return ''; }
         });
@@ -16371,47 +15742,7 @@ window.MARK_PATHS = {
       });
       return;
     }
-    /* ── the read ─────────────────────────────────────────── */
-    if (act === 'edit-read') {
-      var rp = store.playerById(id);
-      if (!rp) return;
-      READ_EDIT = rp.id;
-      openModal((Profile.current(rp) ? 'Revise the read on ' : 'A read on ') + rp.name, readForm(rp),
-        [{ label: 'Cancel', act: 'close' }, { label: 'Save the read', act: 'save-read', primary: true }]);
-      return;
-    }
-    if (act === 'rd-type') {
-      /* Toggled in place. Re-rendering the sheet would throw away every
-         word typed into it — the same mistake the straddle toggle made. */
-      Array.prototype.forEach.call(document.querySelectorAll('#rd-type .chipbtn'), function (b) {
-        var on = b === el;
-        b.classList.toggle('on', on);
-        b.setAttribute('aria-pressed', String(on));
-      });
-      return;
-    }
-    if (act === 'save-read') {
-      var sp2 = READ_EDIT && store.playerById(READ_EDIT);
-      if (!sp2) { closeModal(); return; }
-      var res2 = Profile.revise(sp2, readFromForm(), { asOf: todayISO(), by: 'you', now: now() });
-      if (res2.error) { toast(res2.error, 'err'); return; }
-      if (res2.unchanged) { closeModal(); toast('That is the read already — nothing changed.', 'ok'); return; }
-      store.savePlayers();
-      READ_EDIT = null;
-      closeModal(); render();
-      toast(res2.first ? 'Read saved.' : 'Read revised — the last one is in their history.', 'ok');
-      return;
-    }
-    if (act === 'peek-read') {
-      var pk = store.playerById(id);
-      if (!pk) return;
-      /* Table mode keeps him on the table, so the way out is not offered
-         rather than offered and refused. */
-      openModal(pk.name, peekRead(pk) + (locked() ? '' :
-        '<div class="dact"><button class="btn btn-ghost" data-act="go" data-to="player" data-id="' +
-        esc(pk.id) + '">Everything on ' + esc(pk.name) + ' ' + icon('caret-right', 14) + '</button></div>'), []);
-      return;
-    }
+    /* ── out to the coach ─────────────────────────────────── */
     if (act === 'export-coach') {
       var hs = store.hands.filter(function (x) { return !x.sentToCoachAt; });
       var dz2 = Profile.exportFor(store, { now: now() });
@@ -16429,13 +15760,6 @@ window.MARK_PATHS = {
             ' sent — import what the coach writes back.', 'ok');
         });
       });
-      return;
-    }
-    if (act === 'export-dossier') {
-      var dz = Profile.exportFor(store, { now: now() });
-      if (!dz.players.length) { toast('Nobody has been observed yet — there is nothing to send.', 'err'); return; }
-      download(JSON.stringify(dz, null, 2), 'poker-hub-reads-' + todayISO() + '.json');
-      toast(plural(dz.players.length, 'person') + ' sent — import what the coach writes back.', 'ok');
       return;
     }
 
@@ -16559,11 +15883,11 @@ window.MARK_PATHS = {
     if (act === 'pick-import') return $('file-import').click();
     if (act === 'pick-restore') return $('file-restore').click();
     if (act === 'do-import') {
-      Imp.commit(store, pending).then(function (r5) {
+      once(function () { return Imp.commit(store, pending).then(function (r5) {
         closeModal(); pending = null; pendingRaw = null;
         render();
         toast('Imported. ' + describeReport(r5), 'ok');
-      }).catch(function (err) { toast(err.message, 'err'); });
+      }).catch(function (err) { toast(err.message, 'err'); }); });
       return;
     }
     if (act === 'backup') {
@@ -16578,25 +15902,25 @@ window.MARK_PATHS = {
       return;
     }
     if (act === 'do-merge') {
-      Backup.applyMerge(store, window._restorePayload).then(function (r6) {
+      once(function () { return Backup.applyMerge(store, window._restorePayload).then(function (r6) {
         closeModal(); render();
         toast(r6.added + ' added, ' + r6.updated + ' updated, ' + r6.kept + ' left alone.', 'ok');
-      }).catch(function (err) { toast(err.message, 'err'); });
+      }).catch(function (err) { toast(err.message, 'err'); }); });
       return;
     }
     if (act === 'do-replace') {
-      Backup.applyReplace(store, window._restorePayload).then(function () {
+      once(function () { return Backup.applyReplace(store, window._restorePayload).then(function () {
         closeModal(); render();
         toast('Replaced. Undo is available if that was wrong.', 'ok');
-      }).catch(function (err) { toast(err.message, 'err'); });
+      }).catch(function (err) { toast(err.message, 'err'); }); });
       return;
     }
     if (act === 'undo') {
-      store.undo().then(function (s2) {
+      once(function () { return store.undo().then(function (s2) {
         render();
         toast(s2 ? 'Undone — back to before “' + (s2.label || 'that') + '”.' : 'Nothing to undo.',
           s2 ? 'ok' : 'err');
-      });
+      }).catch(function (err) { toast(err.message, 'err'); }); });
       return;
     }
   }
@@ -16663,6 +15987,11 @@ window.MARK_PATHS = {
     setTheme(themeMode());
     fitSafeArea();
     Charts = window.PHCharts.create({ stats: Stats, esc: esc, money: money });
+    /* Everything lives on this device, so ask the browser not to clear it
+       when space runs short. No prompt on iOS; a no-op where unsupported. */
+    try {
+      if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () { });
+    } catch (e) { }
     store.load().then(function () {
       if (store.db.live) VIEW = { name: 'live', id: null, filter: null, sub: 'table' };
       render();

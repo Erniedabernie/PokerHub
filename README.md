@@ -1,4 +1,57 @@
-# Poker Hub — v1.3.2 · one column, bigger totals
+# Poker Hub — v1.3.3 · the code review
+
+### What changed in v1.3.3 (11/11/2026, evening)
+
+A read-through of the whole source: coverage of all 690 browser assertions,
+a reachability pass over every module, and 4,500 random taps across the app.
+
+**Fixed**
+
+- **A night could be filed twice.** The snapshot taken before filing is
+  asynchronous, so a second tap on *File it* in that window applied the same
+  plan again (two nights, extra ledger rows). A plan is now applied once,
+  and filing, importing, merging, replacing and undoing run one at a time.
+  The same hole in *Merge* (records added twice) is closed in the module.
+- **Replace could not always be undone.** The backup file's own undo state
+  overwrote the pointer to the snapshot just taken; if the file came from a
+  device that had undone something, *Undo* was not offered.
+- **A save the browser refuses is said at the table.** The table screen
+  shows no banners, so a failed save used to go unseen until another tab.
+- A typed hand name is escaped in the "half recorded" warning.
+- The app asks the browser to keep its storage (`navigator.storage.persist`).
+- Total in / Total out are 66 px (from 70) and the three buttons sit 2 px
+  higher: with eight seated and a dealer, the last row was 3 px under the
+  command bar — a test had been measuring a scrolled page.
+
+**Removed** (915 lines of source, 41 KB of the built file)
+
+- `stats.js` 727 → 221 lines: the ledger's simulator, beta maths, opponent
+  ledger, CSV and date parsing were never called by the hub.
+- The by-hand read form and its handlers (reads come from the coach), the
+  unused record view, the old add-player modal's leftovers, an event emitter
+  in the store nobody listened to, five unused helpers.
+- 36 of 70 icons that nothing draws; the 1.7.2 brand CSS backup.
+- Dead styles: the old header subline, the pre-banner totals strip, type
+  pills on rows, the red End button, the read form grid, no-op
+  `border-bottom: none` left from the lines pass. The banner's styles are
+  one block instead of three version layers.
+
+**Open — not changed, your call** (detail in the Project doc *Poker Hub —
+code review 11/11/2026*)
+
+1. No offline start: the app needs a connection to open (no service worker).
+2. Hours run until the night is filed, by design — a night filed the next
+   day carries the gap unless the clock was paused.
+3. The old Poker Ledger uses the same `pcg:` storage keys; on the same web
+   address in the same browser it would read and write the hub's data.
+4. Merge has no memory of deletions: a deleted night comes back from an
+   older backup.
+5. The table's undo is in memory and does not survive the app closing.
+6. `Layers.rateInputs` (the documented guard on rates) is tested but never
+   called by a screen; `Live.removeNote`, `Rec.setStack`, `Ev.compare` too.
+7. `fitSafeArea`'s correction is inert now the status bar is opaque; it can
+   go once the bottom bar is confirmed right on iOS 27.
+
 
 ### What changed in v1.3.2 (11/11/2026)
 
@@ -125,7 +178,7 @@
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.3.2): 2,255 assertions. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.3.3): 2,267 assertions, plus 3,000 random taps on the cleaned build with no error. v1.3.2: 2,255. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.
