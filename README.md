@@ -1,4 +1,15 @@
-# Poker Hub — v1.3.4 · opens without signal
+# Poker Hub — v1.3.5 · the icon keeps its blue
+
+### What changed in v1.3.5 (18/11/2026)
+
+- **The home-screen icon stays Prussian in iOS's Dark icon mode**, as the
+  Atlas does. The page used to inline the icon as a `data:` URI and point
+  it at the PNG by script; iOS then made its own icon, which Dark mode
+  draws on black. The PNG is now named in the HTML itself
+  (`./icons/apple-touch-icon.png?v=3`), and the manifest's background is
+  `#003366` like the Atlas's. Remove the icon and add it again to pick it
+  up — back up first.
+
 
 ### What changed in v1.3.4 (12/11/2026)
 
@@ -198,7 +209,7 @@ code review 11/11/2026*)
   (a one-minute made-up timeline) and counted in the rates. It now carries
   no hours and waits for them.
 
-Verification (v1.3.4): 2,301 assertions, including the new offline suite (`test_offline.mjs`, a local server that goes down, crawls and errors). v1.3.3: 2,267 assertions, plus 3,000 random taps on the cleaned build with no error. v1.3.2: 2,255. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
+Verification (v1.3.5): 2,354 assertions. v1.3.4: 2,301 assertions, including the new offline suite (`test_offline.mjs`, a local server that goes down, crawls and errors). v1.3.3: 2,267 assertions, plus 3,000 random taps on the cleaned build with no error. v1.3.2: 2,255. v1.3.1: 2,250, including browser §13. v1.3.0: 2,214 assertions, including the new `test_seats.mjs` and browser §12. v1.2.2: 2,142. v1.2.1: 2,137. v1.2.0: 2,134 assertions — a new `test_paste.mjs` (the Ledger's own
 fixtures, and the hub's Share message read back to the night that wrote
 it) and browser §11 (Share and the paste import end to end) — smoke walk
 in both themes, no errors, zero network requests.
