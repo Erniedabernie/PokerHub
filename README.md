@@ -1,4 +1,15 @@
-# Poker Hub — v1.3.6 · one icon, drawn like the Atlas
+# Poker Hub — v1.3.7 · the heart is back
+
+### What changed in v1.3.7 (18/11/2026)
+
+- **The home-screen icon is the carmine heart again**, scalpel-E in pale
+  ink, on the full-bleed Prussian tile — Ernest's choice once 1.3.6 showed
+  the blue holding. Wiring is unchanged from 1.3.6 (links in the page, PNGs
+  beside it, no query strings). 1.3.6 changed both the drawing and the
+  wiring, so this also tells which kept the blue: if the background goes
+  black again, the drawing was the cause and the playing card (1.3.6, in
+  git history) is the fallback.
+- Remove the icon and add it again to pick it up — back up first.
 
 ### What changed in v1.3.6 (18/11/2026)
 
@@ -395,7 +406,7 @@ downloads them as before.
 **Icon B1.** The carmine heart Ernest chose in August, with the scalpel-E
 now in ink `#edf3ff` instead of knocked out in Prussian — the one change
 that rescues it at 16 px (merge spec §15). Regenerated at every size.
-(Replaced by the playing card in 1.3.6.)
+(Replaced by the playing card in 1.3.6; back, on the new wiring, in 1.3.7.)
 
 **Two latent test bugs fixed.** `test_import.mjs` §9 and `test_browser.mjs`
 only passed in US Eastern time: the tracker fixture's first buy-in was
@@ -1195,9 +1206,9 @@ index.html              the app — build output, do not edit
 sw.js                   offline start, beside it
 manifest.webmanifest    beside it, relative paths
 apple-touch-icon.png    the home-screen icon (180), and icon-192/-512,
-icon-*.png              icon-maskable-512 for the manifest: a pale playing
-                        card, scalpel-E and carmine hearts, on full-bleed
-                        Prussian — rendered by make-icons.mjs
+icon-*.png              icon-maskable-512 for the manifest: carmine heart,
+                        pale scalpel-E, on full-bleed Prussian — rendered
+                        by make-icons.mjs
 src/icon.svg            the one drawing every icon comes from
 build.mjs               inlines everything, then fails on any outbound URL
 src/
