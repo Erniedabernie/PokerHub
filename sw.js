@@ -13,7 +13,9 @@
    It handles this app's own files and nothing else: other apps on the same
    address are outside its scope, and its cache has its own name. */
 
-var CACHE = 'poker-hub-offline-v1';
+/* v2: the icons moved from icons/ to beside the page (1.3.6); the new name
+   lets activate drop the old cache and the files it held. */
+var CACHE = 'poker-hub-offline-v2';
 var WAIT = 4000;
 var SCOPE = self.registration ? self.registration.scope : self.location.href.replace(/sw\.js.*$/, '');
 
@@ -22,13 +24,12 @@ var SCOPE = self.registration ? self.registration.scope : self.location.href.rep
 var SHELL = [
   './',
   './manifest.webmanifest',
-  './icons/apple-touch-icon.png',
-  './icons/icon-192.png',
-  './icons/favicon-32.png'
+  './apple-touch-icon.png',
+  './icon-192.png'
 ];
 
-/* One entry per file: a query string (the ?v=2 on the icons, a cache
-   buster on the page) is not a different file. */
+/* One entry per file: a query string (a cache buster on the page) is not
+   a different file. */
 function keyOf(url) { return url.origin + url.pathname; }
 
 function save(key, res) {

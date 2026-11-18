@@ -1,4 +1,26 @@
-# Poker Hub — v1.3.5 · the icon keeps its blue
+# Poker Hub — v1.3.6 · one icon, drawn like the Atlas
+
+### What changed in v1.3.6 (18/11/2026)
+
+- **A new home-screen icon: a playing card.** Pale card on a full-bleed
+  Prussian tile, the Prussian scalpel-E in the middle, a carmine heart in
+  two corners. The red heart on blue went black behind it in iOS's Dark
+  icon style even after 1.3.5; the Atlas — a large pale book on the same
+  blue — keeps its blue. The card follows the Atlas's layout. Apple does
+  not document how it picks the dark treatment, so this is the closest
+  match to an icon known to survive it, not a guarantee.
+- **Wired exactly as the Atlas is.** The touch icon and the manifest are
+  plain links in the page; the PNGs sit beside `index.html` with no
+  `icons/` folder and no `?v=` on any path.
+- **One drawing, one script.** `src/icon.svg` is the only source;
+  `make-icons.mjs` renders the four PNGs from it and `build.mjs` inlines
+  the same drawing on a rounded tile as the tab icon. Gone: the `icons/`
+  folder (four SVGs, five PNGs, `favicon-32.png` among them),
+  `raster-icons.mjs`, and the script that injected the manifest and the
+  32 px favicon.
+- The offline cache is renamed (`poker-hub-offline-v2`) so phones drop the
+  old one and the icon files it held.
+- Remove the icon and add it again to pick it up — back up first.
 
 ### What changed in v1.3.5 (18/11/2026)
 
@@ -7,8 +29,7 @@
   it at the PNG by script; iOS then made its own icon, which Dark mode
   draws on black. The PNG is now named in the HTML itself
   (`./icons/apple-touch-icon.png?v=3`), and the manifest's background is
-  `#003366` like the Atlas's. Remove the icon and add it again to pick it
-  up — back up first.
+  `#003366` like the Atlas's. It did not hold — see 1.3.6.
 
 
 ### What changed in v1.3.4 (12/11/2026)
@@ -27,7 +48,8 @@
   down; a pause set by hand is left alone. With everyone out the header
   drops "0 seated".
 - Hosted folder is now `index.html` + `sw.js` + `manifest.webmanifest` +
-  `icons/`. A downloaded `index.html` on its own works as before and makes
+  the icons (in `icons/` until 1.3.6, beside the page since). A
+  downloaded `index.html` on its own works as before and makes
   no network request.
 
 
@@ -372,8 +394,8 @@ downloads them as before.
 
 **Icon B1.** The carmine heart Ernest chose in August, with the scalpel-E
 now in ink `#edf3ff` instead of knocked out in Prussian — the one change
-that rescues it at 16 px (merge spec §15). Regenerated at every size;
-`raster-icons.mjs` does it from the SVGs.
+that rescues it at 16 px (merge spec §15). Regenerated at every size.
+(Replaced by the playing card in 1.3.6.)
 
 **Two latent test bugs fixed.** `test_import.mjs` §9 and `test_browser.mjs`
 only passed in US Eastern time: the tracker fixture's first buy-in was
@@ -400,7 +422,8 @@ Coach dashboard stays a separate, regenerated file.
 ### Install — GitHub Pages
 
 Repo **`Erniedabernie/PokerHub`**.
-Contents of `app/`: `index.html`, `manifest.webmanifest`, `icons/`.
+Contents of `app/`: `index.html`, `sw.js`, `manifest.webmanifest`,
+`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`.
 
 ```
 cd "Poker Hub\app"
@@ -1102,7 +1125,7 @@ statistics — VPIP, sizing tables, rebuy patterns (stage 4).
 
 ## Install it
 
-Put `index.html`, `manifest.webmanifest` and `icons/` in a repo, publish
+Put `index.html`, `sw.js`, `manifest.webmanifest` and the four PNGs in a repo, publish
 to GitHub Pages, open the page on your phone, **Share → Add to Home
 Screen**. Every path is relative and `start_url`/`scope` are `"."`, which
 is what makes it work on a project page rather than the domain root.
@@ -1169,8 +1192,13 @@ the session.
 
 ```
 index.html              the app — build output, do not edit
+sw.js                   offline start, beside it
 manifest.webmanifest    beside it, relative paths
-icons/                  carmine heart + scalpel E on the Prussian tile
+apple-touch-icon.png    the home-screen icon (180), and icon-192/-512,
+icon-*.png              icon-maskable-512 for the manifest: a pale playing
+                        card, scalpel-E and carmine hearts, on full-bleed
+                        Prussian — rendered by make-icons.mjs
+src/icon.svg            the one drawing every icon comes from
 build.mjs               inlines everything, then fails on any outbound URL
 src/
   settle.js             settlement solver, recovered from the tracker
@@ -1195,7 +1223,7 @@ test_live.mjs    test_record.mjs test_metrics.mjs test_profile.mjs
 test_hero.mjs    test_browser.mjs
 test.mjs                runs all ten
 smoke.mjs               screenshots every screen, dark and light
-raster-icons.mjs        the icon set from the SVGs
+make-icons.mjs          the four PNGs from src/icon.svg
 shots.mjs               screenshots, dark and light
 ```
 
