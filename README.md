@@ -1,4 +1,32 @@
-# Poker Hub — v1.3.7 · the heart is back
+# Poker Hub — v1.3.8 · a heart that stays blue
+
+### What changed in v1.3.8 (19/11/2026)
+
+- **New home-screen icon: the carmine heart with a Prussian line inside
+  it**, pale scalpel-E in the middle, on the full-bleed Prussian tile. It
+  keeps its blue in iOS's Dark icon style; the plain heart (1.3.5, 1.3.7)
+  did not.
+- **Chosen by a phone test, 19/11/2026.** Five icons on the Home Screen,
+  set to Dark:
+
+  | Icon | Dark |
+  |---|---|
+  | card with a blue E (1.3.6) | blue |
+  | plain heart (1.3.7) | black |
+  | heart + blue line inside (this one) | blue |
+  | heart enlarged to the card's size | black |
+  | enlarged heart + blue line | black |
+
+  With no dark icon supplied, iOS tries to lift the shape off its
+  background and set it on black; when it can't separate them cleanly it
+  only dims the icon. Blue enclosed inside the shape stops the lift-off at
+  this size — and a bigger heart loses it again, so the rule is not simply
+  "add blue inside". Apple doesn't document it.
+- **The icon is pinned.** `apple-touch-icon.png` is byte-for-byte the image
+  that passed; the browser tests check that, and that blue sits walled off
+  inside the heart. Any change to `src/icon.svg` needs a new phone test.
+- The temporary `icon-test/` pages are removed.
+- Remove the icon and add it again to pick it up — back up first.
 
 ### What changed in v1.3.7 (18/11/2026)
 
@@ -406,7 +434,7 @@ downloads them as before.
 **Icon B1.** The carmine heart Ernest chose in August, with the scalpel-E
 now in ink `#edf3ff` instead of knocked out in Prussian — the one change
 that rescues it at 16 px (merge spec §15). Regenerated at every size.
-(Replaced by the playing card in 1.3.6; back, on the new wiring, in 1.3.7.)
+(Replaced by the playing card in 1.3.6; back in 1.3.7; given its inner line in 1.3.8.)
 
 **Two latent test bugs fixed.** `test_import.mjs` §9 and `test_browser.mjs`
 only passed in US Eastern time: the tracker fixture's first buy-in was
@@ -1206,9 +1234,10 @@ index.html              the app — build output, do not edit
 sw.js                   offline start, beside it
 manifest.webmanifest    beside it, relative paths
 apple-touch-icon.png    the home-screen icon (180), and icon-192/-512,
-icon-*.png              icon-maskable-512 for the manifest: carmine heart,
-                        pale scalpel-E, on full-bleed Prussian — rendered
-                        by make-icons.mjs
+icon-*.png              icon-maskable-512 for the manifest: carmine heart
+                        with a Prussian line inside, pale scalpel-E, on
+                        full-bleed Prussian — rendered by make-icons.mjs;
+                        the touch icon is pinned to the phone-tested image
 src/icon.svg            the one drawing every icon comes from
 build.mjs               inlines everything, then fails on any outbound URL
 src/
