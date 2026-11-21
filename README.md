@@ -1,4 +1,26 @@
-# Poker Hub — v1.3.8 · a heart that stays blue
+# Poker Hub — v1.3.9 · a solid heart that stays blue
+
+### What changed in v1.3.9 (21/11/2026)
+
+- **The heart is solid red again** — no blue line inside. The pale
+  scalpel-E now has a thin Prussian edge, and that edge is what keeps the
+  tile blue in iOS's Dark icon style.
+- **Chosen by a second phone test, 21/11/2026**, Home Screen set to Dark:
+
+  | Icon | Dark |
+  |---|---|
+  | blue E | blue |
+  | blue E, pale outline | blue |
+  | pale E, blue edge (this one) | blue |
+  | bold blue E | black |
+
+  Every icon that kept its blue (both tests) has blue walled off inside
+  the shape; the bold E had the most and still went black, so it is not a
+  matter of amount. Apple doesn't document the rule.
+- **Pinned again.** `apple-touch-icon.png` is byte-for-byte the image that
+  passed, and the tests check it; any redraw needs a new phone test.
+- The temporary `icon-test/` pages are removed.
+- Remove the icon and add it again to pick it up — back up first.
 
 ### What changed in v1.3.8 (19/11/2026)
 
@@ -434,7 +456,7 @@ downloads them as before.
 **Icon B1.** The carmine heart Ernest chose in August, with the scalpel-E
 now in ink `#edf3ff` instead of knocked out in Prussian — the one change
 that rescues it at 16 px (merge spec §15). Regenerated at every size.
-(Replaced by the playing card in 1.3.6; back in 1.3.7; given its inner line in 1.3.8.)
+(Replaced by the playing card in 1.3.6; back in 1.3.7; given an inner line in 1.3.8; solid again, the E edged in blue, in 1.3.9.)
 
 **Two latent test bugs fixed.** `test_import.mjs` §9 and `test_browser.mjs`
 only passed in US Eastern time: the tracker fixture's first buy-in was
@@ -1234,8 +1256,8 @@ index.html              the app — build output, do not edit
 sw.js                   offline start, beside it
 manifest.webmanifest    beside it, relative paths
 apple-touch-icon.png    the home-screen icon (180), and icon-192/-512,
-icon-*.png              icon-maskable-512 for the manifest: carmine heart
-                        with a Prussian line inside, pale scalpel-E, on
+icon-*.png              icon-maskable-512 for the manifest: solid carmine
+                        heart, pale scalpel-E with a thin Prussian edge, on
                         full-bleed Prussian — rendered by make-icons.mjs;
                         the touch icon is pinned to the phone-tested image
 src/icon.svg            the one drawing every icon comes from
